@@ -14,3 +14,41 @@
  * find both ways!
  *
  */
+
+//1)
+console.log("Activity 1\n");
+for(let i = 5; i < 1005; i+=5){
+    console.log(i);
+}
+
+//2)
+console.log("\nActivity 2\n");
+for(let j = 100; j >-101; j--){
+    console.log(j);
+}
+
+//3) - Method 1
+console.log("\nActivity 3 - Method 1\n");
+let sequenceNumber = 0;
+for(let i = 0; i< 2500; i++){
+    
+    sequenceNumber+=3;
+    console.log(sequenceNumber);
+    sequenceNumber-=1;
+    console.log(sequenceNumber);
+}
+//3) - Method 2
+console.log("\nActivity 3 - Method 2\n");
+
+let oddSequenceNumber = 1;
+let evenSequenceNumber = 0;
+
+for(let i = 0; i< 5000; i++){
+    if((i%2)==0){
+        oddSequenceNumber+=2;
+        console.log(oddSequenceNumber);
+    }else {
+        evenSequenceNumber+=2;
+        console.log(evenSequenceNumber);
+    }
+}

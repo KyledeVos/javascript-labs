@@ -40,7 +40,71 @@ function getRandomNumber(){
  *
  */
 
-let randomNumber = getRandomNumber() + getRandomNumber()
 
-console.log(randomNumber)
+/*let randomNumber = getRandomNumber() + getRandomNumber()
+
+console.log(randomNumber)*/
+
+
+
+function increaseRandomAge(repetitions){
+    let holdAge = 0;
+    for(let i = 0; i< repetitions; i++){
+        holdAge +=getRandomNumber();
+    }
+    return holdAge;
+}
+
+
+let age = increaseRandomAge(10);
+
+let price = 0;
+
+let fare="";
+
+function chanceToRideFree(){
+    let luckyNumber = 7;
+
+    if(getRandomNumber() == luckyNumber){
+        return true;
+    }
+    return false;
+}
+
+if(age < 5){
+    price = 0;
+    fare = "Children under the age of 5 can ride for Free";
+
+} else if(!chanceToRideFree()){ 
+
+        if(age < 13){
+            fare = "Child Fare";
+            price = 20;
+
+        } else if(age < 21){
+            fare = "Teenager Fare";
+            price = 30;
+
+        } else if(age < 30){
+            fare = "Young Adult Fare";
+            price = 40;
+
+        } else if(age < 65){
+            fare = "Adult Fare";
+            price = 50;
+
+        } else {
+            fare = "Pensioner's Fare"
+            price = 20;
+        }
+
+        console.log("Your age of " + age + " years old, means you pay the " + fare + 
+            ". That will be R" + price + ".00 please");
+} else {
+    console.log("Lucky You. Today you can ride for Free!");
+}
+
+
+
+
 

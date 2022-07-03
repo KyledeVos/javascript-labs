@@ -21,5 +21,21 @@
  * with clear and descriptive names.
  */
 
+let firstNumber = 1234;
+let secondNumber = 1212;
+let thirdNumber = 2222;
+let luckyNumber = 7;
+
+console.log("Sum of Numbers: " + firstNumber + secondNumber + thirdNumber + luckyNumber);
+console.log("Difference of Two smalles from largest number: " + (thirdNumber - (luckyNumber + secondNumber)));
+console.log("Product of All Numbers: " + firstNumber * secondNumber * thirdNumber * luckyNumber);
+console.log("Largest number divided by difference of smaller ones: " + thirdNumber/(secondNumber-luckyNumber));
+console.log("Result of all numbers Modulus by 7:");
+console.log("First Number: " + firstNumber + " - " + firstNumber%luckyNumber);
+console.log("Second Number: " + secondNumber + " - " + secondNumber%luckyNumber);
+console.log("Third Number: " + thirdNumber + " - " + thirdNumber%luckyNumber);
+console.log("Lucky Number: " + luckyNumber + " - " + luckyNumber%luckyNumber);
+
+
 let result = 0
 console.log("Label", result)

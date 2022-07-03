@@ -25,3 +25,17 @@
  * support for it is not everywhere.
  */
 
+let myName = "Kyle";
+let greeting = "Good Evening";
+let friendName = "Ivan";
+let familyMemberName="Julie";
+let todaysDate = 28062022;
+let currentMonth = "June";
+let currentYear = 2022;
+let myAge = 26; 
+
+console.log(`${greeting} ${friendName}`);
+console.log(`${greeting} ${familyMemberName}`);
+console.log(`${greeting} ${friendName}` + " today's date is " + todaysDate + " with month: " + currentMonth);
+console.log("In 20 years time I will be: " + `${myAge + 20}` + " years old");
+

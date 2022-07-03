@@ -61,12 +61,18 @@ Better to put it into an array! If you are reading this then it should be from V
 ```javascript
 let listOfTempsInF = [
   /*PASTE YOUR COMMA SEPARATED LIST HERE*/
+  123,32,42,94,34,0,-10,30,63,84,56,94,87,43,26,75,90,-43,-23,153,41,74,54,24,85,80,56,35,23,45,87,-90,87,56,23,56,71,37,56,34
 ];
 ```
 
 Now build a for loop that at each iteration, references and logs the new temperature:
 
 ```javascript
+
+function fToC(fahrenheitTemp){
+  return (fahrenheitTemp - 32)*(5/9);
+}
+
 for (let i = 0; i < listOfTempsInF.length; i++) {
   let element = listOfTempsInF[i];
   element = fToC(element)
