@@ -13,7 +13,7 @@
  *
  * Remove the first sub array containing headers without manually deleting it.
  * Do you remember the method to remove the first element of an array?
- * 
+ *
  * Then, using forEach and arrow functions:
  *
  * 1. Output the total amount of expenses for 2017 and 2018.
@@ -35,7 +35,7 @@ let expenses = [
     "Amount",
     "Account",
     "Account #",
-    "Institution"
+    "Institution",
   ],
   [
     "2018-02-14T05:00:00.000Z",
@@ -938,3 +938,102 @@ let expenses = [
     "Bank of America - Credit Card",
   ],
 ];
+
+// Remove the first sub array containing headers without manually deleting it.
+
+expenses.shift();
+
+//1. Output the total amount of expenses for 2017 and 2018
+
+let totalExpenses = 0;
+
+expenses.forEach((element) => {
+  let yearChar = element[0].charAt(3);
+  if ((yearChar == 7 || yearChar == 8) && element[3] < 0)
+    totalExpenses += element[3] * -1;
+});
+
+console.log("Total Expenses for 2017 and 2018 : " + totalExpenses);
+
+//2. Output the total amount paid for Groceries.
+
+totalExpenses = 0;
+
+expenses.forEach((element) => {
+  if (element[2] == "Groceries") {
+    totalExpenses += element[3] * -1;
+  }
+});
+
+console.log("Total Paid for Groceries : " + totalExpenses);
+
+//3. Output the total difference in each account after all transactions. So if
+//$100 was deposited into the account and $50 spent, then the total change
+//would be $50.
+
+console.log("Final Balances of each account");
+
+//first we need an array containing the names of each account
+let accountNames = [];
+expenses.forEach((element) => {
+  accountNames.push(element[4]);
+});
+
+//then we need to get all the unique names from the array containing all names
+let uniqueAccountNames = [...new Set(accountNames)];
+
+//finally we loop through each unique account name and check all entries in the expenses array. If the account name matches
+// then we add (or subtract its expense to that account's balance)
+uniqueAccountNames.forEach((uniqueElement) => {
+  let balance = 0;
+
+  expenses.forEach((expensesElement) => {
+    if (expensesElement[4] == uniqueElement) {
+      balance += expensesElement[3];
+    }
+  });
+
+  console.log("Balance for " + uniqueElement + " is: $" + balance);
+});
+
+//4. Create a new array that only has the date, description, and amount of rows
+//that have the category "Eating Out".
+
+console.log("Array for Eating Out - Date, Description and Row Count");
+
+//function to create array consisting of date, description and row count for a specific
+//expense category
+function dateDescriptionAndRowCountArrayPopulater(fullArray, nameOfCategory) {
+  let rowCount = 1;
+  let populatedArray = [];
+  // debugger;
+
+  fullArray.forEach((element) => {
+    if (element[2] == nameOfCategory) {
+      let elementArray = [];
+      elementArray.push(element[0]);
+      elementArray.push(element[1]);
+      elementArray.push(rowCount++);
+      populatedArray.push(elementArray);
+    }
+  });
+
+  return populatedArray;
+}
+
+let eatingOutArray = dateDescriptionAndRowCountArrayPopulater(
+  expenses,
+  "Eating Out"
+);
+console.log(eatingOutArray);
+
+//5. Create another array with only the date, description and amount of rows
+//that have the category "Gear and Clothing".
+
+console.log("Array for Gear and Clothing - Date, Description and Row Count");
+
+let gearAndClothingArray = dateDescriptionAndRowCountArrayPopulater(
+  expenses,
+  "Gear and Clothing"
+);
+console.log(gearAndClothingArray);
