@@ -1,37 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset = "utf-8";
-        lang="en";
         <title> All About Kyle - A Progammer in Training</title>
         <link rel="stylesheet" type="text/css" href ="./kyleStyle.css">
     </head>
 
     <body>
+
         <main>
-            <h1 id="mainHeading"> [Main Heading]</h1>
+            <h1 id="mainHeading"> Kyle de Vos</h1>
+            <h2> &#9702 Software Development Student &#9702 Mathematics Tutor</h2>
 
             <div id="majorityMainDiv"> 
-                <h2> Background</h2>
-                <div id ="majorTextContent"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque elit eget gravida cum sociis. Dignissim diam quis enim lobortis scelerisque fermentum. Ac tortor vitae purus faucibus ornare suspendisse sed. Arcu non sodales neque sodales ut etiam. Ut tristique et egestas quis ipsum suspendisse ultrices. At quis risus sed vulputate odio ut enim blandit. Mattis aliquam faucibus purus in massa tempor nec. Malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Ornare quam viverra orci sagittis eu. Et malesuada fames ac turpis egestas integer eget aliquet. Magna eget est lorem ipsum. Mauris rhoncus aenean vel elit. Urna molestie at elementum eu facilisis. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper. Tellus cras adipiscing enim eu turpis egestas. Ut ornare lectus sit amet est placerat in. Facilisi nullam vehicula ipsum a arcu cursus vitae congue. A pellentesque sit amet porttitor eget.
-
+                <h2 id="backgroundHeading"> Background</h2>
+                <div class ="majorTextContent"> 
+                    <p>I am an online Mathematics Tutor and a Software Development Student studying
+                    with Coding Nomads<br>
+                    I completed Grade 12 with 7 Distinctions and did Electrical Engineering to Second 
+                    Year. I have completed a course in Java and SQL with Coding Nomads
+                    I currently teach Pure Mathematics and Maths Literacy to High School Students 
+                    as well as other subjects including Physical Science
+                    </p>
                 </div>
 
+                    <h2 id="goalsHeading" > Goals</h2>
+                    <div class ="majorTextContent">
+                    <p> My main goal and focus is to become a software developer <br>
+                        I have not fully decided in which eaxct discipline as I lack enough
+                        experience to make a full decision, but I am eager to learn
+                        as much as possible and engage in various disciplines.
+                        I am very determined to also get a formal CS degree at some point and 
+                        continue to get a Mathematics degree. I simply love to learn! <br>
+                        I wish to move to America in the near future as the possibilities and growth there
+                        are incredible
+                    </p>
+                </div>
             </div>
-
             
         </main>
 
         <div id="minorMainDiv"> 
+
+            <button id="darkModeButton">Dark Mode!</button>
             
             <div id="minorTextContent">
                 <h3 id="tableOfContentsHeading"> Contents</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque elit eget gravida cum sociis. Dignissim diam quis enim lobortis scelerisque fermentum. Ac tortor vitae purus faucibus ornare suspendisse sed. Arcu non sodales neque sodales ut etiam. Ut tristique et egestas quis ipsum suspendisse ultrices. At quis risus sed vulputate odio ut enim blandit. Mattis aliquam faucibus purus in massa tempor nec. Malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Ornare quam viverra orci sagittis eu. Et malesuada fames ac turpis egestas integer eget aliquet. Magna eget est lorem ipsum. Mauris rhoncus aenean vel elit. Urna molestie at elementum eu facilisis. Posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper. Tellus cras adipiscing enim eu turpis egestas. Ut ornare lectus sit amet est placerat in. Facilisi nullam vehicula ipsum a arcu cursus vitae congue. A pellentesque sit amet porttitor eget.
-                </p>
+                <ol>
+                    <li> <a  href="#backgroundHeading">Background</a></li>
+                    <li> <a href = "#goalsHeading">Goals</a></li>
+                </ol>
                 </div>
             </div>
+
+            <img id = "pageImage" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+            alt="image of software developers working next to laptops on a table">
         </div>
 
         <footer> &copy 2022 </footer>
+
+       
     </body>
+
+    <script>
+    function changeColor(){
+    document.body.style.color = "white";
+    document.body.style.backgroundColor = "black";
+    document.getElementById("darkModeButton").style.backgroundColor = "white";
+    document.getElementById("darkModeButton").style.color = "black";
+    document.getElementById("minorTextContent").style.border = "0.1rem solid white";
+    document.getElementById("pageImage").style.border = "0.3rem solid white";
+
+    let majorTextContentCollection = document.getElementsByClassName("majorTextContent");
+    for(let i = 0; i<majorTextContentCollection.length; i++){
+        majorTextContentCollection[i].style.border = "0.1rem solid white";
+
+    }
+
+    let anchorCollection = document.getElementsByTagName("a");
+    for(let i = 0; i<anchorCollection.length;i++){
+            anchorCollection[i].style.color = "darkGrey";
+            anchorCollection[i].style.textDecoration = "underline";
+    }
+  }
+  
+  let btn = document.getElementById("darkModeButton");
+  btn.addEventListener("click" , changeColor);
+    </script>
 </html>

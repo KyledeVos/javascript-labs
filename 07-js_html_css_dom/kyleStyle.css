@@ -3,6 +3,25 @@ body{
     font-size: 1rem;;
 }
 
+#darkModeButton{
+    position: absolute;
+    right:0.2rem;
+    top: 0.2rem;
+    background-color: rgb(26, 11, 11);
+    color:white;
+}
+
+#mainHeading{
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.list li{
+    float:left;
+    list-style-position: inside;
+    list-style-type: disc;
+    margin-right: 1em;
+}
+
 #majorityMainDiv {
     float: left;
     width: 75%
@@ -15,7 +34,7 @@ body{
   
 }
 
-#majorTextContent{
+.majorTextContent{
     text-align: left;
     text-justify: center;
     margin: 0.1rem;
@@ -32,6 +51,17 @@ body{
 
 #tableOfContentsHeading{
     font-weight: bold;
+}
+
+a{
+    text-decoration: none;
+}
+
+#pageImage{
+width: 16.1rem;
+margin: 1rem;
+border: 0.3rem solid black;
+padding: 0.04rem;
 }
 
 footer {
