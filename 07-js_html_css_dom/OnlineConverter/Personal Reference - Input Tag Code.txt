@@ -1,0 +1,39 @@
+Source: Stack Overflow - User: NickersF
+Available From: https://stackoverflow.com/questions/17433557/how-to-save-user-input-into-a-variable-in-html-and-javascript
+
+//HTML
+
+<div class='wrapper'>
+<form id='nameForm'>
+<div class='form-uname'>
+    <label id='nameLable' for='nameField'>Create a username:</label>
+    <input id='nameField' type='text' maxlength='25'></input>
+</div>
+<div class='form-sub'>
+    <button id='subButton' type='button'>Print your name!</button>
+</div>
+</form>
+
+<div>
+    <p id='result'></p></div>
+</div>
+
+---------------------------------------------------------------------------------
+
+//JavaScript
+
+function getUserName() {
+var nameField = document.getElementById('nameField').value;
+var result = document.getElementById('result');
+
+if (nameField.length < 3) {
+    result.textContent = 'Username must contain at least 3 characters';
+    //alert('Username must contain at least 3 characters');
+} else {
+    result.textContent = 'Your username is: ' + nameField;
+    //alert(nameField);
+}
+}
+
+var subButton = document.getElementById('subButton');
+subButton.addEventListener('click', getUserName, false); 
