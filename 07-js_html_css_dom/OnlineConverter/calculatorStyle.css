@@ -1,0 +1,33 @@
+#pythagorasImage{
+    width: 20%;
+    border : 0.12rem solid rgb(100, 4, 4);
+    border-radius: 1rem;
+    box-shadow: 0.1rem 0.15rem;
+    position: absolute;
+    right: 7rem;
+    top: 11rem;
+}
+
+.calculatorElementDiv{
+    margin-left: 0.5rem;
+  margin-top: -0.6rem;
+  margin-bottom: 3rem;
+  border: 0.1rem solid white;
+  background-color: rgb(120, 118, 118);
+  width: 97%;
+  height: 23.25rem;
+  text-shadow: 2px 1px 2px black;
+}
+
+.pythagExplaination{
+    position: relative;
+    top: 2rem;
+    left: 0.8rem;
+    font: bold 1rem Arial;
+    color:white;
+}
+
+#userInstruction{
+position: relative;
+top: 6.5rem;
+}
