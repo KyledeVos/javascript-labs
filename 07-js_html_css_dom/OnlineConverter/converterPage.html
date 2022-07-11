@@ -15,7 +15,13 @@
             + &#8722 &#215 &#247 
         </span> 
 
+
         <main>
+
+            <!--##############################################################################################################################-->
+                    <!--CONVERSION BLOCK-->
+            <!--##############################################################################################################################-->
+
             <div id ="converterDiv">
                 <div id="converterBlock">
                     <h2>Converter</h2> 
@@ -82,9 +88,43 @@
                         </div>
 
                     </div> 
+
+                    <!--################################################################################################################-->
+                    <!--Weight Conversion Block-->
+
+                    <div class = "elementDiv">
+                        <h3> <span class = "headingThreeSpan">Weight</span></h3>
+                        <div id = "WeightMenu">
+                            <form onsubmit="return false;">
+                                <input type="number" style="width: 9.2rem; font-size: 1rem" placeholder="Enter Weight" step="0.01" 
+                                id="userWeight"/>
+        
+                                <div class="dropdownMenu">
+                                    <button id="WeightInitialUnitButton">Select Units</button>
+                                    <div class="dropdown-content">
+                                        <button class ="dropdownButton" id="kilogramInputButton">kg</button>
+                                        <button class ="dropdownButton"  id="poundInputButton">" lb - pounds</button>
+                                        <button class ="dropdownButton"  id="gramInputButton">g</button>
+                                        <button class ="dropdownButton"  id="ounceInputButton">oz</button>
+                                    </div>
+                                  </div>
+
+                                  <div class="dropdownMenu">
+                                    <p id="showConvertedWeightUnitButton"> &nbsp</p>
+                                  </div>  
+                                  <button type="button" id="weightConvertButton">Convert</button>
+                            </form>
+                           
+                            <div id ="convertedWeight"> &nbsp </div>
+                        </div>
+
+                    </div> 
+
                 </div>
             </div>
-
+            <!--##############################################################################################################################-->
+                    <!--CALCULATOR BLOCK-->
+            <!--##############################################################################################################################-->
             <div id="calculatorDiv">
                 <div id="calculatorBlock">
                     <h2>Calculator</h2> 
@@ -102,5 +142,6 @@
         <footer id="footer"> &copy 2022</footer>
         <script src ="./TemperatureConverterScript.js"></script>
         <script src ="./lengthConversionsScript.js"></script>
+        <script src = "./weightConversionScript.js"></script>
     </body>
 </html>
