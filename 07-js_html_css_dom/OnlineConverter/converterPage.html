@@ -19,6 +19,9 @@
             <div id ="converterDiv">
                 <div id="converterBlock">
                     <h2>Converter</h2> 
+
+                    <!--################################################################################################################-->
+                    <!--Temperature Conversion Block-->
                     <div class = "elementDiv">
                         <h3> <span class = "headingThreeSpan">Temperature</span></h3>
                         <div id = "temperatureMenu">
@@ -43,13 +46,42 @@
                                         <button class ="dropdownButton"  id="kelvinOutputButton">&nbspK - Kelvin</button>
                                     </div>
                                   </div>  
-                                  <button type="button" id="tempConvertButton">Convert:</button>
+                                  <button type="button" id="tempConvertButton">Convert</button>
                             </form>
                            
                             <div id ="convertedTemperature"> &nbsp</div>
                         </div>
                     </div>
-                    
+
+                    <!--################################################################################################################-->
+                    <!--Length Conversion Block-->
+                    <div class = "elementDiv">
+                        <h3> <span class = "headingThreeSpan">Length</span></h3>
+                        <div id = "LengthMenu">
+                            <form onsubmit="return false;">
+                                <input type="number" style="width: 9.2rem; font-size: 1rem" placeholder="Enter Length" step="0.01" 
+                                id="userLength"/>
+        
+                                <div class="dropdownMenu">
+                                    <button id="lengthInitialUnitButton">Select Units</button>
+                                    <div class="dropdown-content">
+                                        <button class ="dropdownButton" id="centimeterInputButton">cm - centimeters</button>
+                                        <button class ="dropdownButton"  id="inchInputButton">" - inch</button>
+                                        <button class ="dropdownButton"  id="mileInputButton">M - Miles</button>
+                                        <button class ="dropdownButton"  id="kilometerInputButton">km - kilometers</button>
+                                    </div>
+                                  </div>
+
+                                  <div class="dropdownMenu">
+                                    <p id="showConvertedUnitButton"> &nbsp</p>
+                                  </div>  
+                                  <button type="button" id="lengthConvertButton">Convert</button>
+                            </form>
+                           
+                            <div id ="convertedLength"> &nbsp</div>
+                        </div>
+
+                    </div> 
                 </div>
             </div>
 
@@ -69,5 +101,6 @@
 
         <footer id="footer"> &copy 2022</footer>
         <script src ="./TemperatureConverterScript.js"></script>
+        <script src ="./lengthConversionsScript.js"></script>
     </body>
 </html>

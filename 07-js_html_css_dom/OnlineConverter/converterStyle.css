@@ -47,6 +47,12 @@ h4 {
   left: 12.5rem;
 }
 
+#LengthMenu{
+  position: absolute;
+  top: 18.5rem;
+  left: 12.5rem;
+}
+
 #calculatorDiv {
   float: left;
   width: 50%;
@@ -68,9 +74,10 @@ h4 {
 .elementDiv {
   margin-left: 0.5rem;
   margin-top: -0.6rem;
+  margin-bottom: 3rem;
   border: 0.1rem solid white;
   background-color: rgb(120, 118, 118);
-  width: 96%;
+  width: 97%;
   height: 6rem;
   text-shadow: 2px 1px 2px black;
 }
@@ -107,7 +114,7 @@ Dropdown Button */
   position: absolute;
   background-color: #8a8a8a;
   color: white;
-  min-width: 6.6rem;
+  min-width: 7rem;
   z-index: 1;
 }
 
@@ -140,32 +147,68 @@ Dropdown Button */
 
 /* Change color of dropdown buttons on click */
 .dropdown-content button:focus {
-  background-color: rgb(59, 15, 129);
+  background-color: rgb(222, 14, 14);
 }
 
 .dropdown-content button:active {
-  background-color: rgb(59, 15, 129);
+  background-color: rgb(222, 14, 14);
 }
 
-#tempConvertButton{
+#tempConvertButton {
   border: 0.12rem solid rgb(100, 4, 4);
   outline: none;
   box-shadow: 0.1rem 0.15rem;
   font-size: 1.3rem;
-  margin-left: 0.5rem;
-
+  position: fixed;
+  left: 34.2rem;
+  top: 10rem;
 }
 
-#convertedTemperature{
+
+
+#convertedTemperature {
   font-size: 1.4rem;
   text-align: center;
   text-shadow: none;
   font-family: monospace, Arial, Helvetica, sans-serif;
-  color:black;
+  color: black;
   background: white;
   width: 9rem;
   position: absolute;
   top: 2.6rem;
-  left : 6.7rem;
+  left: 6.7rem;
+}
 
+#convertedLength{
+  font-size: 1.4rem;
+  text-align: center;
+  text-shadow: none;
+  font-family: monospace, Arial, Helvetica, sans-serif;
+  color: black;
+  background: white;
+  width: 9rem;
+  position: absolute;
+  top: 3.4rem;
+  left: 6.7rem;
+}
+
+
+#lengthMenu{
+  position: absolute;
+  top: 10.7rem;
+  left: 12.5rem;
+}
+
+#showConvertedUnitButton{
+  margin-top: 1.5rem;
+}
+
+#lengthConvertButton{
+  border: 0.12rem solid rgb(100, 4, 4);
+  outline: none;
+  box-shadow: 0.1rem 0.15rem;
+  font-size: 1.3rem;
+  position: fixed;
+  left: 34.2rem;
+  top: 19rem;
 }
