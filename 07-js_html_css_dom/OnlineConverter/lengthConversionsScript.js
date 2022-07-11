@@ -80,9 +80,6 @@ function showLengthConverterUnit(textContentString) {
   showConvertedUnitButton.style. borderRight = "1px solid #333333";
   showConvertedUnitButton.style.borderBottom= "1px solid #333333";
   showConvertedUnitButton.style.borderLeft= "1px solid #CCCCCC";
-
-
-
 }
 
 //#######################################
