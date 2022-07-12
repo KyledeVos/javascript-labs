@@ -159,9 +159,6 @@ Dropdown Button */
   outline: none;
   box-shadow: 0.1rem 0.15rem;
   font-size: 1.3rem;
-  position: fixed;
-  left: 38rem;
-  top: 10rem;
 }
 
 
@@ -208,11 +205,8 @@ Dropdown Button */
   outline: none;
   box-shadow: 0.1rem 0.15rem;
   font-size: 1.3rem;
-  position: fixed;
-  left: 38rem;
-  top: 19rem;
 }
-
+ 
 #WeightMenu{
   position: absolute;
   top: 27rem;
@@ -224,9 +218,6 @@ Dropdown Button */
   outline: none;
   box-shadow: 0.1rem 0.15rem;
   font-size: 1.3rem;
-  position: fixed;
-  left: 38rem;
-  top: 27.5rem;
 }
 
 #convertedWeight{

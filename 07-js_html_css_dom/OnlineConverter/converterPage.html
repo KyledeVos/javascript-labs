@@ -131,25 +131,31 @@
                     <h2>Calculator</h2> 
                     <div class = "calculatorElementDiv">
                         <h3> <span class = "headingThreeSpan">Theorem of Pythagoras</span></h3>
-                        <div>
-                            <img id="pythagorasImage" src= "./PythagorasImage.jpg" alt="pythagoras">
                             <p class="pythagExplaination"><span style="text-decoration: underline; line-height: 1.4rem;">Hypotenuse:</span> 
                                 Longest Side in a Right<br> Angled Triangle</p>
 
                                 <p id = "userInstruction" class="pythagExplaination"> Please fill in values for each 'leg' below:</p>
-                    </div>
-                    </div>
+                        
+                        
+                            <form onsubmit="return false;">
+                                <input type="number" style="width: 8rem; font-size: 1rem" placeholder="Leg 1" step="0.00001" 
+                                id="legOneInput"/>
+                                <input type="number" style="width: 8rem; font-size: 1rem" placeholder="Leg 2" step="0.00001" 
+                                id="legTwoInput"/>
+                                <p id ="hypotenuseLengthOutput"> Hypotenuse: </p>
+                                <button type="button" id="pythagConvertButton">Convert</button>
+                            </form>
+                            
+                            <img id="pythagorasImage" src= "./PythagorasImage.jpg" alt="pythagoras">
                 </div>
-
-
             </div>
-
-
         </main>
 
         <footer id="footer"> &copy 2022</footer>
+
         <script src ="./TemperatureConverterScript.js"></script>
         <script src ="./lengthConversionsScript.js"></script>
         <script src = "./weightConversionScript.js"></script>
+        <script src="./pythagorasCalculations.js"></script>
     </body>
 </html>

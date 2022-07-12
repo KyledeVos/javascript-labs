@@ -1,15 +1,15 @@
-#pythagorasImage{
-    width: 20%;
-    border : 0.12rem solid rgb(100, 4, 4);
-    border-radius: 1rem;
-    box-shadow: 0.1rem 0.15rem;
-    position: absolute;
-    right: 7rem;
-    top: 11rem;
+#pythagorasImage {
+  width: 18%;
+  border: 0.12rem solid rgb(100, 4, 4);
+  border-radius: 1rem;
+  box-shadow: 0.1rem 0.15rem;
+  position: absolute;
+  right: 7rem;
+  top: 12rem;
 }
 
-.calculatorElementDiv{
-    margin-left: 0.5rem;
+.calculatorElementDiv {
+  margin-left: 0.5rem;
   margin-top: -0.6rem;
   margin-bottom: 3rem;
   border: 0.1rem solid white;
@@ -19,15 +19,52 @@
   text-shadow: 2px 1px 2px black;
 }
 
-.pythagExplaination{
-    position: relative;
-    top: 2rem;
-    left: 0.8rem;
-    font: bold 1rem Arial;
-    color:white;
+.pythagExplaination {
+  position: relative;
+  top: 2rem;
+  left: 0.8rem;
+  font: bold 1rem Arial;
+  color: white;
 }
 
-#userInstruction{
-position: relative;
-top: 6.5rem;
+#userInstruction {
+  position: relative;
+  top: 6.5rem;
+}
+
+#legOneInput {
+  position: relative;
+  top: 9rem;
+  left: 1rem;
+}
+
+#legTwoInput {
+  position: relative;
+  top: 9rem;
+  left: 2rem;
+}
+
+#hypotenuseLengthOutput{
+  
+  position: relative;
+  top: 8.2rem;
+  left: 7.2rem;
+  font-size: 1.4rem;
+  padding-left: 0.5rem;
+  text-align: left;
+  text-shadow: none;
+  font-family: monospace, Arial, Helvetica, sans-serif;
+  color: black;
+  background: white;
+  width: 18rem;
+}
+
+#pythagConvertButton{
+  border: 0.12rem solid rgb(100, 4, 4);
+  outline: none;
+  box-shadow: 0.1rem 0.15rem;
+  font-size: 1.3rem;
+  position: relative;
+  top: 2.8rem;
+  left: 20rem;
 }
