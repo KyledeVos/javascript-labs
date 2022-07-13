@@ -1,0 +1,139 @@
+/*StyleSheet for Elements in the Game Board*/
+
+/*##############################################################################*/
+/*Game-Board Border Styling*/
+
+/*Outer Border*/
+#GameBoardBorderArea {
+  float: right;
+  width: 65%;
+  margin-top: 2rem;
+  margin-right: 3rem;
+  border: 0.5rem outset rgb(169, 78, 32);
+  border-radius: 1rem;
+  box-shadow: -7px 11px 10px rgb(225, 223, 223);
+  outline: 0.15rem solid black;
+}
+
+/*Inner Area around Tic Tac Toe Board */
+#GameBoardMainArea {
+  float: left;
+  width: 100%;
+  border-radius: 0.4rem;
+  outline: 0.15rem solid rgb(164, 69, 22);
+  background-color: rgb(205, 98, 36);
+}
+
+/*Block Containing the Game Board*/
+#GameBoard {
+  float:left;
+  width: 60%;
+  height: 20%;
+  margin-left: 5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0.5rem inset rgb(164, 69, 22);
+  box-shadow: 7px -10px 12px inset;
+  background-color: rgb(169, 78, 32);
+  padding-left: 1rem;
+  
+}
+
+/*##############################################################################*/
+/*Game-Board Styling*/
+
+.boxRow {
+  margin-top: 3rem;
+}
+
+/*Applies to all 9 blocks in the Game Board*/
+.boardBlock {
+  font-size: 5rem;
+  font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  text-align: center;
+  padding: 0.3rem;
+  float:left;
+  width: 20%;
+  height: 7rem;
+  border-radius: 1rem;
+  color: black;
+  text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 252, 252), -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+  
+}
+
+/*---------------------------------------------------------------------------
+Styling for Each Block to Create Borders*/
+
+#blockOne {
+  margin-top: -2rem;
+  margin-left: 5rem;
+  border-right: 0.6rem solid white;
+  border-bottom: 0.6rem solid white;
+  
+}
+
+#blockTwo{
+  margin-top: -2rem;
+  border-right: 0.6rem solid white;
+  border-bottom: 0.6rem solid white;
+  margin-left: -0.3rem;
+}
+
+#blockThree{
+  margin-top: -2rem;
+  border-bottom: 0.6rem solid white;
+  margin-left: -0.3rem;
+}
+
+#blockFour{
+  margin-left: 5rem;
+  border-right: 0.6rem solid white;
+  border-bottom: 0.6rem solid white;
+}
+
+#blockFive{
+  border-right: 0.6rem solid white;
+  border-bottom: 0.6rem solid white;
+  margin-left: -0.3rem;
+}
+
+#blockSix{
+  border-bottom: 0.6rem solid white;
+  margin-left: -0.3rem;
+}
+
+#blockSeven{
+  margin-left: 5rem;
+  margin-bottom: 2rem;
+  border-right: 0.6rem solid white;
+}
+
+#blockEight{
+  border-right: 0.6rem solid white;
+  margin-left: -0.3rem;
+  margin-bottom: 2rem;
+}
+
+#blockNine{
+  margin-left: -0.3rem;
+  margin-bottom: 2rem;
+}
+
+/*Reset Button*/
+#resetButton{
+  position: absolute;
+  right: 8rem;
+  top: 10rem;
+  font-family: Georgia, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  border: 0.4rem outset rgb(169, 78, 32);
+  background-color: rgb(205, 98, 36);
+  box-shadow: 0px 0px 4px 3px black;
+  color: white;
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+}
+
+
+/*##############################################################################*/

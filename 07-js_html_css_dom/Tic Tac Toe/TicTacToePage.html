@@ -1,17 +1,105 @@
 <!-- HTML Page for Tic-Tac-Toe-->
+<!--############################################################################################################################
+ DOCUMENT BREAKDOWN
+---------------------
+
+ 1) User Area Div - Left of Main Doc    id - mainUserArea
+    i) Player Names
+    ii) Player Info
+        a) Player 1 or 2
+        b) Player Piece - Cross or Circle
+        c) Number of Games Won
+
+  --------------------------------------------------------------------------------------------------------------------------
+
+ 2) Game Board Area (main)            id - GameBoardArea
+    Consists of a 9 Block Game Area 
+
+    Game block is one large div consisting of 3 smaller divs (Rows)
+      Each row consists of three divs (columns)
+
+    At the bottom of the game board is a "RESET Button" -> When clicked it will reset the board and no player is
+                                                           demeed to have won this game
+ ############################################################################################################################-->
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
-    <Title> Tic-Tac-Toe</Title> 
+    <title>Tic-Tac-Toe</title>
 
-    <link rel="stylesheet" type="text/css" href="./BoardStyle.css"> <!--Style Sheet for Game Board-->
-    
+    <!--Style Sheet for Page Background-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./StyleSheets/./pageBackgroundStyle.css"
+    />
+
+    <!--Style Sheet for User Area-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./StyleSheets/./UserAreaStyle.css"
+    />
+
+    <!--Style Sheet for Game Board-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./StyleSheets/./BoardStyle.css"
+    />
   </head>
 
-  <body>
+  <body style="background-color: rgb(128, 127, 127)">
+    <div id="gameBackground">
+      <!--############################################################################################################################-->
+      <!--User Area-->
+      <div id="mainUserBorderArea">
+        <div id="userMainArea">
+          <h1>Hi</h1>
+          <h1>Hi</h1>
+          <h1>Hi</h1>
+          <h1>Hi</h1>
+          <h1>Hi</h1>
+          <h1>Hi</h1>
+          <h1>Hi</h1>
+        </div>
+      </div>
 
-   
+      <!-- Game Heading-->
+      <h1 id="TicTacToeHeading">TIC TAC TOE</h1>
 
+      <!--############################################################################################################################-->
+      <!--Game Board Area-->
+      <main id="GameBoardBorderArea">
+        <div id="GameBoardMainArea">
+          <div id="GameBoard">
+            <!--First Row in Game Board-->
+            <div id="rowOne" class="boxRow">
+              <div id="blockOne" class="boardBlock">&nbsp</div>
+              <div id="blockTwo"  class="boardBlock">X</div>
+              <div id="blockThree" class="boardBlock" >O</div>
+            </div>
+            <!--Second Row in Game Board-->
+            <div id="rowTwo" class="boxRow">
+              <div id="blockFour" class="boardBlock">X</div>
+              <div id="blockFive"  class="boardBlock">X</div>
+              <div id="blockSix" class="boardBlock" >X</div>
+            </div>
+            <!--Third Row in Game Board-->
+            <div id="rowTwo" class="boxRow">
+              <div id="blockSeven" class="boardBlock">X</div>
+              <div id="blockEight"  class="boardBlock">X</div>
+              <div id="blockNine" class="boardBlock" >X</div>
+            </div>
+          </div>
+        <!--Reset Button-->
+        <button id= "resetButton" type="button">RESET</button>
+
+        </div>
+      </main>
+    </div>
+
+    <script src="./JS Scripts/./BoardGame.js"></script>
   </body>
 </html>
