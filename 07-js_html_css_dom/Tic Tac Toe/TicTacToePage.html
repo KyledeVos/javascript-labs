@@ -56,50 +56,77 @@
       <!--User Area-->
       <div id="mainUserBorderArea">
         <div id="userMainArea">
-          <h1>Hi</h1>
-          <h1>Hi</h1>
-          <h1>Hi</h1>
-          <h1>Hi</h1>
-          <h1>Hi</h1>
-          <h1>Hi</h1>
-          <h1>Hi</h1>
+
+          <!--Player One Area-->
+          <div id="playerOneArea" class = "playerDetailsBlock">
+            <div class = "playerNumber">1</div>
+            <form onsubmit="return false;">
+              <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerOneName" maxlength="12"/>
+            </form>
+          </div>
+
+          <div class ="GameDataBox">
+            <button id="playerGamePieceButton" class = "userButtonStyling">&nbsp&nbsp</button>
+            <div id="playerOneGamePiece"> X </div>
+            <div id="playerOneTally" class = "scoreTallyBlock">Wins: 0</div>
+          </div>
+
+          <!--Player Two Area-->
+          <div id="playerTwoArea" class = "playerDetailsBlock">
+            <div class = "playerNumber">2</div>
+            <form onsubmit="return false;">
+              <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerTwoName" maxlength="12"/>
+            </form>
+          </div>
+          <div class ="GameDataBox">
+            <div id="playerTwoGamePiece"> O </div>
+            <div id="playerTwoTally" class = "scoreTallyBlock">Wins: 0 </div>
+          </div>
         </div>
       </div>
 
+    <!--############################################################################################################################-->
       <!-- Game Heading-->
       <h1 id="TicTacToeHeading">TIC TAC TOE</h1>
 
+      <!-- Two Player Heading-->
+      <h1 id="twoPlayerHeadingHeading">Two Player</h1>
+
       <!--############################################################################################################################-->
+
       <!--Game Board Area-->
       <main id="GameBoardBorderArea">
         <div id="GameBoardMainArea">
           <div id="GameBoard">
             <!--First Row in Game Board-->
             <div id="rowOne" class="boxRow">
-              <div id="blockOne" class="boardBlock">&nbsp</div>
-              <div id="blockTwo"  class="boardBlock">X</div>
-              <div id="blockThree" class="boardBlock" >O</div>
+              <div id="blockOne" class="boardBlock"><button id ="blockOneButton" class = "boardBlockButton">X</button></div>
+              <div id="blockTwo"  class="boardBlock"><button id ="blockTwoButton" class = "boardBlockButton">O</button></div>
+              <div id="blockThree" class="boardBlock" ><button id ="blockThreeButton" class = "boardBlockButton">X</button></div>
             </div>
             <!--Second Row in Game Board-->
             <div id="rowTwo" class="boxRow">
-              <div id="blockFour" class="boardBlock">X</div>
-              <div id="blockFive"  class="boardBlock">X</div>
-              <div id="blockSix" class="boardBlock" >X</div>
+              <div id="blockFour" class="boardBlock"><button id ="blockFourButton" class = "boardBlockButton">O</button></div>
+              <div id="blockFive"  class="boardBlock"><button id ="blockFiveButton" class = "boardBlockButton">&nbsp</button></div>
+              <div id="blockSix" class="boardBlock" ><button id ="blockSixButton" class = "boardBlockButton">X</button></div>
             </div>
             <!--Third Row in Game Board-->
             <div id="rowTwo" class="boxRow">
-              <div id="blockSeven" class="boardBlock">X</div>
-              <div id="blockEight"  class="boardBlock">X</div>
-              <div id="blockNine" class="boardBlock" >X</div>
+              <div id="blockSeven" class="boardBlock"><button id ="blockSevenButton" class = "boardBlockButton">O</button></div>
+              <div id="blockEight"  class="boardBlock"><button id ="blockEightButton" class = "boardBlockButton">X</button></div>
+              <div id="blockNine" class="boardBlock" ><button id ="blockNineButton" class = "boardBlockButton">O</button></div>
             </div>
           </div>
         <!--Reset Button-->
-        <button id= "resetButton" type="button">RESET</button>
+        <button id= "resetButton" class="buttonStyling" type="button">RESET</button>
+
+        <!--Rules Button-->
+        <button id= "rulesButton" class="buttonStyling" type="button">RULES</button>
 
         </div>
       </main>
     </div>
 
-    <script src="./JS Scripts/./BoardGame.js"></script>
+    <script src="./JSScripts/./BoardGame.js"></script>
   </body>
 </html>

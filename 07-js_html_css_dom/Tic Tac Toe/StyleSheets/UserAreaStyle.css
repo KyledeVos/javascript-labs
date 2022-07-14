@@ -1,5 +1,7 @@
 /*StyleSheet for Elements in the User Area*/
 
+/*########################################################################################/*
+/*Board Area*/
 #mainUserBorderArea {
   margin-top: 1rem;
   margin-left: 0.8rem;
@@ -20,3 +22,156 @@
   outline: 0.15rem solid rgb(164, 69, 22);
   background-color: rgb(205, 98, 36);
 }
+
+/*########################################################################################/*
+
+/*Player Details Block*/
+.playerDetailsBlock{
+  text-align: center;
+  float:left;
+  margin: 0.5rem;
+  width: 90%;
+  border-radius: 1rem;
+  border: 0.4rem outset rgb(169, 78, 32);
+  background-color: rgb(205, 98, 36);
+}
+
+.playerNameBox{
+  margin: 0.5rem;
+  margin-left: 0.4rem;
+  padding: 0.2rem;
+  float:left;
+  width: 70%;
+  font-size: 2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-weight: bold;
+  color: rgb(248, 235, 235);
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+  background-color: transparent;
+  border: none;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+/*PlaceHolder for players Names*/
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 70%;
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+}
+
+
+.playerNumber{
+  float:left;
+  margin-left: 0.3rem;
+  margin-top: 0.2rem;
+  position: relative;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0.1rem;
+  color:white;
+  width: 10%;
+  border-radius: 0.8rem;
+  background-color: rgb(169, 78, 32);
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+  font-family: Georgia, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+
+}
+
+.GameDataBox{
+  float:left;
+  width: 80%;
+  height: 20%;
+  margin-left: 1rem;
+  margin-top: 0.1rem;
+  margin-bottom: 3rem;
+  border: 0.5rem inset rgb(164, 69, 22);
+  box-shadow: 3px -px 12px inset;
+  background-color: rgb(188, 93, 38);
+  padding-left: 1rem;
+  font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+ 
+}
+
+/*Defult Styling Apllied to All Buttons*/
+.userButtonStyling{
+  margin: 0.5rem;
+  font-size: 1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-weight: bold;
+  border-radius: 1rem;
+  border: 0.4rem outset rgb(170, 60, 5);
+  background-color: rgb(205, 98, 36);
+  box-shadow: 0px 0px 4px 3px black;
+  color: white;
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+}
+
+#playerGamePieceButton{
+  position: relative;
+  right: 0.9rem;
+  bottom: 0.rem;
+  margin-top: 1rem;
+}
+
+#playerOneGamePiece{
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  padding: 0.1rem;
+  color:black;
+  position: relative;
+  bottom: 3.4rem;
+  left: 2.5rem;
+  width: 10%;
+  border-radius: 0.8rem;
+  background-color: transparent;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+#playerTwoGamePiece{
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  padding: 0.1rem;
+  color:black;
+  position: relative;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 10%;
+  border-radius: 0.8rem;
+  background-color: rgb(169, 78, 32);
+  background-color: transparent;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+
+
+
+
+.scoreTallyBlock{
+  width: 60%;
+  height: 3rem;
+  border: 0.2rem outset rgb(170, 60, 5);
+  border-radius: 0.8rem;
+  font-size: 2.1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-weight: bold;
+  text-align: center;
+  color: rgb(248, 235, 235);
+  padding-top: 0.4;
+}
+
+#playerOneTally{
+  position: relative;
+  bottom:5.6rem;
+  left: 5.8rem;
+}
+
+#playerTwoTally{
+  position: relative;
+  bottom:2rem;
+  left: 5.8rem;
+}
+

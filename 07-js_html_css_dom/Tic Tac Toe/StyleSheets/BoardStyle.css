@@ -46,30 +46,25 @@
   margin-top: 3rem;
 }
 
+/* Game Board Blocks (outer)
 /*Applies to all 9 blocks in the Game Board*/
 .boardBlock {
-  font-size: 5rem;
-  font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
-  text-align: center;
-  padding: 0.3rem;
   float:left;
-  width: 20%;
+  width: 25%;
   height: 7rem;
   border-radius: 1rem;
-  color: black;
-  text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 252, 252), -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+  text-align: center;
   
 }
 
 /*---------------------------------------------------------------------------
-Styling for Each Block to Create Borders*/
+Styling for Each Block to Create Borders around Buttons Containing 'X', 'O' or 'blank'*/
 
 #blockOne {
   margin-top: -2rem;
   margin-left: 5rem;
   border-right: 0.6rem solid white;
   border-bottom: 0.6rem solid white;
-  
 }
 
 #blockTwo{
@@ -119,13 +114,25 @@ Styling for Each Block to Create Borders*/
   margin-bottom: 2rem;
 }
 
-/*Reset Button*/
-#resetButton{
-  position: absolute;
-  right: 8rem;
-  top: 10rem;
+/*---------------------------------------------------------------------------
+Styling for All Block Buttons*/
+.boardBlockButton{
+  font-size: 5rem;
+  font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  text-align: center;
+  padding: 0.2rem;
+  background-color: transparent;
+  border:none;
+  color: black;
+  text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 252, 252), -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+}
+
+/*#############################################################################################################################################*/
+
+/*Defult Styling Apllied to All Buttons (Except Board Blocks)*/
+.buttonStyling{
+  font-size: 4.5rem;
   font-family: Georgia, 'Times New Roman', Times, serif, Arial, Sans-Serif;
-  font-size: 2rem;
   font-weight: bold;
   border-radius: 1rem;
   border: 0.4rem outset rgb(169, 78, 32);
@@ -136,4 +143,20 @@ Styling for Each Block to Create Borders*/
 }
 
 
-/*##############################################################################*/
+/*---------------------------------------------------------------------------------------------*/
+/*Reset Button*/
+#resetButton{
+  position: absolute;
+  right: 8rem;
+  top: 10rem;
+  font-size: 2rem;
+}
+/*Rules Button*/
+#rulesButton{
+  position: absolute;
+  right: 8rem;
+  top: 15rem;
+  font-size: 2rem;
+}
+
+ /*##############################################################################*/
