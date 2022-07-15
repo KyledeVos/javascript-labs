@@ -50,7 +50,8 @@
     />
   </head>
 
-  <body style="background-color: rgb(128, 127, 127)">
+  <body style="background-color: rgb(128, 127, 127)" onload="initializeGameStateBlocks()">
+
     <div id="gameBackground">
       <!--############################################################################################################################-->
       <!--User Area-->
@@ -61,7 +62,8 @@
           <div id="playerOneArea" class = "playerDetailsBlock">
             <div class = "playerNumber">1</div>
             <form onsubmit="return false;">
-              <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerOneName" maxlength="12"/>
+              <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerOneName" maxlength="11" 
+              onfocusout = "retrievePlayerName()"/>
             </form>
           </div>
 
@@ -75,7 +77,8 @@
           <div id="playerTwoArea" class = "playerDetailsBlock">
             <div class = "playerNumber">2</div>
             <form onsubmit="return false;">
-              <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerTwoName" maxlength="12"/>
+              <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerTwoName" maxlength="11" 
+              onfocusout = "retrievePlayerName()"/>
             </form>
           </div>
           <div class ="GameDataBox">
@@ -100,28 +103,32 @@
           <div id="GameBoard">
             <!--First Row in Game Board-->
             <div id="rowOne" class="boxRow">
-              <div id="blockOne" class="boardBlock"><button id ="blockOneButton" class = "boardBlockButton">X</button></div>
-              <div id="blockTwo"  class="boardBlock"><button id ="blockTwoButton" class = "boardBlockButton">O</button></div>
-              <div id="blockThree" class="boardBlock" ><button id ="blockThreeButton" class = "boardBlockButton">X</button></div>
+              <div id="blockOne" class="boardBlock"><button  id ="blockOneButton" class = "boardBlockButton" type="button">T</button></div>
+              <div id="blockTwo"  class="boardBlock"><button id ="blockTwoButton" class = "boardBlockButton" type="button">I</button></div>
+              <div id="blockThree" class="boardBlock" ><button id ="blockThreeButton" class = "boardBlockButton" type="button">C</button></div>
             </div>
             <!--Second Row in Game Board-->
             <div id="rowTwo" class="boxRow">
-              <div id="blockFour" class="boardBlock"><button id ="blockFourButton" class = "boardBlockButton">O</button></div>
-              <div id="blockFive"  class="boardBlock"><button id ="blockFiveButton" class = "boardBlockButton">&nbsp</button></div>
-              <div id="blockSix" class="boardBlock" ><button id ="blockSixButton" class = "boardBlockButton">X</button></div>
+              <div id="blockFour" class="boardBlock"><button id ="blockFourButton" class = "boardBlockButton" type="button">T</button></div>
+              <div id="blockFive"  class="boardBlock"><button id ="blockFiveButton" class = "boardBlockButton" type="button">A</button></div>
+              <div id="blockSix" class="boardBlock" ><button id ="blockSixButton" class = "boardBlockButton" type="button">C</button></div>
             </div>
             <!--Third Row in Game Board-->
             <div id="rowTwo" class="boxRow">
-              <div id="blockSeven" class="boardBlock"><button id ="blockSevenButton" class = "boardBlockButton">O</button></div>
-              <div id="blockEight"  class="boardBlock"><button id ="blockEightButton" class = "boardBlockButton">X</button></div>
-              <div id="blockNine" class="boardBlock" ><button id ="blockNineButton" class = "boardBlockButton">O</button></div>
+              <div id="blockSeven" class="boardBlock"><button id ="blockSevenButton" class = "boardBlockButton" type="button">T</button></div>
+              <div id="blockEight"  class="boardBlock"><button id ="blockEightButton" class = "boardBlockButton" type="button">O</button></div>
+              <div id="blockNine" class="boardBlock" ><button id ="blockNineButton" class = "boardBlockButton" type="button">E</button></div>
             </div>
           </div>
-        <!--Reset Button-->
-        <button id= "resetButton" class="buttonStyling" type="button">RESET</button>
 
-        <!--Rules Button-->
-        <button id= "rulesButton" class="buttonStyling" type="button">RULES</button>
+          <!--Reset Button-->
+          <button id= "resetButton" class="buttonStyling" type="button">RESET</button>
+
+          <!--Rules Button-->
+          <button id= "rulesButton" class="buttonStyling" type="button">RULES</button>
+
+          <!--Cuurent Player Turn Display-->
+          <div id="currentPlayerTurn">Turn: <br>&nbsp</div>
 
         </div>
       </main>

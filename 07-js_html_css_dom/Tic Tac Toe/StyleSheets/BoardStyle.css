@@ -117,6 +117,8 @@ Styling for Each Block to Create Borders around Buttons Containing 'X', 'O' or '
 /*---------------------------------------------------------------------------
 Styling for All Block Buttons*/
 .boardBlockButton{
+  width: 90%;
+  height: 7rem;
   font-size: 5rem;
   font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
   text-align: center;
@@ -160,3 +162,26 @@ Styling for All Block Buttons*/
 }
 
  /*##############################################################################*/
+
+/*Current Player Turn Display Block*/
+#currentPlayerTurn{
+  width: 23%;
+  height: 5rem;
+  position: relative;
+  top: 18rem;
+  left: 0.5rem;
+  float:left;
+  font-size: 1.4rem;
+  font-family: Georgia, 'Times New Roman', Times, serif, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+  font-weight: bold;
+  text-align: left;
+  color: rgb(248, 235, 235);
+  padding-top: 0.4rem;
+  padding-left:0.7rem;
+  border: 0.5rem inset rgb(164, 69, 22);
+  box-shadow: 3px -1px 12px inset black;
+  border-radius: 0.8rem;
+  
+  
+}

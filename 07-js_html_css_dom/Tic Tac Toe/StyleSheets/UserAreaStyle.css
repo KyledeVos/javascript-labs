@@ -87,7 +87,7 @@
   margin-top: 0.1rem;
   margin-bottom: 3rem;
   border: 0.5rem inset rgb(164, 69, 22);
-  box-shadow: 3px -px 12px inset;
+  box-shadow: 3px -1px 12px inset;
   background-color: rgb(188, 93, 38);
   padding-left: 1rem;
   font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
