@@ -63,7 +63,7 @@
             <div class = "playerNumber">1</div>
             <form onsubmit="return false;">
               <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerOneName" maxlength="11" 
-              onfocusout = "retrievePlayerName()"/>
+              onfocusout = "retrievePlayerOneName()"/>
             </form>
           </div>
 
@@ -78,7 +78,7 @@
             <div class = "playerNumber">2</div>
             <form onsubmit="return false;">
               <input type="text" class ="playerNameBox" placeholder="Enter Name" id="playerTwoName" maxlength="11" 
-              onfocusout = "retrievePlayerName()"/>
+              onfocusout = "retrievePlayerTwoName()"/>
             </form>
           </div>
           <div class ="GameDataBox">
@@ -127,8 +127,8 @@
           <!--Rules Button-->
           <button id= "rulesButton" class="buttonStyling" type="button">RULES</button>
 
-          <!--Cuurent Player Turn Display-->
-          <div id="currentPlayerTurn">Turn: <br>&nbsp</div>
+          <!--Current Player Turn Display-->
+          <div id="currentPlayerTurn">Turn: <br>Player 1</div>
 
         </div>
       </main>
