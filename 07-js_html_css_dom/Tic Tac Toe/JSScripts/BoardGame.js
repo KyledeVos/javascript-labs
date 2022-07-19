@@ -46,15 +46,13 @@ function initializeGameStateBlocks() {
 
 //Retrieve names of Players (Function Called at any time that player 1 and/or player 2 change their name)
 function retrievePlayerOneName() {
-  playerOne.playerOneName = document.getElementById("playerOneName");
+  playerOne.playerOneName = document.getElementById("playerOneName").value;
   document.getElementById("currentPlayerTurn").textContent =
-    "Turn:" + playerOne.playerOneName.value;
-
-  playerTwo.playerTwoName = document.getElementById("playerTwoName");
+    "Turn:" + playerOne.playerOneName;
 }
 
 function retrievePlayerTwoName() {
-  playerTwo.playerTwoName = document.getElementById("playerTwoName");
+  playerTwo.playerTwoName= document.getElementById("playerTwoName").value;
 }
 
 //########################################################################################################
@@ -119,7 +117,7 @@ resetButton.addEventListener("mousedown", () => {
   //set turn back to player one for new game
   gameState.currentTurn = 1;
   document.getElementById("currentPlayerTurn").textContent =
-    "Turn: " + playerOne.playerOneName.value;
+    "Turn: " + playerOne.playerOneName;
 });
 
 resetButton.addEventListener("mouseup", () => {
@@ -132,7 +130,10 @@ resetButton.addEventListener("mouseup", () => {
 //RESET GAME BLOCKS TO: " "
 function resetBoard() {
   for (let i = 0; i < 9; i++) {
+    //set content of game tiles to be blank and ensure all have original font color of black 
     gameState.allGameBlocks[i].textContent = "\u00A0";
+    gameState.allGameBlocks[i].setAttribute("style","color: black");
+   
   }
 }
 
@@ -148,6 +149,7 @@ rulesButton.addEventListener("mousedown", () => {
     "style",
     "top: 15.1rem; right: 8.1rem; box-shadow: 0px 0px 5px black"
   );
+  document.getElementById("gameRulesBlock").setAttribute("style", "display:block");
 });
 
 rulesButton.addEventListener("mouseup", () => {
@@ -156,6 +158,16 @@ rulesButton.addEventListener("mouseup", () => {
     "box-shadow: 0px 0px 4px 3px black; top: 15rem; right: 8rem"
   );
 });
+
+//button to close rules option
+let closeRulesButton = document.getElementById("CloseGameRulesButton");
+closeRulesButton.addEventListener("mousedown", ()=>{
+  document.getElementById("gameRulesBlock").setAttribute("style","display:none");
+  rulesButton.setAttribute(
+    "style",
+    "box-shadow: 0px 0px 4px 3px black; top: 15rem; right: 8rem"
+  );
+})
 
 //------------------------------------------------------------------------------------------------
 
@@ -229,7 +241,12 @@ for (let i = 0; i < 9; i++) {
             }  
           }
           if (allTilesFull) {
-            console.log("all tiles are full");
+             //show draw on screen
+              let winOrDrawBlock = document.getElementById("winOrDrawBlock");
+              winOrDrawBlock.textContent = "DRAW";
+              setTimeout(()=>winOrDrawBlock.setAttribute("style", "display:block"),10);
+              setTimeout(()=>winOrDrawBlock.setAttribute("style", "display:none"),1500);
+              
             resetBoard();
           }
         }
@@ -239,28 +256,17 @@ for (let i = 0; i < 9; i++) {
         //If this was not a winning move, then alternate player's turn
         if (gameState.currentTurn == 1) {
           gameState.currentTurn = 2;
-
-          if (playerTwo.playerTwoName.value == undefined) {
             document.getElementById("currentPlayerTurn").textContent =
-              "Turn: Player 2";
-          } else {
-            document.getElementById("currentPlayerTurn").textContent =
-              "Turn:" + playerTwo.playerTwoName.value;
-          }
+              "Turn:" + playerTwo.playerTwoName;
+          
         } else {
           gameState.currentTurn = 1;
-
-          if (playerOne.playerOneName.value == undefined) {
             document.getElementById("currentPlayerTurn").textContent =
-              "Turn: Player 1";
-          } else {
-            document.getElementById("currentPlayerTurn").textContent =
-              "Turn:" + playerOne.playerOneName.value;
-          }
+              "Turn:" + playerOne.playerOneName;
+          
         }
       } else {
         
-        console.log("winner");
         setTimeout(resetBoard, 2000);
       }
     }
@@ -293,6 +299,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[0].textContent == gameBlockArray[1].textContent &&
       gameBlockArray[0].textContent == gameBlockArray[2].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[0].setAttribute("style","color:red");
+      gameBlockArray[1].setAttribute("style","color:red");
+      gameBlockArray[2].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[0].textContent);
       return true;
     } else if (
@@ -301,6 +311,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[0].textContent == gameBlockArray[3].textContent &&
       gameBlockArray[0].textContent == gameBlockArray[6].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[0].setAttribute("style","color:red");
+      gameBlockArray[3].setAttribute("style","color:red");
+      gameBlockArray[6].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[0].textContent);
       return true;
     } else if (
@@ -309,6 +323,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[0].textContent == gameBlockArray[4].textContent &&
       gameBlockArray[0].textContent == gameBlockArray[8].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[0].setAttribute("style","color:red");
+      gameBlockArray[4].setAttribute("style","color:red");
+      gameBlockArray[8].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[0].textContent);
       return true;
     }
@@ -321,6 +339,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[1].textContent == gameBlockArray[7].textContent
     ) {
       //means there is a winner in the second column
+      //change color of winning tiles
+      gameBlockArray[1].setAttribute("style","color:red");
+      gameBlockArray[4].setAttribute("style","color:red");
+      gameBlockArray[7].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[1].textContent);
       return true;
     }
@@ -333,6 +355,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[2].textContent == gameBlockArray[5].textContent &&
       gameBlockArray[2].textContent == gameBlockArray[8].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[2].setAttribute("style","color:red");
+      gameBlockArray[5].setAttribute("style","color:red");
+      gameBlockArray[8].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[2].textContent);
       return true;
       //
@@ -341,6 +367,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[2].textContent == gameBlockArray[4].textContent &&
       gameBlockArray[2].textContent == gameBlockArray[6].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[2].setAttribute("style","color:red");
+      gameBlockArray[4].setAttribute("style","color:red");
+      gameBlockArray[6].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[2].textContent);
       return true;
     }
@@ -349,9 +379,13 @@ function checkIfPlayerHasWon() {
   //check if block one(row two) is blank, if not then check for winner in second row
   if (gameBlockArray[3].textContent != "\u00A0") {
     if (
-      gameBlockArray[3].textContent == gameBlockArray[4].textContent &&
+      gameBlockArray[3].textContent == gameBlockArray[4].textContent && 
       gameBlockArray[3].textContent == gameBlockArray[5].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[3].setAttribute("style","color:red");
+      gameBlockArray[4].setAttribute("style","color:red");
+      gameBlockArray[5].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[3].textContent);
       return true;
     }
@@ -363,6 +397,10 @@ function checkIfPlayerHasWon() {
       gameBlockArray[6].textContent == gameBlockArray[7].textContent &&
       gameBlockArray[6].textContent == gameBlockArray[8].textContent
     ) {
+      //change color of winning tiles
+      gameBlockArray[6].setAttribute("style","color:red");
+      gameBlockArray[7].setAttribute("style","color:red");
+      gameBlockArray[8].setAttribute("style","color:red");
       determineWinningPlayer(gameBlockArray[6].textContent);
       return true;
     }
@@ -381,17 +419,27 @@ function determineWinningPlayer(winnningGamePiece){
 
     gameState.gameInProgress = false; //game not in progress
     pushPieceSelectorBackUp();
+
+    //show winning player on screen
+    let winOrDrawBlock = document.getElementById("winOrDrawBlock");
+   
   
     //check if player one was the winner, if so increment the number of wins
     if(playerOne.playerOneGamePiece.textContent == winnningGamePiece){
       playerOne.playerOneNumberOfWins++;
       document.getElementById("playerOneTally").textContent = "Wins: " + playerOne.playerOneNumberOfWins;
+      winOrDrawBlock.textContent = "WINNER: " + playerOne.playerOneName;
     } else{
       //this means player two has won
       playerTwo.playerTwoNumberOfWins++;
       document.getElementById("playerTwoTally").textContent = "Wins: " + playerTwo.playerTwoNumberOfWins;
+      winOrDrawBlock.textContent = "WINNER: " + playerTwo.playerTwoName;
     }
-  
+
+    
+    setTimeout(()=>winOrDrawBlock.setAttribute("style", "display:block"),10);
+    setTimeout(()=>winOrDrawBlock.setAttribute("style", "display:none"),1500);
+    
 }
 
 //########################################################################################################

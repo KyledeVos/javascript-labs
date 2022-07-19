@@ -35,3 +35,59 @@
   box-shadow: 0px 0px 10px 10px rgb(225, 223, 223);
   outline: 0.15rem solid black;
 }
+
+#winOrDrawBlock{
+  position: absolute;
+  z-index: 1;
+  margin: auto;
+  top: 7rem;
+  left: 9rem;
+  width:80%;
+  height: 6rem;
+  padding-top: 0.8rem;
+  border: 0.2rem solid black;
+  box-shadow: 0px 0px 2px 2px white;
+  background-color: rgba(164, 154, 154, 0.7);
+  font-family: Georgia, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-size: 3.5rem;
+  color: white;
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+  text-align: center;
+  font-weight: bold;
+  display:none;
+}
+
+#gameRulesBlock{
+  position: absolute;
+  z-index: 1;
+  margin: auto;
+  top: 6rem;
+  left: 9rem;
+  width:80%;
+  height: 25rem;
+  padding-top: 0.8rem;
+  border: 0.2rem solid black;
+  box-shadow: 0px 0px 2px 2px white;
+  background-color: rgba(62, 59, 59, 0.9);
+  font-family: cursive, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: -1px -1px 0 rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0), 1px 1px 0 rgb(0, 0, 0);
+  color: white;
+  text-align: center;
+  display: none;
+}
+
+#CloseGameRulesButton{
+  position: absolute;
+  z-index: 1;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  font-family: Georgia, 'Times New Roman', Times, serif, Arial, Sans-Serif;
+  font-weight: bold;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+
+
+  /*display:none;*/
+}
