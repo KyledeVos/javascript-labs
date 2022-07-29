@@ -1,0 +1,48 @@
+body {
+  background-color: orange;
+}
+
+#watchStrap {
+  position: absolute;
+  z-index: 0;
+  margin-top: 11.5rem;
+  margin-left: -1rem;
+  overflow-x: hidden;
+  width: 100%;
+  height: 260px;
+  border: 0.5rem solid black;
+  background-color: black;
+}
+
+
+
+.strapHoles {
+  position: absolute;
+  z-index: 1;
+  width: 25px;
+  height: 30px;
+  border: 0.5rem inset black;
+  border-radius: 40%;
+  opacity: 99%;
+  background-color: orange;
+}
+
+#strapHoleOne {
+  margin-top: 6.5rem;
+  margin-left: 1rem;
+}
+
+#strapHoleTwo {
+  margin-top: 6.5rem;
+  margin-left: 7rem;
+}
+
+#strapHoleThree {
+  margin-top: 6.5rem;
+  margin-left: 13rem;
+}
+
+#strapHoleFour {
+  margin-top: 6.5rem;
+  margin-left: 19rem;
+}

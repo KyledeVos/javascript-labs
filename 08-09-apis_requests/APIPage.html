@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>API-Based Location and Data Page</title>
+    <link rel="stylesheet" type="text/css" href="./StyleSheets/watchStyling.css" />
+    <link rel="stylesheet" type="text/css" href="./StyleSheets/spaceSectionStyling.css" />
+    <link rel="stylesheet" type="text/css" href="./StyleSheets/locationSectionStyling.css" />
+    <link rel="stylesheet" type="text/css" href="./StyleSheets/pageBackgroundStyling.css" />
+  </head>
+
+  <body>
+    <main>
+      <!--Page Background to look like the strap of a watch-->
+        <div id="watchStrap">
+            <div class = "strapHoles" id="strapHoleOne"></div>
+            <div class = "strapHoles" id="strapHoleTwo"></div>
+            <div class = "strapHoles" id="strapHoleThree"></div>
+            <div class = "strapHoles" id="strapHoleFour"></div>
+        </div>
+        <!--Main Watch Display to show all required data-->
+      <div id="watchMainBackground">
+        <img id="watchMainBackgroundImage" src="./Images/neonBackground.avif">
+        <!--Section at the Top of the display showing current location of ISS and number of people in space-->
+        <div id="spaceDisplayCircle"><img id ="IssStationImage" src="./Images/astronaught.avif" alt="astronaught working outside ISS Station"></div>
+        <div id = "spaceSectionBackground">ISS lat and longitude<br> location and no. of people in space</div>
+        <!--Section showing sunsrise and sunset times with daylength-->
+        <div id="sunSection">
+          <img class = "timeOfDayImageBackground" src="./Images/nightBackground.avif">
+        </div>
+        <!--Section Showing current time of location and the time zone-->
+        <div id = "TimeArea">
+            <img id = "gearsImage" src="./Images/gearsBackground.avif">
+            <h3 class = "timeDigit" id="currentTime">13:45</h3>
+            <h2 class = "timeDigit" id = "timeZone">GMT+2:00</h2>
+        </div>
+        <div id ="locationSectionBackground"><p>country, region, city, lat and long</p></div>
+        
+      </div>
+     
+    </main>
+  </body>
+</html>
