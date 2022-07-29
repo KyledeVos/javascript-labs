@@ -1,3 +1,6 @@
+/*Styling Page for Watch Display*/
+
+/*The Watch*/
 #watchMainBackground {
   position: absolute;
   z-index: 2;
@@ -11,6 +14,7 @@
   border-radius: 40%;
 }
 
+/*Image design on the watch face - sits behind all other watch elements*/
 #watchMainBackgroundImage{
   position: absolute;
   z-index: 2;
@@ -20,6 +24,7 @@
   border-radius: 40%;
 }
 
+/*Area that contains the current time of the location and the Time Zone*/
 #TimeArea {
   position: absolute;
   z-index: 3;
@@ -32,6 +37,7 @@
   color: white;
 }
 
+/*Class used to style all information regarding time - current time, time-zone, sunset, sunrise and day length*/
 .timeDigit {
   position: absolute;
   z-index: 4;
@@ -43,12 +49,14 @@
   color: rgb(255, 252, 252);
 }
 
+/*Set Position and font-size of the current,local time display */
 #currentTime {
   margin-top: 0.1rem;
   margin-left: 1.6rem;
   font-size: 7rem;
 }
 
+/*Set Position and font-size of the local Time Zone */
 #timeZone {
   margin-top: 120px;
   margin-left: 7rem;
@@ -56,6 +64,7 @@
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
+/*Background of time area showing current time and time zone*/
 #gearsImage {
   position: absolute;
   object-fit: cover;
@@ -64,6 +73,7 @@
   border-radius: 5%;
 }
 
+/*Area holding data for sunrise, sunset and length of day*/
 #sunSection {
   position: absolute;
   z-index: 3;
@@ -75,10 +85,35 @@
   border-radius: 45%;
 }
 
+/*Background of Sun Area*/
 .timeOfDayImageBackground {
   position: absolute;
   object-fit: cover;
   width: 100%;
   height: 100%;
   border-radius: 45%;
+}
+
+/*Position and Font for sunsrise time*/
+#sunriseTime{
+  margin-top: 2rem;
+  margin-left:1rem;
+  font-size: 1rem;
+  text-shadow:  -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+}
+
+/*Position and Font for sunset time*/
+#sunsetTime{
+  margin-top: 3.5rem;
+  margin-left:1rem;
+  font-size: 1rem;
+  text-shadow:  -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+}
+
+/*Position and Font for length of day*/
+#dayLength{
+  margin-top: 5rem;
+  margin-left:1rem;
+  font-size: 1rem;
+  text-shadow:  -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 }

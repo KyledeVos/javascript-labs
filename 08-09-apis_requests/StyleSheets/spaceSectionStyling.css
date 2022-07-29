@@ -1,3 +1,6 @@
+/*Section at the top of the watch display containing data for ISS*/
+
+/*Circle Holding Image of Astronaught*/
 #spaceDisplayCircle{
     position: absolute;
     z-index: 4;
@@ -10,6 +13,15 @@
     border-radius: 50%;
 }
 
+#IssStationImage{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    
+   }
+
+/*Oval-shaped div containing the ISS info*/
 #spaceSectionBackground{
     position: absolute;
     z-index: 3;
@@ -27,10 +39,4 @@
 
   }
 
-  #IssStationImage{
-   object-fit: cover;
-   width: 100%;
-   height: 100%;
-   border-radius: 50%;
-   
-  }
+  

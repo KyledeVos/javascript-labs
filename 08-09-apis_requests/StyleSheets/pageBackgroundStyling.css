@@ -1,6 +1,9 @@
+/*Area around the Main watch display*/
+
 body {
   background-color: orange;
 }
+
 
 #watchStrap {
   position: absolute;
@@ -14,8 +17,7 @@ body {
   background-color: black;
 }
 
-
-
+/*Divs looking like the holes of a watch strap*/
 .strapHoles {
   position: absolute;
   z-index: 1;
