@@ -23,13 +23,15 @@
         <!--Section at the Top of the display showing current location of ISS and number of people in space-->
         <div id="ISSTitle">ISS EDITION</div>
         <div id="spaceDisplayCircle"><img id ="IssStationImage" src="./Images/astronaught.avif" alt="astronaught working outside ISS Station"></div>
-        <div id = "spaceSectionBackground">Latitude: none Longitude: none<br> 
-          Over: Ocean <br>
-          People in Space: unknown
+        <div id = "spaceSectionBackground">
+            <span id="IssLatitude"> Latitude: none </span>
+            <span id="IssLongitude">Longitude: none</span><br> 
+            <span id="IssOverCountry">Over: Ocean </span><br>
+            <span id="peopleInSpace">People in Space: unknown</span>
         </div>
         <!--Section showing sunsrise and sunset times with daylength-->
         <div id="sunImageSection">
-          <img class = "timeOfDayImageBackground" src="./Images/dayBackgroundImage.avif">
+          <img id = "timeOfDayImageBackground" src="./Images/dayBackgroundImage.avif">
         </div>
           <!--div holding sunset, sunrise and daylength times-->
         <div id="sunData">
@@ -46,16 +48,16 @@
         </div>
         <!--Section Showing current location data and flag-->
         <div id ="locationSectionBackground">
-          <p>Country: _________<br>
-             Country Code: _________<br>
-             Regional Bloc: _________<br>
-             Region: _________<br>
-             City: _________<br>
-             Latitude: _________<br>
-             Longitude: _________<br>
-             Population: _________<br>
-             Country: _________<br>
-             Language : _________<br>
+          <p>
+            <span id="country">Country: _________</span><br>
+            <span id="countryCode">Country Code: _________</span><br>
+            <span id="regionalBloc">Regional Bloc: _________</span><br>
+            <span id="region">Region: _________</span><br>
+            <span id="city">City: _________</span><br>
+            <span id="latitude">Latitude: _________</span><br>
+            <span id="longitude">Longitude: _________</span><br>
+            <span id="longitude">Population: _________</span><br>
+            <span id="language">Language : _________</span><br>
           </p>
         </div>
         <div id="flagContainer"><img id="flagImage" src="./Images/NoFlagImageEarth.avif"></div>

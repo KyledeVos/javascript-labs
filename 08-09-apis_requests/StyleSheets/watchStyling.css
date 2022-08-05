@@ -103,7 +103,7 @@
 }
 
 /*Background of Sun Area*/
-.timeOfDayImageBackground {
+#timeOfDayImageBackground {
   position: absolute;
   object-fit: cover;
   width: 100%;
