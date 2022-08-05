@@ -125,3 +125,32 @@ peopleInSpace.then(function(response) {
 .catch(function(error) {
   console.log(error)
 });
+
+
+/*Extra - Battery Percentage*/
+
+navigator.getBattery()
+  .then(function(battery) {
+    console.log(battery.level);
+});
+
+
+/*Holding - Delete Me
+
+let myCountryData;
+let myIAddress;
+
+try{
+let countryData = fetch("https://ipapi.co/"+myIAddress.ip+"/json/")
+.then(function(response) {
+    response.json().then(jsonData => {
+      myCountryData = jsonData;
+    });
+  })}
+  catch(error) {
+    console.log(error)
+  };
+
+*/
+
+

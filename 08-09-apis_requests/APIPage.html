@@ -9,28 +9,35 @@
     <link rel="stylesheet" type="text/css" href="./StyleSheets/pageBackgroundStyling.css" />
   </head>
 
-  <body>
+  <body onload="retrieveUserIp()">
     <main>
-      <!--Page Background to look like the strap of a watch-->
+      <!--Page Background to look like the strap of a watch -->
         <div id="watchStrap">
             <div class = "strapHoles" id="strapHoleOne"></div>
             <div class = "strapHoles" id="strapHoleTwo"></div>
             <div class = "strapHoles" id="strapHoleThree"></div>
-            <div class = "strapHoles" id="strapHoleFour"></div>
         </div>
         <!--Main Watch Display to show all required data-->
       <div id="watchMainBackground">
         <img id="watchMainBackgroundImage" src="./Images/neonBackground.avif">
         <!--Section at the Top of the display showing current location of ISS and number of people in space-->
+        <div id="ISSTitle">ISS EDITION</div>
         <div id="spaceDisplayCircle"><img id ="IssStationImage" src="./Images/astronaught.avif" alt="astronaught working outside ISS Station"></div>
-        <div id = "spaceSectionBackground">ISS lat and longitude<br> location and no. of people in space</div>
-        <!--Section showing sunsrise and sunset times with daylength-->
-        <div id="sunSection">
-          <img class = "timeOfDayImageBackground" src="./Images/SunsetBackground.jpg">
-          <h2 class = "timeDigit" id = "sunriseTime">Sunrise: 07:08</h2>
-          <h2 class = "timeDigit" id = "sunsetTime">Sunset: 17:50</h2>
-          <h2 class = "timeDigit" id = "dayLength">Day Length: 14hrs 59mins</h2>
+        <div id = "spaceSectionBackground">Latitude: none Longitude: none<br> 
+          Over: Ocean <br>
+          People in Space: unknown
         </div>
+        <!--Section showing sunsrise and sunset times with daylength-->
+        <div id="sunImageSection">
+          <img class = "timeOfDayImageBackground" src="./Images/dayBackgroundImage.avif">
+        </div>
+          <!--div holding sunset, sunrise and daylength times-->
+        <div id="sunData">
+          <h2 class = "timeDigit" id = "sunriseTime">Sunrise: </h2>
+          <h2 class = "timeDigit" id = "sunsetTime">Sunset: </h2>
+          <h2 class = "timeDigit" id = "dayLength">Day Length: </h2>
+        </div>
+        
         <!--Section Showing current time of location and the time zone-->
         <div id = "TimeArea">
             <img id = "gearsImage" src="./Images/gearsBackground.avif">
@@ -38,10 +45,30 @@
             <h2 class = "timeDigit" id = "timeZone">GMT+2:00</h2>
         </div>
         <!--Section Showing current location data and flag-->
-        <div id ="locationSectionBackground"><p>country, region, city, lat and long</p></div>
+        <div id ="locationSectionBackground">
+          <p>Country: _________<br>
+             Country Code: _________<br>
+             Regional Bloc: _________<br>
+             Region: _________<br>
+             City: _________<br>
+             Latitude: _________<br>
+             Longitude: _________<br>
+             Population: _________<br>
+             Country: _________<br>
+             Language : _________<br>
+          </p>
+        </div>
+        <div id="flagContainer"><img id="flagImage" src="./Images/NoFlagImageEarth.avif"></div>
+
+        <!--Extra-->
+        <!--Div that holds computer data - Battery-->
+        <div id="batteryLevel">Battery Level: 100%</div>
         
       </div>
+
+      <script src="./APIControlScript.js"></script>
      
     </main>
   </body>
 </html>
+ 

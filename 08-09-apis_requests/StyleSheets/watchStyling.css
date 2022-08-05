@@ -4,7 +4,7 @@
 #watchMainBackground {
   position: absolute;
   z-index: 2;
-  margin-left: 23rem;
+  margin-left: 21rem;
   margin-top: 0.5rem;
   width: 600px;
   height: 600px;
@@ -28,11 +28,11 @@
 #TimeArea {
   position: absolute;
   z-index: 3;
-  height: 150px;
+  height: 140px;
   width: 350px;
   margin-top: 11.5rem;
   margin-left: 13rem;
-  border: 0.6rem inset rgb(26, 26, 26); /*DELETE ME*/
+  border: 0.6rem inset rgb(26, 26, 26); 
   border-radius: 10%;
   color: white;
 }
@@ -58,7 +58,7 @@
 
 /*Set Position and font-size of the local Time Zone */
 #timeZone {
-  margin-top: 120px;
+  margin-top: 110px;
   margin-left: 7rem;
   font-size: 1.5rem;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -71,18 +71,35 @@
   width: 100%;
   height: 100%;
   border-radius: 5%;
+  opacity: 30%; 
 }
 
 /*Area holding data for sunrise, sunset and length of day*/
-#sunSection {
+#sunData{
   position: absolute;
-  z-index: 3;
-  margin-top: 12.5rem;
-  margin-left: 0.5rem;
-  width: 10rem;
-  height: 10rem;
+  z-index: 2;
+  margin-top: 21rem;
+  margin-left: 3rem;
+  width: 9rem;
+  height: 9rem;
   border: 0.6rem outset rgb(26, 26, 26);
   border-radius: 45%;
+  outline: rgb(214, 213, 213) solid 0.1rem;
+  
+
+}
+
+/*Div holding Image for current time of day*/
+#sunImageSection {
+  position: absolute;
+  z-index: 3;
+  margin-top: 14rem;
+  margin-left: 1rem;
+  width: 8rem;
+  height: 8rem;
+  border: 0.6rem outset rgb(26, 26, 26);
+  border-radius: 45%;
+  outline: rgb(214, 213, 213) solid 0.1rem;
 }
 
 /*Background of Sun Area*/
@@ -116,4 +133,24 @@
   margin-left:1rem;
   font-size: 1rem;
   text-shadow:  -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+}
+
+#batteryLevel{
+  position: absolute;
+  z-index: 3;
+  height: 45px;
+  width: 220px;
+  margin-top: 23rem;
+  margin-left: 20rem;
+  padding-top: 0.3rem;
+  padding-left: 0.3rem;
+  color: white;
+  font-size: 1.7rem;
+  font-family: fantasy, Helvetica, sans-serif;
+  text-shadow:  -1px 0 black, 0 1px black,
+  1px 0 black, 0 -1px black;
+  border: 0.5rem ridge rgb(26, 26, 26); 
+  border-radius: 20%;
+  background:rgb(21, 21, 21, 0.1);
+  outline: rgb(214, 213, 213) solid 0.1rem;
 }

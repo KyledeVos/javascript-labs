@@ -1,42 +1,63 @@
 /*Section at the top of the watch display containing data for ISS*/
 
-/*Circle Holding Image of Astronaught*/
-#spaceDisplayCircle{
+/*title of Watch*/
+#ISSTitle{
     position: absolute;
     z-index: 4;
-    margin-top:3rem;
-    margin-left: 4rem;
-    width: 130px;
-    height: 130px;
-    border: 0.3rem solid white;
-    background-color: rgb(23, 38, 96);
-    border-radius: 50%;
-}
-
-#IssStationImage{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    
-   }
-
-/*Oval-shaped div containing the ISS info*/
-#spaceSectionBackground{
-    position: absolute;
-    z-index: 3;
-    margin-left: 7rem;
-    margin-top: 3.2rem;
-    width: 300px;
-    height: 80px;
-    border: 0.3rem solid white;
-    background-color: black;
-    border-radius: 20%;
+    width: 120px;
+    padding-left: 1rem;
+    margin-left: 15rem;
+    margin-top: 0.5rem;
     color: white;
-    text-align: left;
-    padding-left: 6rem;
-    padding-top: 2rem;
-
-  }
-
-  
+    font-family: fantasy, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: 1.5rem;
+    border: 0.3rem ridge white;
+    border-radius: 20%;
+    
+    }
+    
+    /*Circle Holding Image of Astronaught*/
+    #spaceDisplayCircle{
+        position: absolute;
+        z-index: 4;
+        margin-top:4rem;
+        margin-left: 3.5rem;
+        width: 130px;
+        height: 130px;
+        border: 0.2rem solid white;
+        background-color: rgb(23, 38, 96,);
+        border-radius: 50%;
+    }
+    
+    #IssStationImage{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        
+       }
+    
+    /*Oval-shaped div containing the ISS info*/
+    #spaceSectionBackground{
+        position: absolute;
+        z-index: 3;
+        margin-left: 7rem;
+        margin-top: 4.5rem;
+        width: 330px;
+        height: 60px;
+        border: 0.2rem solid white;
+        background:rgba(0, 0, 0, 0.9);
+        border-radius: 20%;
+        color: white;
+        font-family: monospace, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        text-shadow: 1px 6px 7px rgba(243, 242, 242, 0.5), -1px 0 black, 0 1px black,
+        1px 0 black, 0 -1px black;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 6rem;
+        padding-top: 0.5rem;
+        line-height: 1.1rem;
+    
+      }
+    
+      
