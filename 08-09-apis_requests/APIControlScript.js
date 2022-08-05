@@ -2,7 +2,6 @@
 //IP ADDRESS
 //########################################################
 
-
 //variable to hold user IP Address
 let userIPAddress = "";
 
@@ -40,6 +39,8 @@ function retrieveUserLocationData() {
       response.json().then((jsonData) => {
         userLocationData = jsonData;
         populateLocationDataElements();
+        retrieveTimeData();
+        retrieveSunData();
       });
     })
     .catch(function (error) {
@@ -86,10 +87,95 @@ function populateLocationDataElements() {
   language.textContent = "Language(s): " + userLocationData.languages;
 
   //Attempt to Retrieve Image of Current Flag of Country
-  try{
-  countryFlag.setAttribute("src", "https://countryflagsapi.com/png/"+ userLocationData.country_code)
-  }catch(error){
-      console.log("Error Retrieving Flag Image");
-      console.log(error);
+  try {
+    countryFlag.setAttribute(
+      "src",
+      "https://countryflagsapi.com/png/" + userLocationData.country_code
+    );
+  } catch (error) {
+    console.log("Error Retrieving Flag Image");
+    console.log(error);
   }
+}
+
+//########################################################
+//CURRENT TIME AND TIMEZONE
+//########################################################
+
+//Object to hold User Time Data
+let userTimeData;
+
+/*
+Function used to populate elements with time Data (current Time and TimeZone) retrieved from API
+Called from Resolved Result of above retrieveUserLocationData() needed the TimeZone (in words)
+of the current user location 
+*/
+function retrieveTimeData() {
+  let countryTime = fetch(
+    "https://worldtimeapi.org/api/timezone/" + userLocationData.timezone
+  )
+    .then(function (response) {
+      response.json().then((jsonData) => {
+        userTimeData = jsonData;
+
+        //Time Variable Elements in HTML Page
+        let currentTime = document.getElementById("currentTime");
+        let timeZone = document.getElementById("timeZone");
+
+        //isolate current Time from 'datetime' property of userTimeData
+        currentTime.textContent = userTimeData.datetime.substring(11, 16);
+        timeZone.textContent = userTimeData.utc_offset;
+      });
+    })
+    .catch(function (error) {
+      console.log("Error Retrieving Current Time and Time Zone Data");
+      console.log(error);
+    });
+}
+
+//########################################################
+//Sunrise, Sunset and Day Length
+//########################################################
+
+//Object to hold User Time Data
+let userSunDataObject;
+
+/*
+Function used to retrieve sunrise and sunset times of current location and populate userSunDataObject
+Called from Resolved Result of above retrieveUserLocationData() needing the latitude and longitude
+of current user location
+*/
+
+function retrieveSunData() {
+  let sunData = fetch(
+    "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" +
+      userLocationData.latitude +
+      "," +
+      userLocationData.longitude +
+      "?key=..."
+  )
+    .then(function (response) {
+      response.json().then((jsonData) => {
+        userSunDataObject = jsonData;
+        populateSunriseAndSunsetTimes();
+      });
+    })
+    .catch(function (error) {
+      console.log("Error Retrieving Sunrise and Sunset Data");
+      console.log(error);
+    });
+}
+
+/*
+Function used to populate elements in page with Sunrise and Sunset Times
+Called from Resolved Result of above retrieveSunData()()
+*/
+function populateSunriseAndSunsetTimes() {
+  let sunriseTime = document.getElementById("sunriseTime");
+  sunriseTime.textContent =
+    "Sunrise: " + userSunDataObject.currentConditions.sunrise.substring(0, 5);
+
+  let sunsetTime = document.getElementById("sunsetTime");
+  sunsetTime.textContent =
+    "Sunset: " + userSunDataObject.currentConditions.sunset.substring(0, 5);
 }

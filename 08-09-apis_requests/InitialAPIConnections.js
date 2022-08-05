@@ -52,12 +52,9 @@ countryData.then(function(response) {
     console.log(error)
   });
  
-
-
   //myCountryTime.datetime = 2022-07-26T13:18:46.438082+02:00;  Type = String
 
   //5) Sunrise and Sunset Times
-
 
   let mySunrise;
 
