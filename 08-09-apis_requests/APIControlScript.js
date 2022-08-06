@@ -1,3 +1,16 @@
+//Function Called on Page Load to begin fetching data from API's
+function loadStartingFunctions() {
+  try {
+    retrieveUserIp();
+    retrieveIssLatitudeAndLongitude();
+    retrieveNumberOfPeopleInSpace();
+    updateBatteryLevelOfDevice();
+  } catch (error) {
+    console.error("There was a problem retrieving Data to load info on page");
+    console.log(error);
+  }
+}
+
 //########################################################
 //IP ADDRESS
 //########################################################
@@ -178,4 +191,128 @@ function populateSunriseAndSunsetTimes() {
   let sunsetTime = document.getElementById("sunsetTime");
   sunsetTime.textContent =
     "Sunset: " + userSunDataObject.currentConditions.sunset.substring(0, 5);
+}
+
+//########################################################
+//ISS AND SPACE DATA
+//########################################################
+
+//Object to hold ISS Latitude and Longitude
+let ISSDataObject;
+
+/*
+Function used to retrieve ISS Latitude and Longitude
+Calls retrieveIssLocationCountry() if promise is resolved
+*/
+function retrieveIssLatitudeAndLongitude() {
+  //retrieve ISS latitude and longitude
+  let ISSData = fetch("http://api.open-notify.org/iss-now.json")
+    .then(function (response) {
+      response.json().then((jsonData) => {
+        ISSDataObject = jsonData;
+
+        //populate elements in page with ISS Lat and Long Data
+        let IssLatitude = document.getElementById("IssLatitude");
+        let IssLongitude = document.getElementById("IssLongitude");
+
+        IssLatitude.textContent =
+          "Latitude: " + ISSDataObject.iss_position.latitude.substring(0, 6);
+        IssLongitude.textContent =
+          "Longitude: " + ISSDataObject.iss_position.longitude.substring(0, 6);
+
+        //retrieve current location (country or ocean) of ISS
+        setTimeout(retrieveIssLocationCountry(), 5000);
+      });
+    })
+    .catch(function (error) {
+      console.error("Error Retrieving ISS Location");
+      console.log(error);
+    });
+}
+
+/*
+Function used to retrieve Country (or Ocean in event of error) that ISS is currently over
+Called from Resolved Block of promise in above RetrieveIssLatitudeAndLongitude()
+*/
+function retrieveIssLocationCountry() {
+  // If ISS is over a country, API will return object containing country name
+  // If ISS is over an ocean (or promise is rejected) it could mean ISS is over the ocean
+  //By Default, an error is taken to mean ISS is over Ocean
+
+  //Object to hold ISS Location Data
+  let ISSLocationObject;
+
+  //populate elements in page with ISS Location
+  let IssOverCountry = document.getElementById("IssOverCountry");
+
+  let ISSLocation = fetch(
+    "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
+      ISSDataObject.iss_position.latitude +
+      "&lon=" +
+      ISSDataObject.iss_position.longitude
+  )
+    .then(function (response) {
+      response.json().then((jsonData) => {
+        ISSLocationObject = jsonData;
+        try {
+          let ISSCountryName = ISSLocationObject.address.country;
+
+          if (ISSCountryName == "undefined") {
+            IssOverCountry.textContent = "ISS Location: Unknown Country";
+          } else {
+            IssOverCountry.textContent = "ISS Location: " + ISSCountryName;
+          }
+        } catch (error) {
+          //API returns an error if ISS is currently over an ocean or large body of water
+          IssOverCountry.textContent = "ISS Location: Over Water";
+        }
+      });
+    })
+    .catch(function (error) {
+      console.error("Error Retrieving ISS Location");
+      console.log(error);
+    });
+}
+
+/*
+Function used to retrieve number of people in Space
+*/
+
+function retrieveNumberOfPeopleInSpace() {
+  //Object to hold Poeple in Space Data
+  let peopleInSpaceObject;
+
+  //populate element in page holding number of people in Space
+  let peopleInSpace = document.getElementById("peopleInSpace");
+
+  let peopleInSpaceRequest = fetch("http://api.open-notify.org/astros.json")
+    .then(function (response) {
+      response.json().then((jsonData) => {
+        peopleInSpaceObject = jsonData;
+        peopleInSpace.textContent =
+          "People in Space: " + peopleInSpaceObject.number;
+      });
+    })
+    .catch(function (error) {
+      console.error("Error Retrieving Number of People In Space");
+      console.log(error);
+    });
+}
+
+//########################################################
+//BATTERY PERCENTAGE OF CURRENT DEVICE
+//########################################################
+
+/*
+Function used to retrieve battery percentage of current device
+Note: Does not use any API's - Extra Feature for Lab
+*/
+function updateBatteryLevelOfDevice() {
+  ////populate element in page holding battery percentage
+
+  let batteryLevel = document.getElementById("batteryLevel");
+
+  navigator.getBattery().then(function (battery) {
+    batteryLevel.textContent = "Battery Level: " + battery.level * 100 + "%";
+  });
 }

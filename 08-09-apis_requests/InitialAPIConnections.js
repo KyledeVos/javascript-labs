@@ -132,22 +132,5 @@ navigator.getBattery()
 });
 
 
-/*Holding - Delete Me
-
-let myCountryData;
-let myIAddress;
-
-try{
-let countryData = fetch("https://ipapi.co/"+myIAddress.ip+"/json/")
-.then(function(response) {
-    response.json().then(jsonData => {
-      myCountryData = jsonData;
-    });
-  })}
-  catch(error) {
-    console.log(error)
-  };
-
-*/
 
 
