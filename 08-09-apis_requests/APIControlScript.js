@@ -1,3 +1,7 @@
+//#############################################################
+//FUNCTIONS CALLED ON PAGE LOAD AND REPETITIVE FUNCTION CALLS
+//#############################################################
+
 //Function Called on Page Load to begin fetching data from API's
 function loadStartingFunctions() {
   try {
@@ -10,6 +14,18 @@ function loadStartingFunctions() {
     console.log(error);
   }
 }
+
+//Repetitive Function Calls to Update Data
+
+//update ISS Latitude, Longitude and Location every 5 seconds
+window.setInterval(retrieveIssLatitudeAndLongitude, 5000);
+
+//update Current Location Data and Current Time Every 10 seconds
+window.setInterval(retrieveUserIp, 10000);
+
+//update Battery Percentage every minute
+window.setInterval(updateBatteryLevelOfDevice, 60* 1000);
+
 
 //########################################################
 //IP ADDRESS
@@ -165,7 +181,7 @@ function retrieveSunData() {
       userLocationData.latitude +
       "," +
       userLocationData.longitude +
-      "?key=..."
+      "?key=E9NGJWRU8DYGX5LBB53C9PHQJ"
   )
     .then(function (response) {
       response.json().then((jsonData) => {
@@ -304,7 +320,8 @@ function retrieveNumberOfPeopleInSpace() {
 //########################################################
 
 /*
-Function used to retrieve battery percentage of current device
+Function used to retrieve battery percentage of current device and update opacity of 
+battery element background according to battery percentage 
 Note: Does not use any API's - Extra Feature for Lab
 */
 function updateBatteryLevelOfDevice() {
@@ -312,7 +329,19 @@ function updateBatteryLevelOfDevice() {
 
   let batteryLevel = document.getElementById("batteryLevel");
 
+  try{
   navigator.getBattery().then(function (battery) {
     batteryLevel.textContent = "Battery Level: " + battery.level * 100 + "%";
+
+    //update background colour of batteryLevel element 
+  let batteryBackgroundString = "background:rgb(21, 21, 21, " +battery.level +");"
+  batteryLevel.setAttribute("style", batteryBackgroundString);
   });
+}catch(error){
+  console.error("Error Retrieving Current Battery Level of Device")
+  console.log(error);
+
+}
+
+  
 }
