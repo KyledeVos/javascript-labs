@@ -15,6 +15,8 @@ function loadStartingFunctions() {
   }
 }
 
+//Temporarily Disabled Repeat Function Calls for Testing
+/*
 //Repetitive Function Calls to Update Data
 
 //update ISS Latitude, Longitude and Location every 5 seconds
@@ -24,8 +26,11 @@ window.setInterval(retrieveIssLatitudeAndLongitude, 5000);
 window.setInterval(retrieveUserIp, 10000);
 
 //update Battery Percentage every minute
-window.setInterval(updateBatteryLevelOfDevice, 60* 1000);
+window.setInterval(updateBatteryLevelOfDevice, 60 * 1000);
 
+//update sunrise,sunset and day length every 3 hours
+window.setInterval(retrieveSunData, 60*60*3*1000);
+*/
 
 //########################################################
 //IP ADDRESS
@@ -150,6 +155,7 @@ function retrieveTimeData() {
         //Time Variable Elements in HTML Page
         let currentTime = document.getElementById("currentTime");
         let timeZone = document.getElementById("timeZone");
+        updateTimeofDayImage();
 
         //isolate current Time from 'datetime' property of userTimeData
         currentTime.textContent = userTimeData.datetime.substring(11, 16);
@@ -164,6 +170,7 @@ function retrieveTimeData() {
 
 //########################################################
 //Sunrise, Sunset and Day Length
+//Contains function to modify time of day image and colours of page
 //########################################################
 
 //Object to hold User Time Data
@@ -181,12 +188,16 @@ function retrieveSunData() {
       userLocationData.latitude +
       "," +
       userLocationData.longitude +
-      "?key=E9NGJWRU8DYGX5LBB53C9PHQJ"
+      "?key=BJ8ZQ9SYSTPYMTZV3YDKRUFPY"
   )
     .then(function (response) {
       response.json().then((jsonData) => {
         userSunDataObject = jsonData;
         populateSunriseAndSunsetTimes();
+        dayLengthCalculator(
+          userSunDataObject.currentConditions.sunriseEpoch,
+          userSunDataObject.currentConditions.sunsetEpoch
+        );
       });
     })
     .catch(function (error) {
@@ -207,6 +218,96 @@ function populateSunriseAndSunsetTimes() {
   let sunsetTime = document.getElementById("sunsetTime");
   sunsetTime.textContent =
     "Sunset: " + userSunDataObject.currentConditions.sunset.substring(0, 5);
+}
+
+//HELPER FUNCTION
+//used to calculate the time difference between the sunrise and sunset times
+//using their epoch time values
+function dayLengthCalculator(sunriseEpochTime, sunsetEpochTime) {
+  //calculate time difference between sunrise and sunset
+  let timeDifference = sunsetEpochTime - sunriseEpochTime;
+
+  //convert Epoch Time to Hours and Minutes
+  let totalMinutes = 0;
+  let hours = 0;
+  let minutes = 0;
+
+  totalMinutes = Math.trunc(timeDifference / 60); //remove seconds
+  hours = Math.trunc(totalMinutes / 60);
+  minutes = totalMinutes - hours * 60;
+
+  //update dayLength Element with hours and minutes for length of day
+  document.getElementById("dayLength").textContent =
+    "Day Length: " + hours + "hrs, " + minutes + "mins";
+}
+
+/*
+Function to update day image using time periods as:
+Sunrise, Day Time, Sunset and Night
+*/
+
+function updateTimeofDayImage() {
+  //retrieve current time of day, sunset and sunrise times as epoch times
+  let currentTime = 1659982862; // 6:20:02 PM
+  let sunriseTime = 1659936302; // 5:25:02
+  let sunsetTime = 1659979202; // 5:20:02 PM
+
+  //Conditions for Each Image
+  //1) Night -    Current Time is less than 1 hour before sunrise time
+  //2) Sunrise -  Current Time is within 1 hour before and one hour after sunrise Time
+  //3) Day -      Current Time is within one hour after sunrise and one hour before sunset
+  //4) Sunset -   Current Time  is within one hour before and one hour after sunset time
+
+  let timeOfDayImageBackground = document.getElementById(
+    "timeOfDayImageBackground"
+  );
+
+  //Sunrise Period
+  if (
+    currentTime == sunriseTime ||
+    (currentTime >= sunriseTime - 3600 && currentTime <= sunriseTime + 3600)
+  ) {
+    timeOfDayImageBackground.setAttribute("src", "./Images/sunriseThree.avif");
+
+    //Day Period
+  } else if (
+    currentTime > sunriseTime + 3600 &&
+    currentTime < sunsetTime - 3600
+  ) {
+    timeOfDayImageBackground.setAttribute(
+      "src",
+      "./Images/dayBackgroundImage.avif"
+    );
+
+    //Sunset Period
+  } else if (
+    currentTime == sunsetTime ||
+    currentTime >= sunsetTime - 3600 &&
+    currentTime <= sunsetTime + 3600
+  ) {
+    timeOfDayImageBackground.setAttribute(
+      "src",
+      "./Images/SunsetBackground.jpg"
+    );
+
+    //Night Period
+  } else {
+    timeOfDayImageBackground.setAttribute(
+      "src",
+      "./Images/nightBackground.avif"
+    );
+  }
+
+  /*if((sunriseTime - 60*60) > currentTime){
+      //current Time at least one hour before sunrise;
+      timeOfDayImageBackground.setAttribute("src", "./Images/nightBackground.avif")
+  } else if((sunriseTime-60*60)<=currentTime && (sunriseTime+60*60>=currentTime)){
+    //current Time is within one hour before and one hour after sunrise;
+    timeOfDayImageBackground.setAttribute("src", "./Images/sunriseThree.avif")
+  } else if((sunsetTime-60*60)<currentTime){
+    //current Time is within one hour before sunset;
+    timeOfDayImageBackground.setAttribute("src", "./Images/SunsetBackground.jpg")
+  }*/
 }
 
 //########################################################
@@ -329,19 +430,17 @@ function updateBatteryLevelOfDevice() {
 
   let batteryLevel = document.getElementById("batteryLevel");
 
-  try{
-  navigator.getBattery().then(function (battery) {
-    batteryLevel.textContent = "Battery Level: " + battery.level * 100 + "%";
+  try {
+    navigator.getBattery().then(function (battery) {
+      batteryLevel.textContent = "Battery Level: " + battery.level * 100 + "%";
 
-    //update background colour of batteryLevel element 
-  let batteryBackgroundString = "background:rgb(21, 21, 21, " +battery.level +");"
-  batteryLevel.setAttribute("style", batteryBackgroundString);
-  });
-}catch(error){
-  console.error("Error Retrieving Current Battery Level of Device")
-  console.log(error);
-
-}
-
-  
+      //update background colour of batteryLevel element
+      let batteryBackgroundString =
+        "background:rgb(21, 21, 21, " + battery.level + ");";
+      batteryLevel.setAttribute("style", batteryBackgroundString);
+    });
+  } catch (error) {
+    console.error("Error Retrieving Current Battery Level of Device");
+    console.log(error);
+  }
 }
