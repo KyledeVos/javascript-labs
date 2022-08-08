@@ -1,9 +1,8 @@
 /*Area around the Main watch display*/
 
 body {
-  background-color: orange;
+  background-color: rgb(63, 63, 63);
 }
-
 
 #watchStrap {
   position: absolute;
@@ -26,7 +25,7 @@ body {
   border: 0.5rem inset black;
   border-radius: 40%;
   opacity: 99%;
-  background-color: orange;
+  background-color: rgb(63, 63, 63);
 }
 
 #strapHoleOne {

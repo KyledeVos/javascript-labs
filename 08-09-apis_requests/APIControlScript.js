@@ -15,22 +15,35 @@ function loadStartingFunctions() {
   }
 }
 
-//Temporarily Disabled Repeat Function Calls for Testing
-/*
 //Repetitive Function Calls to Update Data
+
+//__________________________________________________
+//API calls that do not rely on user Location Data
+//__________________________________________________
+
+//update Battery Percentage every 30 seconds
+window.setInterval(updateBatteryLevelOfDevice, 30 * 1000);
 
 //update ISS Latitude, Longitude and Location every 5 seconds
 window.setInterval(retrieveIssLatitudeAndLongitude, 5000);
 
-//update Current Location Data and Current Time Every 10 seconds
-window.setInterval(retrieveUserIp, 10000);
+//__________________________________________________
+//API calls that rely on user Location Data
+//__________________________________________________
 
-//update Battery Percentage every minute
-window.setInterval(updateBatteryLevelOfDevice, 60 * 1000);
+//If so, call functions for other API's, if not then do not make calls (do nothing)
 
-//update sunrise,sunset and day length every 3 hours
-window.setInterval(retrieveSunData, 60*60*3*1000);
-*/
+//update Current Location Data and Current Time Every 20 minutes
+window.setInterval(retrieveUserIp, 20 * 60 * 1000);
+
+//update Current Time every 10 seconds
+window.setInterval(retrieveTimeData, 10 * 1000);
+
+//update sunrise,sunset and day length every 30 minutes
+window.setInterval(retrieveSunData, 30 * 60 * 1000);
+
+ //update day of time image and page colours according to time of day every 3 seconds
+ window.setInterval(updateTimeofDayImageandPageColors,3*1000);
 
 //########################################################
 //IP ADDRESS
@@ -51,7 +64,7 @@ function retrieveUserIp() {
       });
     })
     .catch((error) => {
-      console.log("Error Retrieving UserIp");
+      console.error("Error Retrieving UserIp");
       userIPAddress = "error";
     });
 }
@@ -66,19 +79,25 @@ let userLocationData;
 /*
 Function used to Retrieve User Location Data from Ipapi API
 Called from Resolved Result of above retrieveUserIp()
+//NOTE: API allows a max of 1000 calls per 24 hour cycle - if exceed if will return undefined
 */
 function retrieveUserLocationData() {
   let locationObject = fetch("https://ipapi.co/" + userIPAddress + "/json/")
     .then(function (response) {
       response.json().then((jsonData) => {
         userLocationData = jsonData;
+
+        //check that max API calls (1000 per 24 hrs) has not been exceeded
+        if (userLocationData.country != "undefined") {
+        }
         populateLocationDataElements();
-        retrieveTimeData();
         retrieveSunData();
+        retrieveTimeData();
+        
       });
     })
     .catch(function (error) {
-      console.log("Error Retrieving User Location Data");
+      console.error("Error Retrieving User Location Data");
       console.log(error);
     });
 }
@@ -127,7 +146,7 @@ function populateLocationDataElements() {
       "https://countryflagsapi.com/png/" + userLocationData.country_code
     );
   } catch (error) {
-    console.log("Error Retrieving Flag Image");
+    console.error("Error Retrieving Flag Image");
     console.log(error);
   }
 }
@@ -154,16 +173,17 @@ function retrieveTimeData() {
 
         //Time Variable Elements in HTML Page
         let currentTime = document.getElementById("currentTime");
-        let timeZone = document.getElementById("timeZone");
-        updateTimeofDayImage();
+        let timeZone = document.getElementById("timeZone"); 
 
         //isolate current Time from 'datetime' property of userTimeData
         currentTime.textContent = userTimeData.datetime.substring(11, 16);
         timeZone.textContent = userTimeData.utc_offset;
+
+       
       });
     })
     .catch(function (error) {
-      console.log("Error Retrieving Current Time and Time Zone Data");
+      console.error("Error Retrieving Current Time and Time Zone Data");
       console.log(error);
     });
 }
@@ -188,7 +208,7 @@ function retrieveSunData() {
       userLocationData.latitude +
       "," +
       userLocationData.longitude +
-      "?key=BJ8ZQ9SYSTPYMTZV3YDKRUFPY"
+      "?key=YQ2LR6U9WD36VXQJQYWAFSQTD"
   )
     .then(function (response) {
       response.json().then((jsonData) => {
@@ -201,7 +221,7 @@ function retrieveSunData() {
       });
     })
     .catch(function (error) {
-      console.log("Error Retrieving Sunrise and Sunset Data");
+      console.error("Error Retrieving Sunrise and Sunset Data");
       console.log(error);
     });
 }
@@ -242,16 +262,20 @@ function dayLengthCalculator(sunriseEpochTime, sunsetEpochTime) {
 }
 
 /*
-Function to update day image using time periods as:
+Function to update day image and watch border using time periods as:
 Sunrise, Day Time, Sunset and Night
+//Called every 2 seconds
 */
+function updateTimeofDayImageandPageColors() {
 
-function updateTimeofDayImage() {
   //retrieve current time of day, sunset and sunrise times as epoch times
-  let currentTime = 1659982862; // 6:20:02 PM
-  let sunriseTime = 1659936302; // 5:25:02
-  let sunsetTime = 1659979202; // 5:20:02 PM
+try{
+  let currentTime =userTimeData.unixtime;
+  let sunriseTime= userSunDataObject.currentConditions.sunriseEpoch;
+  let sunsetTime = userSunDataObject.currentConditions.sunsetEpoch
 
+  if(currentTime!=null && sunriseTime!=null && sunsetTime!=null){
+    
   //Conditions for Each Image
   //1) Night -    Current Time is less than 1 hour before sunrise time
   //2) Sunrise -  Current Time is within 1 hour before and one hour after sunrise Time
@@ -268,6 +292,8 @@ function updateTimeofDayImage() {
     (currentTime >= sunriseTime - 3600 && currentTime <= sunriseTime + 3600)
   ) {
     timeOfDayImageBackground.setAttribute("src", "./Images/sunriseThree.avif");
+    watchMainBackground.setAttribute("style", "outline: rgb(255,103,0) solid 0.4rem;")
+    
 
     //Day Period
   } else if (
@@ -278,17 +304,18 @@ function updateTimeofDayImage() {
       "src",
       "./Images/dayBackgroundImage.avif"
     );
+    watchMainBackground.setAttribute("style", "outline: rgb(135,206,235) solid 0.4rem;")
 
     //Sunset Period
   } else if (
     currentTime == sunsetTime ||
-    currentTime >= sunsetTime - 3600 &&
-    currentTime <= sunsetTime + 3600
+    (currentTime >= sunsetTime - 3600 && currentTime <= sunsetTime + 3600)
   ) {
     timeOfDayImageBackground.setAttribute(
       "src",
       "./Images/SunsetBackground.jpg"
     );
+    watchMainBackground.setAttribute("style", "outline: rgb(255,103,0) solid 0.4rem;")
 
     //Night Period
   } else {
@@ -296,18 +323,18 @@ function updateTimeofDayImage() {
       "src",
       "./Images/nightBackground.avif"
     );
+    watchMainBackground.setAttribute("style", "outline: rgb(47, 6, 89) solid 0.4rem;")
   }
 
-  /*if((sunriseTime - 60*60) > currentTime){
-      //current Time at least one hour before sunrise;
-      timeOfDayImageBackground.setAttribute("src", "./Images/nightBackground.avif")
-  } else if((sunriseTime-60*60)<=currentTime && (sunriseTime+60*60>=currentTime)){
-    //current Time is within one hour before and one hour after sunrise;
-    timeOfDayImageBackground.setAttribute("src", "./Images/sunriseThree.avif")
-  } else if((sunsetTime-60*60)<currentTime){
-    //current Time is within one hour before sunset;
-    timeOfDayImageBackground.setAttribute("src", "./Images/SunsetBackground.jpg")
-  }*/
+  }else{
+    console.error("Error Retrieving Current Time, Sunrise and/or Sunset Time(s)")
+  }
+
+}catch(error){
+  console.error("Error Updating Images and Colors for Time of Day")
+  console.log(error);
+}
+
 }
 
 //########################################################
