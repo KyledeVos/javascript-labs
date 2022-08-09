@@ -2,13 +2,60 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <Title>Crafts By Micks</Title>
-        <meta charset="utf-8">
-        <html lang ="en"></html>
-    </head>
-    <body>
-
-    </body>
+  <head>
+    <title>Crafts By Micks - Personal Management</title>
+    <meta charset="utf-8" />
+    <html lang="en"></html>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./StyleSheets/frontPageStyling.css"
+    />
+  </head>
+  <body>
+    <!--Front Page Main Container-->
+    <main id="frontPage">
+      <!--Sourced From: https://unsplash.com/photos/8uZPynIu-rQ Author: Pawel Czerwinski-->
+      <img
+        id="front_page_background_image"
+        src="./Images/Front_Page_Background_cropped.jpg"
+        alt="pastel flowing colours background"
+      />
+      <!--Container for Info on Top of Front Page-->
+      <div id="frontPageTopInfoContainer">
+        <!--Buttons with links to respecitve sign in (or home page) links-->
+        <button class="topOfFrontPageButton">Instagram</button>
+        <button class="topOfFrontPageButton">Facebook</button>
+        <button class="topOfFrontPageButton">TikTok</button>
+        <button class="topOfFrontPageButton">Gmail</button>
+        <button class="topOfFrontPageButton">Canva</button>
+        <!--Front Page Search Bar-->
+        <form onsubmit="return false;">
+          <input
+            type="text"
+            id="frontPageSearchBar"
+            class="topOfFrontPageButton"
+            placeholder="SEARCH"
+          />
+        </form>
+      </div>
+      <!--Container for Company Name and Logo-->
+      <div id="frontPageCompanyInfo">
+        <img
+          src="./Images/craftsbymicksLogo.png"
+          id="frontPageLogo"
+          alt="company logo image"
+        />
+        <div id="Company_Name">Crafts by Micks</div>
+      </div>
+      <!--Feature Containers-->
+      <div id="allFeaturesContainer">
+        <button id="NewProductContainer" class="FrontPageFeature">New Product</button>
+        <button id="NewOrderContainer" class="FrontPageFeature">New Order</button>
+        <button id="CurrentProductsContainer" class="FrontPageFeature">Current Products</button>
+        <button id="PriceCheckContainer" class="FrontPageFeature">Price Check</button>
+        <button id="NewMaterialsContainer" class="FrontPageFeature">New Materials</button>
+      </div>
+    </main>
+  </body>
 </html>
-
