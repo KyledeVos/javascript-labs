@@ -20,6 +20,7 @@ body {
   opacity: 70%;
 }
 
+/*Div containing social media links and search bar*/
 #frontPageTopInfoContainer {
   position: absolute;
   z-index: 2;
@@ -27,7 +28,7 @@ body {
   padding-left: 1rem;
 }
 
-/*Buttons at the top of Main Page*/
+/*Buttons (links) at the top of Main Page*/
 .topOfFrontPageButton {
   width: 7rem;
   padding: 0.4rem;
@@ -51,6 +52,7 @@ body {
   font-family: "Times New Roman", Times, serif;
 }
 
+/*Stlying for Search Bar*/
 ::placeholder {
   color: white;
   opacity: 80%;
@@ -58,11 +60,11 @@ body {
   font-family: "Times New Roman", Times, serif;
 }
 
+/*Div holding company logo and name*/
 #frontPageCompanyInfo {
   position: absolute;
   z-index: 2;
   width: 50%;
-  /*border: 0.11rem solid black;*/
   margin-left: 30%;
   margin-top: 6%;
 }
@@ -98,6 +100,7 @@ body {
     margin-top: 18rem;
 }
 
+/*Styling for all Feature Boxes*/
 .FrontPageFeature{
     position: relative;
     float:left;
