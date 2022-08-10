@@ -26,9 +26,10 @@ body {
   z-index: 2;
   width: 98%;
   padding-left: 1rem;
+  padding-top: 1rem;
 }
 
-/*Buttons (links) at the top of Main Page*/
+/*Links at the top of Main Page*/
 .topOfFrontPageButton {
   width: 7rem;
   padding: 0.4rem;
@@ -40,6 +41,7 @@ body {
   font-family: "Times New Roman", Times, serif;
   font-size: 1.3rem;
   font-weight: 600;
+  text-decoration: none;
 }
 
 #frontPageSearchBar {
@@ -48,6 +50,7 @@ body {
   bottom: 2.7rem;
   float: right;
   width: 30rem;
+  margin-top: 1.2%;
   border: 0.1rem solid white;
   font-family: "Times New Roman", Times, serif;
 }
@@ -104,7 +107,7 @@ body {
 .FrontPageFeature{
     position: relative;
     float:left;
-    border: 0.1rem solid white;
+    border: 0.15rem solid white;
     background-color: transparent;
     width: 13rem;
     height: 90%;
