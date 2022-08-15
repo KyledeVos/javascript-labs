@@ -1,0 +1,46 @@
+#playerGamePlayArea{
+    position: relative;
+    width: 98%;
+    height: 27rem;
+    margin: auto;
+    border: 0.1rem solid white;
+}
+
+.shipBoardArea{
+float:left;
+width: 45%;
+height: 25rem;
+border:0.3rem ridge rgb(144, 141, 139);
+margin: 0.35rem;
+margin-left: 2rem;
+}
+
+#playerBoardArea{
+color: white;
+padding: 0.3rem;
+}
+
+#enemyBoardArea{
+   color: white;
+}
+
+.playerGrid{
+    display:grid;
+    grid-template-columns: repeat(10, 36px);
+    grid-template-rows: repeat(10, 36px);
+    
+}
+
+.playerGridElement{
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 1px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+    cursor: crosshair;
+    
+}
+
+
+

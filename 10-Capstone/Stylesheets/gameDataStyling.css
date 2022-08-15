@@ -1,0 +1,20 @@
+#gamePiecesAndDataArea{
+position: relative;
+width: 98%;
+height: 5rem;
+margin:auto;
+margin-top: 0.5rem;
+border: 0.1rem solid white;
+color: white;
+}
+
+#testShipGrid{
+    display:grid;
+    grid-template-columns: repeat(4, 36px);
+    grid-template-rows: repeat(4, 36px);
+    position: absolute;
+    border: 0.2rem solid blue;
+    border-radius:30%;
+    text-align: left;
+    cursor: all-scroll;
+}
