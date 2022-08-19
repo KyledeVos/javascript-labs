@@ -1,46 +1,80 @@
-#playerGamePlayArea{
-    position: relative;
-    width: 98%;
-    height: 27rem;
-    margin: auto;
-    border: 0.1rem solid white;
+#playerGamePlayArea {
+  position: relative;
+  width: 98%;
+  height: 27rem;
+  margin: auto;
+  border: 0.1rem solid white;
 }
 
-.shipBoardArea{
-float:left;
-width: 45%;
-height: 25rem;
-border:0.3rem ridge rgb(144, 141, 139);
-margin: 0.35rem;
-margin-left: 2rem;
+.shipBoardArea {
+  float: left;
+  width: 45%;
+  height: 25rem;
+  border: 0.3rem ridge rgb(144, 141, 139);
+  margin: 0.35rem;
+  margin-left: 2rem;
 }
 
-#playerBoardArea{
-color: white;
-padding: 0.3rem;
+#playerBoardArea {
+  color: white;
 }
 
-#enemyBoardArea{
-   color: white;
+#enemyBoardArea {
+  color: white;
 }
 
-.playerGrid{
-    display:grid;
-    grid-template-columns: repeat(10, 36px);
-    grid-template-rows: repeat(10, 36px);
-    
+
+.playerGrid {
+  width: 370px;
+  display: grid;
+  grid-template-columns: repeat(10, 37px);
+  grid-template-rows: repeat(10, 37px);
+  border: 0.3rem ridge rgb(69, 69, 69);
+  margin-left: 0.3rem;
+ 
+ 
 }
 
-.playerGridElement{
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    padding: 1px;
-    font-size: 1.5rem;
-    text-align: center;
-    color: white;
-    cursor: crosshair;
-    
+.playerGridElement {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  text-align: center;
+  color: white;
+  cursor: crosshair;
+  background-color: transparent;
+  
 }
 
+#rotatebutton{
+    position:absolute;
+    z-index:3;
+    margin-left: 30rem;
+    margin-top: -20rem;
+}
+
+/*PLAYER SHIPS*/
+
+.shipDefaults{
+    position: absolute;
+    z-index:2;
+    border: 0.2rem solid red;
+    border-radius:30%;
+    background-color: black;
+}
+
+#playerCarrier{
+    margin-top: 3px;
+    margin-left: 3px;
+    width: 175px;
+    height:25px;
+}
+
+#playerBattleship{
+    margin-top: 150px;
+    margin-left: 40px;
+    width: 25px;
+    height: 135px;
+}
 
 

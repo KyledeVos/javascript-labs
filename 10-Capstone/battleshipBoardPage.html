@@ -8,18 +8,37 @@
     <link rel="stylesheet" type="text/css" href="./Stylesheets/gameDataStyling.css"/>
   </head>
 
-  <body>
-    <img id="battleshipTileImage" src="./Images/ocean_background_2.jpg" />
+  <body onload="initializeGame()">
+    <img src="./Images/ocean_background_2.jpg" />
 
     <div id="battleShipTitleArea">Battleship</div>
+    
 
     <main id="playerGamePlayArea">
       <div id="playerBoardArea" class="shipBoardArea">
+        
         player
+        
         <!--Player Game Play Grid-->
-        <div class="playerGrid" ondrop="dragDrop(event)"
-          ondragover="allowDrop(event)">
+        <div class="playerGrid" id="playerGrid">
+
+          <!--Player Ships-->
+          <div id="playerCarrier" class = "shipDefaults"></div>
+          <div id="playerBattleship" class = "shipDefaults"></div>
+          
             <!--Row 1-->
+            <div class = "playerGridElement" id = p00></div>
+            <div class = "playerGridElement" id = p01></div>
+            <div class = "playerGridElement" id = p02></div>
+            <div class = "playerGridElement" id = p03></div>
+            <div class = "playerGridElement" id = p04></div>
+            <div class = "playerGridElement" id = p05></div>
+            <div class = "playerGridElement" id = p06></div>
+            <div class = "playerGridElement" id = p07></div>
+            <div class = "playerGridElement" id = p08></div>
+            <div class = "playerGridElement" id = p09></div>
+            <!--Row 2-->
+            <div class = "playerGridElement" id = p10></div>
             <div class = "playerGridElement" id = p11></div>
             <div class = "playerGridElement" id = p12></div>
             <div class = "playerGridElement" id = p13></div>
@@ -29,8 +48,8 @@
             <div class = "playerGridElement" id = p17></div>
             <div class = "playerGridElement" id = p18></div>
             <div class = "playerGridElement" id = p19></div>
-            <div class = "playerGridElement" id = p110></div>
-            <!--Row 2-->
+            <!--Row 3-->
+            <div class = "playerGridElement" id = p20></div>
             <div class = "playerGridElement" id = p21></div>
             <div class = "playerGridElement" id = p22></div>
             <div class = "playerGridElement" id = p23></div>
@@ -40,97 +59,87 @@
             <div class = "playerGridElement" id = p27></div>
             <div class = "playerGridElement" id = p28></div>
             <div class = "playerGridElement" id = p29></div>
-            <div class = "playerGridElement" id = p210></div>
-            <!--Row 3-->
-            <div class = "playerGridElement" id = p31></div>
-            <div class = "playerGridElement" id = p32>22</div>
-            <div class = "playerGridElement" id = p33>23</div>
-            <div class = "playerGridElement" id = p34>24</div>
-            <div class = "playerGridElement" id = p35>25</div>
-            <div class = "playerGridElement" id = p36>26</div>
-            <div class = "playerGridElement" id = p37>27</div>
-            <div class = "playerGridElement" id = p38>28</div>
-            <div class = "playerGridElement" id = p39>29</div>
-            <div class = "playerGridElement" id = p410>30</div>
             <!--Row 4-->
-            <div class = "playerGridElement" id = p41></div>
-            <div class = "playerGridElement" id = p42>32</div>
-            <div class = "playerGridElement" id = p43>33</div>
-            <div class = "playerGridElement" id = p44>34</div>
-            <div class = "playerGridElement" id = p45>35</div>
-            <div class = "playerGridElement" id = p46>36</div>
-            <div class = "playerGridElement" id = p47>37</div>
-            <div class = "playerGridElement" id = p48>38</div>
-            <div class = "playerGridElement" id = p49>39</div>
-            <div class = "playerGridElement" id = p510>40</div>
+            <div class = "playerGridElement" id = p30></div>
+            <div class = "playerGridElement" id = p31></div>
+            <div class = "playerGridElement" id = p32></div>
+            <div class = "playerGridElement" id = p33></div>
+            <div class = "playerGridElement" id = p34></div>
+            <div class = "playerGridElement" id = p35></div>
+            <div class = "playerGridElement" id = p36></div>
+            <div class = "playerGridElement" id = p37></div>
+            <div class = "playerGridElement" id = p38></div>
+            <div class = "playerGridElement" id = p39></div>
             <!--Row 5-->
-            <div class = "playerGridElement" id = p51></div>
-            <div class = "playerGridElement" id = p52>42</div>
-            <div class = "playerGridElement" id = p53>43</div>
-            <div class = "playerGridElement" id = p54>44</div>
-            <div class = "playerGridElement" id = p55>45</div>
-            <div class = "playerGridElement" id = p56>46</div>
-            <div class = "playerGridElement" id = p57>47</div>
-            <div class = "playerGridElement" id = p58>48</div>
-            <div class = "playerGridElement" id = p59>49</div>
-            <div class = "playerGridElement" id = p510>50</div>
+            <div class = "playerGridElement" id = p40></div>
+            <div class = "playerGridElement" id = p41></div>
+            <div class = "playerGridElement" id = p42></div>
+            <div class = "playerGridElement" id = p43></div>
+            <div class = "playerGridElement" id = p44></div>
+            <div class = "playerGridElement" id = p45></div>
+            <div class = "playerGridElement" id = p46></div>
+            <div class = "playerGridElement" id = p47></div>
+            <div class = "playerGridElement" id = p48></div>
+            <div class = "playerGridElement" id = p49></div>
             <!--Row 6-->
-            <div class = "playerGridElement" id = p61></div>
-            <div class = "playerGridElement" id = p62>52</div>
-            <div class = "playerGridElement" id = p63>53</div>
-            <div class = "playerGridElement" id = p64>54</div>
-            <div class = "playerGridElement" id = p65>55</div>
-            <div class = "playerGridElement" id = p66>56</div>
-            <div class = "playerGridElement" id = p67>57</div>
-            <div class = "playerGridElement" id = p68>58</div>
-            <div class = "playerGridElement" id = p69>59</div>
-            <div class = "playerGridElement" id = p610>60</div>
+            <div class = "playerGridElement" id = p50></div>
+            <div class = "playerGridElement" id = p51></div>
+            <div class = "playerGridElement" id = p52></div>
+            <div class = "playerGridElement" id = p53></div>
+            <div class = "playerGridElement" id = p54></div>
+            <div class = "playerGridElement" id = p55></div>
+            <div class = "playerGridElement" id = p56></div>
+            <div class = "playerGridElement" id = p57></div>
+            <div class = "playerGridElement" id = p58></div>
+            <div class = "playerGridElement" id = p59></div>
             <!--Row 7-->
-            <div class = "playerGridElement" id = p71></div>
-            <div class = "playerGridElement" id = p72>62</div>
-            <div class = "playerGridElement" id = p73>63</div>
-            <div class = "playerGridElement" id = p74>64</div>
-            <div class = "playerGridElement" id = p75>65</div>
-            <div class = "playerGridElement" id = p76>66</div>
-            <div class = "playerGridElement" id = p77>67</div>
-            <div class = "playerGridElement" id = p78>68</div>
-            <div class = "playerGridElement" id = p79>69</div>
-            <div class = "playerGridElement" id = p710>70</div>
+            <div class = "playerGridElement" id = p60></div>
+            <div class = "playerGridElement" id = p61></div>
+            <div class = "playerGridElement" id = p62></div>
+            <div class = "playerGridElement" id = p63></div>
+            <div class = "playerGridElement" id = p64></div>
+            <div class = "playerGridElement" id = p65></div>
+            <div class = "playerGridElement" id = p66></div>
+            <div class = "playerGridElement" id = p67></div>
+            <div class = "playerGridElement" id = p68></div>
+            <div class = "playerGridElement" id = p69></div>
             <!--Row 8-->
-            <div class = "playerGridElement" id = p81></div>
-            <div class = "playerGridElement" id = p82>72</div>
-            <div class = "playerGridElement" id = p83>73</div>
-            <div class = "playerGridElement" id = p84>74</div>
-            <div class = "playerGridElement" id = p85>75</div>
-            <div class = "playerGridElement" id = p86>76</div>
-            <div class = "playerGridElement" id = p87>77</div>
-            <div class = "playerGridElement" id = p88>78</div>
-            <div class = "playerGridElement" id = p89>79</div>
-            <div class = "playerGridElement" id = p810>80</div>
+            <div class = "playerGridElement" id = p70></div>
+            <div class = "playerGridElement" id = p71></div>
+            <div class = "playerGridElement" id = p72></div>
+            <div class = "playerGridElement" id = p73></div>
+            <div class = "playerGridElement" id = p74></div>
+            <div class = "playerGridElement" id = p75></div>
+            <div class = "playerGridElement" id = p76></div>
+            <div class = "playerGridElement" id = p77></div>
+            <div class = "playerGridElement" id = p78></div>
+            <div class = "playerGridElement" id = p79></div>
              <!--Row 9-->
-             <div class = "playerGridElement" id = p91></div>
-             <div class = "playerGridElement" id = p92>82</div>
-             <div class = "playerGridElement" id = p93>83</div>
-             <div class = "playerGridElement" id = p94>84</div>
-             <div class = "playerGridElement" id = p95>85</div>
-             <div class = "playerGridElement" id = p96>86</div>
-             <div class = "playerGridElement" id = p97>87</div>
-             <div class = "playerGridElement" id = p98>88</div>
-             <div class = "playerGridElement" id = p99>89</div>
-             <div class = "playerGridElement" id = p910>90</div>
+             <div class = "playerGridElement" id = p80></div>
+             <div class = "playerGridElement" id = p81></div>
+             <div class = "playerGridElement" id = p82></div>
+             <div class = "playerGridElement" id = p83></div>
+             <div class = "playerGridElement" id = p84></div>
+             <div class = "playerGridElement" id = p85></div>
+             <div class = "playerGridElement" id = p86></div>
+             <div class = "playerGridElement" id = p87></div>
+             <div class = "playerGridElement" id = p88></div>
+             <div class = "playerGridElement" id = p89></div>
              <!--Row 10-->
-             <div class = "playerGridElement" id = p101>&nbsp &nbsp</div>
-             <div class = "playerGridElement" id = p102>92</div>
-             <div class = "playerGridElement" id = p103>93</div>
-             <div class = "playerGridElement" id = p104>94</div>
-             <div class = "playerGridElement" id = p105>95</div>
-             <div class = "playerGridElement" id = p106>96</div>
-             <div class = "playerGridElement" id = p107>97</div>
-             <div class = "playerGridElement" id = p108>98</div>
-             <div class = "playerGridElement" id = p109>99</div>
-             <div class = "playerGridElement" id = p1010>100</div>
+             <div class = "playerGridElement" id = p90></div>
+             <div class = "playerGridElement" id = p91></div>
+             <div class = "playerGridElement" id = p92></div>
+             <div class = "playerGridElement" id = p93></div>
+             <div class = "playerGridElement" id = p94></div>
+             <div class = "playerGridElement" id = p95></div>
+             <div class = "playerGridElement" id = p96></div>
+             <div class = "playerGridElement" id = p97></div>
+             <div class = "playerGridElement" id = p98></div>
+             <div class = "playerGridElement" id = p99></div>
 
         </div>
+
+        <button id = "rotatebutton">Rotate</button>
         
       </div>
       <div id="enemyBoardArea" class="shipBoardArea">
@@ -138,16 +147,9 @@
       </div>
     </main>
 
-    <div id="gamePiecesAndDataArea" ondrop="dragDrop(event)"
-    ondragover="allowDrop(event)">
+    <div id="gamePiecesAndDataArea" >
         Details
-        <!--<span id="testShip" draggable="true" ondragstart="dragStart(event)">Ship</span>-->
-        <div class = "playerGrid" id="testShipGrid" draggable="true" ondragstart="dragStart(event)" >
-          <div class = "playerGridElement" id="playerDestoyerShip1">S</div>
-          <div class = "playerGridElement" id="playerDestoyerShip2">H</div>
-          <div class = "playerGridElement" id="playerDestoyerShip3">I</div>
-          <div class = "playerGridElement" id="playerDestoyerShip4">P</div>
-        </div>
+        
     </div>
 
     <script src="./Scripts/playerGameBlockControl.js"></script>
