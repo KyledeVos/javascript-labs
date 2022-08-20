@@ -62,14 +62,33 @@ function setInitialPlayerShipPositions() {
   playerGridArray[5][1].containsShip = "playerBattleship";
   playerGridArray[6][1].containsShip = "playerBattleship";
   playerGridArray[7][1].containsShip = "playerBattleship";
+
+  //Set Position of Cruiser (3 Grid Blocks) - Vertical
+  playerGridArray[3][3].containsShip = "playerCruiser";
+  playerGridArray[3][3].shipHead = true;
+  playerGridArray[4][3].containsShip = "playerCruiser";
+  playerGridArray[5][3].containsShip = "playerCruiser";
+
+  //Set Position of Submarine (3 Grid Blocks) - Horizontal
+  playerGridArray[7][5].containsShip = "playerSubmarine";
+  playerGridArray[7][5].shipHead = true;
+  playerGridArray[7][6].containsShip = "playerSubmarine";
+  playerGridArray[7][7].containsShip = "playerSubmarine";
+
+  //Set Position of Destoyer (2 Grid Blocks) - Horizontal
+  playerGridArray[2][5].containsShip = "playerDestroyer";
+  playerGridArray[2][5].shipHead = true;
+  playerGridArray[2][6].containsShip = "playerDestroyer";
 }
 
+//Highlights grid block Border hovered over by mouse green
 document.querySelectorAll(".playerGridElement").forEach((element) => {
   element.addEventListener("mouseover", () => {
     element.setAttribute("style", "border: 4px solid green");
   });
 });
 
+//Set grid block border back to original color when mouse leaves
 document.querySelectorAll(".playerGridElement").forEach((element) => {
   element.addEventListener("mouseout", () => {
     element.setAttribute("style", "border: 1px solid white");
@@ -78,27 +97,29 @@ document.querySelectorAll(".playerGridElement").forEach((element) => {
 
 let playerCarrier = document.getElementById("playerCarrier");
 let playerBattleship = document.getElementById("playerBattleship");
+let playerCruiser = document.getElementById("playerCruiser");
+let playerSubmarine = document.getElementById("playerSubmarine");
+let playerDestroyer = document.getElementById("playerDestroyer");
 let allowRotationButton = false;
-let shipName="noneSelected";
+let shipName = "noneSelected";
 
-document.querySelectorAll(".ship").forEach((element)=>{
-  element.addEventListener("mousedown",()=>{
- 
-    element.style.backgroundColor="blue";
+document.querySelectorAll(".ship").forEach((element) => {
+  element.addEventListener("mousedown", () => {
+    element.style.backgroundColor = "blue";
     shipName = element.id;
     allowRotationButton = true;
+  });
+});
 
-  
-  })
-})
-
-document.getElementById("rotatebutton").addEventListener("mousedown", function () {
-      if (allowRotationButton) {
-        rotateShip(shipName);
-      }else{
-        alert("Please Select a Ship to Rotate");
-      }
-    });
+document
+  .getElementById("rotatebutton")
+  .addEventListener("mousedown", function () {
+    if (allowRotationButton) {
+      rotateShip(shipName);
+    } else {
+      alert("Please Select a Ship to Rotate");
+    }
+  });
 
 let rotatebutton = document.getElementById("rotatebutton");
 
@@ -140,7 +161,7 @@ function rotateShip(shipName) {
           vertical = false;
           horizontal = true;
         }
-      
+
         //i)
         //If Ship is currently vertical, check that horizontal change would not make rightmost block
         //of ship extend beyond last column of grid
@@ -206,7 +227,6 @@ function rotateShip(shipName) {
           }
         }
 
-      
         //At this point all conditions have been met to allow for ship rotation
         //i) Change grid blocks that contain ship
         if (vertical) {
@@ -230,12 +250,21 @@ function rotateShip(shipName) {
         }
 
         //rotate Ship Div on GameBoard
-        switch(shipName){
+        switch (shipName) {
           case "playerCarrier":
             swopShipHeightAndWidth(playerCarrier);
             break;
-            case "playerBattleship":
-              swopShipHeightAndWidth(playerBattleship);
+          case "playerBattleship":
+            swopShipHeightAndWidth(playerBattleship);
+            break;
+          case "playerCruiser":
+            swopShipHeightAndWidth(playerCruiser);
+            break;
+          case "playerSubmarine":
+            swopShipHeightAndWidth(playerSubmarine);
+            break;
+            case "playerDestroyer":
+              swopShipHeightAndWidth(playerDestroyer);
         }
 
         resetShipColor();
@@ -254,6 +283,10 @@ function returnShipLength(shipname) {
     return 5;
   } else if (shipname == "playerBattleship") {
     return 4;
+  } else if (shipName == "playerCruiser" || shipName == "playerSubmarine") {
+    return 3;
+  }else{
+    return 2; //Destoyer
   }
 }
 
@@ -262,25 +295,24 @@ function returnShipLength(shipname) {
 function resetShipColor() {
   playerCarrier.style.backgroundColor = "black";
   playerBattleship.style.backgroundColor = "black";
+  playerCruiser.style.backgroundColor = "black";
+  playerSubmarine.style.backgroundColor = "black";
+  playerDestroyer.style.backgroundColor = "black";
 }
 
 //HELPER FUNCTION
 //swop values of height and width of a ship element
 //mimics rotating ship by 90 degrees
-function swopShipHeightAndWidth(element){
-    let hold = element.clientHeight;
-    element.style.height = element.clientWidth + "px";
-    element.style.width = hold + "px";
+function swopShipHeightAndWidth(element) {
+  let hold = element.clientHeight;
+  element.style.height = element.clientWidth + "px";
+  element.style.width = hold + "px";
 }
-
-
-
-
 
 //TEST FUNCTION
 //Display All Grid Blocks
-function displayGridBlocks(){
-  for(let i=0; i< 10;i++){
+function displayGridBlocks() {
+  for (let i = 0; i < 10; i++) {
     console.log(...playerGridArray[i]);
   }
 }
