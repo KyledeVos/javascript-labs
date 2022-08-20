@@ -55,7 +55,7 @@
 
 /*PLAYER SHIPS*/
 
-.shipDefaults{
+.ship{
     position: absolute;
     z-index:2;
     border: 0.2rem solid red;

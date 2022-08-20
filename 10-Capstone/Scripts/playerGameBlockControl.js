@@ -27,7 +27,7 @@ function initializeGame() {
   //initialize each block in player Array as:
   /* id = element of each block in HTML Page
   Row and Column Counts ranging from 0 - 9
-  ContainsShip and shipHead = false
+  ContainsShip = "none" and shipHead = false
   firedOn = false;
 */
   for (let i = 0; i < 10; i++) {
@@ -47,10 +47,8 @@ function initializeGame() {
 }
 
 //set initial position of playerShips on Grid (default positions)
-function setInitialPlayerShipPositions(){
-
-  //Set Position of Carrier (5 Grid Blocks)
-
+function setInitialPlayerShipPositions() {
+  //Set Position of Carrier (5 Grid Blocks) - Horizontal
   playerGridArray[0][0].containsShip = "playerCarrier";
   playerGridArray[0][0].shipHead = true;
   playerGridArray[0][1].containsShip = "playerCarrier";
@@ -58,14 +56,12 @@ function setInitialPlayerShipPositions(){
   playerGridArray[0][3].containsShip = "playerCarrier";
   playerGridArray[0][4].containsShip = "playerCarrier";
 
-   //Set Position of Battleship (4 Grid Blocks)
+  //Set Position of Battleship (4 Grid Blocks) - Vertical
   playerGridArray[4][1].containsShip = "playerBattleship";
   playerGridArray[4][1].shipHead = true;
   playerGridArray[5][1].containsShip = "playerBattleship";
   playerGridArray[6][1].containsShip = "playerBattleship";
   playerGridArray[7][1].containsShip = "playerBattleship";
-
-
 }
 
 document.querySelectorAll(".playerGridElement").forEach((element) => {
@@ -82,13 +78,29 @@ document.querySelectorAll(".playerGridElement").forEach((element) => {
 
 let playerCarrier = document.getElementById("playerCarrier");
 let playerBattleship = document.getElementById("playerBattleship");
+let allowRotationButton = false;
+let shipName="noneSelected";
+
+document.querySelectorAll(".ship").forEach((element)=>{
+  element.addEventListener("mousedown",()=>{
+ 
+    element.style.backgroundColor="blue";
+    shipName = element.id;
+    allowRotationButton = true;
+
+  
+  })
+})
+
+document.getElementById("rotatebutton").addEventListener("mousedown", function () {
+      if (allowRotationButton) {
+        rotateShip(shipName);
+      }else{
+        alert("Please Select a Ship to Rotate");
+      }
+    });
 
 let rotatebutton = document.getElementById("rotatebutton");
-document.getElementById("playerCarrier").addEventListener("mousedown", ()=>{
-  playerCarrier.setAttribute("style", "background-color: blue"); //delete me
-
-    document.getElementById("rotatebutton").addEventListener("mousedown", function(){rotateShip("playerCarrier")})
-})
 
 //function used to rotate ship by 90 degrees
 /*
@@ -101,87 +113,174 @@ document.getElementById("playerCarrier").addEventListener("mousedown", ()=>{
     ii) Ensure rotation would not place ship on top of another ship
 4) Rotate Ship
 */
-function rotateShip(shipName){
-
+function rotateShip(shipName) {
   //find head of ship
-  let shipHeadRow=0;
-  let shipHeadColumn=0;
+  let shipHeadRow = 0;
+  let shipHeadColumn = 0;
 
-  for(let i =0; i<10;i++){
-    for(let j = 0; j<10;j++){
-      if((playerGridArray[i][j].shipHead ==true)&& playerGridArray[i][j].containsShip==shipName){
-          shipHeadRow = i;
-          shipHeadColumn = j;
-          console.log("Row: " + shipHeadRow + " ShipHeadColumn:" + shipHeadColumn); //delete me
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (
+        playerGridArray[i][j].shipHead == true &&
+        playerGridArray[i][j].containsShip == shipName
+      ) {
+        shipHeadRow = i;
+        shipHeadColumn = j;
 
-          //determine if ship is positioned vertically or horizontally
-          let vertical;
-          let horizontal;
+        //determine if ship is positioned vertically or horizontally
+        let vertical;
+        let horizontal;
 
-          if(playerGridArray[i+1][j].containsShip == shipName){
-            vertical = true;
-            horizontal = false;
-          }else{
-            vertical = false;
-            horizontal = true;
-          }
-          console.log("Vertical: " + vertical + " Horizontal:" + horizontal); //delete me
-
+        //if grid block below is the same ship type, then ship is positioned vertically
+        if (playerGridArray[i + 1][j].containsShip == shipName) {
+          vertical = true;
+          horizontal = false;
+        } else {
+          //if grid block to the right is the same ship type, then ship is positioned horizontally
+          vertical = false;
+          horizontal = true;
+        }
       
-          //If Ship is currently vertical, check that horizontal change would not make rightmost block 
-          //of ship extend beyond last column of grid
-          //If Ship is currently horizontal, check that vertical change would not make bottom of ship 
-          //extend beyond last row of grid
+        //i)
+        //If Ship is currently vertical, check that horizontal change would not make rightmost block
+        //of ship extend beyond last column of grid
+        //If Ship is currently horizontal, check that vertical change would not make bottom of ship
+        //extend beyond last row of grid
 
-          let shipLength = returnShipLength(shipName);
+        let shipLength = returnShipLength(shipName);
 
-          //check vertical ship rotation to horizontal would not extend grid borders
-          if(vertical){
-              if((shipHeadColumn+(shipLength-1))>9){
-                //rotation not allowed
-                resetShipColor();
-                alert("Cannot Rotate Ship Horizontally. Please move ship LEFT first"); 
-                  return;
-              }
+        //check vertical ship rotation to horizontal would not extend grid borders
+        if (vertical) {
+          if (shipHeadColumn + (shipLength - 1) > 9) {
+            //rotation not allowed
+            resetShipColor();
+            allowRotationButton = false;
+            alert(
+              "Cannot Rotate Ship Horizontally. Please move ship LEFT first"
+            );
+            return;
+          }
+        } else {
+          //check horizontal ship rotation to vertical would not extend grid border
+          if (shipHeadRow + (shipLength - 1) > 9) {
+            //rotation not allowed
+            alert("Cannot Rotate Ship Vertically. Please move ship UP first");
+            resetShipColor();
+            allowRotationButton = false;
+            return;
+          }
+        }
 
-          } else{
-            //check horizontal ship rotation to vertical would not extend grid borders
-            shipHeadRow = 6;
-            if((shipHeadRow+(shipLength-1)>9)){
-              //rotation not allowed
-              alert("Cannot Rotate Ship Vertically. Please move ship UP first");
+        //ii)
+        //Check that Ship rotation would not place ship on top of another
+
+        //vertical to Horizontal check
+        if (vertical) {
+          for (let k = 1; k < shipLength; k++) {
+            if (
+              playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip !=
+              "none"
+            ) {
+              alert(
+                "Cannot Rotate Ship Horizontally as there is another Ship in the way"
+              );
               resetShipColor();
+              allowRotationButton = false;
               return;
             }
           }
+        } else {
+          //Horizontal to Vertical Check
+          for (let k = 1; k < shipLength; k++) {
+            if (
+              playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip !=
+              "none"
+            ) {
+              alert(
+                "Cannot Rotate Ship Vertically as there is another Ship in the way"
+              );
+              resetShipColor();
+              allowRotationButton = false;
+              return;
+            }
+          }
+        }
 
+      
+        //At this point all conditions have been met to allow for ship rotation
+        //i) Change grid blocks that contain ship
+        if (vertical) {
+          for (let k = 1; k < shipLength; k++) {
+            //first 'rotate' ship to occupy grid blocks to the right of ship
+            playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip =
+              shipName;
+            //remove ship from previous vertical blocks
+            playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip =
+              "none";
+          }
+        } else {
+          for (let k = 1; k < shipLength; k++) {
+            //first 'rotate' ship to occupy grid blocks to the bottom of ship
+            playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip =
+              shipName;
+            //remove ship from previous horizontal blocks
+            playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip =
+              "none";
+          }
+        }
 
+        //rotate Ship Div on GameBoard
+        switch(shipName){
+          case "playerCarrier":
+            swopShipHeightAndWidth(playerCarrier);
+            break;
+            case "playerBattleship":
+              swopShipHeightAndWidth(playerBattleship);
+        }
 
-
-          //break out of loop
-          //break;
+        resetShipColor();
+        allowRotationButton = false;
+        //break out of loop
+        break;
       }
     }
   }
-
 }
 
 //HELPER FUNCTION
 //return length of current ship type
-function returnShipLength(shipname){
-  if(shipname =="playerCarrier"){
+function returnShipLength(shipname) {
+  if (shipname == "playerCarrier") {
     return 5;
-  } else if(shipname=="playerBattleship"){
+  } else if (shipname == "playerBattleship") {
     return 4;
   }
 }
 
 //HELPER FUNCTION
 //return all ships background color to default
-function resetShipColor(){
-  playerCarrier.setAttribute("style","background-color: black");
-  playerBattleship.setAttribute("style","background-color: black");
+function resetShipColor() {
+  playerCarrier.style.backgroundColor = "black";
+  playerBattleship.style.backgroundColor = "black";
+}
+
+//HELPER FUNCTION
+//swop values of height and width of a ship element
+//mimics rotating ship by 90 degrees
+function swopShipHeightAndWidth(element){
+    let hold = element.clientHeight;
+    element.style.height = element.clientWidth + "px";
+    element.style.width = hold + "px";
 }
 
 
 
+
+
+//TEST FUNCTION
+//Display All Grid Blocks
+function displayGridBlocks(){
+  for(let i=0; i< 10;i++){
+    console.log(...playerGridArray[i]);
+  }
+}
