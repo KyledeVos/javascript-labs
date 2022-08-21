@@ -11,6 +11,10 @@ class blockElement {
   }
 }
 
+/*###############################################################################
+PLAYER AND ENEMY GRIDS - CREATION
+#################################################################################
+*/
 //Array of all gridBlocks for Player and Enemy (Computer Player)
 //Create a 2-D array for each consisiting of 100 grid blocks in total (10 x 10)
 
@@ -46,8 +50,20 @@ function initializeGame() {
   setInitialPlayerShipPositions();
 }
 
+/*###############################################################################
+PLAYER AND ENEMY GRIDS - POPULATION WITH DEFAULT SHIP POSITIONS AND ORIENTATIONS
+#################################################################################
+*/
+//link Player elements to HTML ship elements
+let playerCarrier = document.getElementById("playerCarrier");
+let playerBattleship = document.getElementById("playerBattleship");
+let playerCruiser = document.getElementById("playerCruiser");
+let playerSubmarine = document.getElementById("playerSubmarine");
+let playerDestroyer = document.getElementById("playerDestroyer");
+
 //set initial position of playerShips on Grid (default positions)
 function setInitialPlayerShipPositions() {
+
   //Set Position of Carrier (5 Grid Blocks) - Horizontal
   playerGridArray[0][0].containsShip = "playerCarrier";
   playerGridArray[0][0].shipHead = true;
@@ -81,36 +97,26 @@ function setInitialPlayerShipPositions() {
   playerGridArray[2][6].containsShip = "playerDestroyer";
 }
 
-//Highlights grid block Border hovered over by mouse green
-document.querySelectorAll(".playerGridElement").forEach((element) => {
-  element.addEventListener("mouseover", () => {
-    element.setAttribute("style", "border: 4px solid green");
-  });
-});
+/*###############################################################################
+PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
+#################################################################################
+*/
 
-//Set grid block border back to original color when mouse leaves
-document.querySelectorAll(".playerGridElement").forEach((element) => {
-  element.addEventListener("mouseout", () => {
-    element.setAttribute("style", "border: 1px solid white");
-  });
-});
-
-let playerCarrier = document.getElementById("playerCarrier");
-let playerBattleship = document.getElementById("playerBattleship");
-let playerCruiser = document.getElementById("playerCruiser");
-let playerSubmarine = document.getElementById("playerSubmarine");
-let playerDestroyer = document.getElementById("playerDestroyer");
-let allowRotationButton = false;
+let allowRotationButton = false;  //ensures rotation only done if a ship is selected
 let shipName = "noneSelected";
 
+//check if user clicks on a ship to rotate or move ship position
 document.querySelectorAll(".ship").forEach((element) => {
   element.addEventListener("mousedown", () => {
     element.style.backgroundColor = "blue";
     shipName = element.id;
+    //only allows player to rotate a ship if they select one first
     allowRotationButton = true;
   });
 });
 
+//event listener if user wants to rotate a selected ship
+//if multiple ships are selected, only the last one will be rotated
 document
   .getElementById("rotatebutton")
   .addEventListener("mousedown", function () {
@@ -121,10 +127,15 @@ document
     }
   });
 
+/*#####################################################
+PLAYER SHIP ROTATIONS
+#######################################################
+*/
+
 let rotatebutton = document.getElementById("rotatebutton");
 
-//function used to rotate ship by 90 degrees
-/*
+/*ROTATION FUNCTION - Rotate Ship by 90 degrees
+
 1) Find Head Block of Ship:
   i) Vetical Ship: Head = top block
   ii) Horizontal Ship: Head = leftmost block
@@ -135,6 +146,7 @@ let rotatebutton = document.getElementById("rotatebutton");
 4) Rotate Ship
 */
 function rotateShip(shipName) {
+
   //find head of ship
   let shipHeadRow = 0;
   let shipHeadColumn = 0;
@@ -162,6 +174,9 @@ function rotateShip(shipName) {
           horizontal = true;
         }
 
+
+        //--------------------------------------------------------------------------------------------
+        //CHECK IF ROTATION CAN BE DONE
         //i)
         //If Ship is currently vertical, check that horizontal change would not make rightmost block
         //of ship extend beyond last column of grid
@@ -198,13 +213,8 @@ function rotateShip(shipName) {
         //vertical to Horizontal check
         if (vertical) {
           for (let k = 1; k < shipLength; k++) {
-            if (
-              playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip !=
-              "none"
-            ) {
-              alert(
-                "Cannot Rotate Ship Horizontally as there is another Ship in the way"
-              );
+            if (playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip !="none") {
+              alert("Cannot Rotate Ship Horizontally as there is another Ship in the way");
               resetShipColor();
               allowRotationButton = false;
               return;
@@ -213,13 +223,8 @@ function rotateShip(shipName) {
         } else {
           //Horizontal to Vertical Check
           for (let k = 1; k < shipLength; k++) {
-            if (
-              playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip !=
-              "none"
-            ) {
-              alert(
-                "Cannot Rotate Ship Vertically as there is another Ship in the way"
-              );
+            if (playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip !="none") {
+              alert("Cannot Rotate Ship Vertically as there is another Ship in the way");
               resetShipColor();
               allowRotationButton = false;
               return;
@@ -227,6 +232,8 @@ function rotateShip(shipName) {
           }
         }
 
+        //--------------------------------------------------------------------------------------------
+        //ROTATE SELECTED SHIP
         //At this point all conditions have been met to allow for ship rotation
         //i) Change grid blocks that contain ship
         if (vertical) {
@@ -291,6 +298,15 @@ function returnShipLength(shipname) {
 }
 
 //HELPER FUNCTION
+//swop values of height and width of a ship element
+//mimics rotating ship by 90 degrees
+function swopShipHeightAndWidth(element) {
+  let hold = element.clientHeight;
+  element.style.height = element.clientWidth + "px";
+  element.style.width = hold + "px";
+}
+
+//HELPER FUNCTION
 //return all ships background color to default
 function resetShipColor() {
   playerCarrier.style.backgroundColor = "black";
@@ -300,17 +316,42 @@ function resetShipColor() {
   playerDestroyer.style.backgroundColor = "black";
 }
 
-//HELPER FUNCTION
-//swop values of height and width of a ship element
-//mimics rotating ship by 90 degrees
-function swopShipHeightAndWidth(element) {
-  let hold = element.clientHeight;
-  element.style.height = element.clientWidth + "px";
-  element.style.width = hold + "px";
-}
+/*###############################################################################
+PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
+#################################################################################
+*/
 
-//TEST FUNCTION
-//Display All Grid Blocks
+
+
+
+
+
+/*###############################################################################
+BOARD EFFECTS FOR MOVEMENT OF CURSOR
+#################################################################################
+*/
+
+//Highlights grid block Border hovered over by mouse green
+document.querySelectorAll(".playerGridElement").forEach((element) => {
+  element.addEventListener("mouseover", () => {
+    element.setAttribute("style", "border: 4px solid green");
+  });
+});
+
+//Set grid block border back to original color when mouse leaves
+document.querySelectorAll(".playerGridElement").forEach((element) => {
+  element.addEventListener("mouseout", () => {
+    element.setAttribute("style", "border: 1px solid white");
+  });
+});
+
+
+/*###############################################################################
+TESTING FUNCTIONS FOR LAB MARKER
+#################################################################################
+*/
+
+//Display All Grid Blocks 
 function displayGridBlocks() {
   for (let i = 0; i < 10; i++) {
     console.log(...playerGridArray[i]);
