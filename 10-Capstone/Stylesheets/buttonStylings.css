@@ -1,0 +1,37 @@
+
+#rotatebutton{
+    position:absolute;
+    z-index:3;
+    margin-left: 30rem;
+    margin-top: -20rem;
+}
+
+#moveShipUpButton{
+    position:absolute;
+    z-index:3;
+    margin-left: 28rem;
+    margin-top: -15rem;
+
+}
+
+#moveShipLeftButton{
+    position:absolute;
+    z-index:3;
+    margin-left: 25rem;
+    margin-top: -13rem;
+}
+
+#moveShipRightButton{
+    position:absolute;
+    z-index:3;
+    margin-left: 30rem;
+    margin-top: -13rem;
+}
+
+#moveShipDownButton{
+    position:absolute;
+    z-index:3;
+    margin-left: 27rem;
+    margin-top: -11rem;
+}
+

@@ -63,7 +63,6 @@ let playerDestroyer = document.getElementById("playerDestroyer");
 
 //set initial position of playerShips on Grid (default positions)
 function setInitialPlayerShipPositions() {
-
   //Set Position of Carrier (5 Grid Blocks) - Horizontal
   playerGridArray[0][0].containsShip = "playerCarrier";
   playerGridArray[0][0].shipHead = true;
@@ -102,7 +101,7 @@ PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
 #################################################################################
 */
 
-let allowRotationButton = false;  //ensures rotation only done if a ship is selected
+let allowRotationButton = false; //ensures rotation only done if a ship is selected
 let shipName = "noneSelected";
 
 //check if user clicks on a ship to rotate or move ship position
@@ -110,8 +109,9 @@ document.querySelectorAll(".ship").forEach((element) => {
   element.addEventListener("mousedown", () => {
     element.style.backgroundColor = "blue";
     shipName = element.id;
-    //only allows player to rotate a ship if they select one first
+    //only allows player to rotate or move a ship if they select one first
     allowRotationButton = true;
+    allowMovement = true;
   });
 });
 
@@ -135,7 +135,6 @@ PLAYER SHIP ROTATIONS
 let rotatebutton = document.getElementById("rotatebutton");
 
 /*ROTATION FUNCTION - Rotate Ship by 90 degrees
-
 1) Find Head Block of Ship:
   i) Vetical Ship: Head = top block
   ii) Horizontal Ship: Head = leftmost block
@@ -146,167 +145,237 @@ let rotatebutton = document.getElementById("rotatebutton");
 4) Rotate Ship
 */
 function rotateShip(shipName) {
-
   //find head of ship
-  let shipHeadRow = 0;
-  let shipHeadColumn = 0;
+  let shipHeadRow = findShipHeadRow(shipName);
+  let shipHeadColumn = findShipHeadColumn(shipName);
 
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  //determine if ship is positioned vertically or horizontally
+  let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
+
+  //--------------------------------------------------------------------------------------------
+  //CHECK IF ROTATION CAN BE DONE
+  //i)
+  //If Ship is currently vertical, check that horizontal change would not make rightmost block
+  //of ship extend beyond last column of grid
+  //If Ship is currently horizontal, check that vertical change would not make bottom of ship
+  //extend beyond last row of grid
+
+  let shipLength = returnShipLength(shipName);
+
+  //check vertical ship rotation to horizontal would not extend grid borders
+  if (vertical) {
+    if (shipHeadColumn + (shipLength - 1) > 9) {
+      //rotation not allowed
+      resetShipColor();
+      allowRotationButton = false;
+      alert("Cannot Rotate Ship Horizontally. Please move ship LEFT first");
+      return;
+    }
+  } else {
+    //check horizontal ship rotation to vertical would not extend grid border
+    if (shipHeadRow + (shipLength - 1) > 9) {
+      //rotation not allowed
+      alert("Cannot Rotate Ship Vertically. Please move ship UP first");
+      resetShipColor();
+      allowRotationButton = false;
+      return;
+    }
+  }
+
+  //ii)
+  //Check that Ship rotation would not place ship on top of another
+
+  //vertical to Horizontal check
+  if (vertical) {
+    for (let k = 1; k < shipLength; k++) {
       if (
-        playerGridArray[i][j].shipHead == true &&
-        playerGridArray[i][j].containsShip == shipName
+        playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip != "none"
       ) {
-        shipHeadRow = i;
-        shipHeadColumn = j;
-
-        //determine if ship is positioned vertically or horizontally
-        let vertical;
-        let horizontal;
-
-        //if grid block below is the same ship type, then ship is positioned vertically
-        if (playerGridArray[i + 1][j].containsShip == shipName) {
-          vertical = true;
-          horizontal = false;
-        } else {
-          //if grid block to the right is the same ship type, then ship is positioned horizontally
-          vertical = false;
-          horizontal = true;
-        }
-
-
-        //--------------------------------------------------------------------------------------------
-        //CHECK IF ROTATION CAN BE DONE
-        //i)
-        //If Ship is currently vertical, check that horizontal change would not make rightmost block
-        //of ship extend beyond last column of grid
-        //If Ship is currently horizontal, check that vertical change would not make bottom of ship
-        //extend beyond last row of grid
-
-        let shipLength = returnShipLength(shipName);
-
-        //check vertical ship rotation to horizontal would not extend grid borders
-        if (vertical) {
-          if (shipHeadColumn + (shipLength - 1) > 9) {
-            //rotation not allowed
-            resetShipColor();
-            allowRotationButton = false;
-            alert(
-              "Cannot Rotate Ship Horizontally. Please move ship LEFT first"
-            );
-            return;
-          }
-        } else {
-          //check horizontal ship rotation to vertical would not extend grid border
-          if (shipHeadRow + (shipLength - 1) > 9) {
-            //rotation not allowed
-            alert("Cannot Rotate Ship Vertically. Please move ship UP first");
-            resetShipColor();
-            allowRotationButton = false;
-            return;
-          }
-        }
-
-        //ii)
-        //Check that Ship rotation would not place ship on top of another
-
-        //vertical to Horizontal check
-        if (vertical) {
-          for (let k = 1; k < shipLength; k++) {
-            if (playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip !="none") {
-              alert("Cannot Rotate Ship Horizontally as there is another Ship in the way");
-              resetShipColor();
-              allowRotationButton = false;
-              return;
-            }
-          }
-        } else {
-          //Horizontal to Vertical Check
-          for (let k = 1; k < shipLength; k++) {
-            if (playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip !="none") {
-              alert("Cannot Rotate Ship Vertically as there is another Ship in the way");
-              resetShipColor();
-              allowRotationButton = false;
-              return;
-            }
-          }
-        }
-
-        //--------------------------------------------------------------------------------------------
-        //ROTATE SELECTED SHIP
-        //At this point all conditions have been met to allow for ship rotation
-        //i) Change grid blocks that contain ship
-        if (vertical) {
-          for (let k = 1; k < shipLength; k++) {
-            //first 'rotate' ship to occupy grid blocks to the right of ship
-            playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip =
-              shipName;
-            //remove ship from previous vertical blocks
-            playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip =
-              "none";
-          }
-        } else {
-          for (let k = 1; k < shipLength; k++) {
-            //first 'rotate' ship to occupy grid blocks to the bottom of ship
-            playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip =
-              shipName;
-            //remove ship from previous horizontal blocks
-            playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip =
-              "none";
-          }
-        }
-
-        //rotate Ship Div on GameBoard
-        switch (shipName) {
-          case "playerCarrier":
-            swopShipHeightAndWidth(playerCarrier);
-            break;
-          case "playerBattleship":
-            swopShipHeightAndWidth(playerBattleship);
-            break;
-          case "playerCruiser":
-            swopShipHeightAndWidth(playerCruiser);
-            break;
-          case "playerSubmarine":
-            swopShipHeightAndWidth(playerSubmarine);
-            break;
-            case "playerDestroyer":
-              swopShipHeightAndWidth(playerDestroyer);
-        }
-
+        alert(
+          "Cannot Rotate Ship Horizontally as there is another Ship in the way"
+        );
         resetShipColor();
         allowRotationButton = false;
-        //break out of loop
-        break;
+        return;
+      }
+    }
+  } else {
+    //Horizontal to Vertical Check
+    for (let k = 1; k < shipLength; k++) {
+      if (
+        playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip != "none"
+      ) {
+        alert(
+          "Cannot Rotate Ship Vertically as there is another Ship in the way"
+        );
+        resetShipColor();
+        allowRotationButton = false;
+        return;
       }
     }
   }
-}
 
-//HELPER FUNCTION
-//return length of current ship type
-function returnShipLength(shipname) {
-  if (shipname == "playerCarrier") {
-    return 5;
-  } else if (shipname == "playerBattleship") {
-    return 4;
-  } else if (shipName == "playerCruiser" || shipName == "playerSubmarine") {
-    return 3;
-  }else{
-    return 2; //Destoyer
+  //--------------------------------------------------------------------------------------------
+  //ROTATE SELECTED SHIP
+  //At this point all conditions have been met to allow for ship rotation
+  //i) Change grid blocks that contain ship
+  if (vertical) {
+    for (let k = 1; k < shipLength; k++) {
+      //first 'rotate' ship to occupy grid blocks to the right of ship
+      playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip = shipName;
+      //remove ship from previous vertical blocks
+      playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip = "none";
+    }
+  } else {
+    for (let k = 1; k < shipLength; k++) {
+      //first 'rotate' ship to occupy grid blocks to the bottom of ship
+      playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip = shipName;
+      //remove ship from previous horizontal blocks
+      playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip = "none";
+    }
   }
+
+  //rotate Ship Div on GameBoard
+  switch (shipName) {
+    case "playerCarrier":
+      swopShipHeightAndWidth(playerCarrier);
+      break;
+    case "playerBattleship":
+      swopShipHeightAndWidth(playerBattleship);
+      break;
+    case "playerCruiser":
+      swopShipHeightAndWidth(playerCruiser);
+      break;
+    case "playerSubmarine":
+      swopShipHeightAndWidth(playerSubmarine);
+      break;
+    case "playerDestroyer":
+      swopShipHeightAndWidth(playerDestroyer);
+      break;
+  }
+
+  resetShipColor();
+  allowRotationButton = false;
 }
 
 //HELPER FUNCTION
-//swop values of height and width of a ship element
-//mimics rotating ship by 90 degrees
+//swop values of height and width of a ship element - mimics rotating ship by 90 degrees
 function swopShipHeightAndWidth(element) {
   let hold = element.clientHeight;
   element.style.height = element.clientWidth + "px";
   element.style.width = hold + "px";
 }
 
-//HELPER FUNCTION
+/*###############################################################################
+PLAYER SHIP MOVEMENTS
+#################################################################################
+*/
+let allowMovement = false;
+
+/*______________________________________________________________________________
+//Move Ship Upwards
+//______________________________________________________________________________
+Function used to move a ship upwards by one block
+1) Find Head Block of Ship:
+  i) Vetical Ship: Head = top block
+  ii) Horizontal Ship: Head = leftmost block
+2) Determine if Ship is set horizontally or vertically
+3) Determine if Ship Can be moved upwards 
+    i) Ensure upward movement would not cause ship to extend beyond top border
+    ii) Ensure upward movement would not place this ship on top of another
+4) Move Ship
+*/
+function moveShipUp(shipName) {
+  console.log(shipName);
+  //1) and 2)
+  //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
+  let shipHeadRow = findShipHeadRow(shipName);
+  let shipHeadColumn = findShipHeadColumn(shipName);
+  console.log(shipHeadRow + " " + shipHeadColumn);
+  let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
+
+  //3 i) Determine if upward movement of Ship would cause ship to move out of player grid
+  //would occur is headRow becomes -1;
+  if (shipHeadRow - 1 < 0) {
+    alert("Ship Cannot be moved Upwards");
+    return;
+  }
+
+  //3 ii) Determine if Upward Movement of Ship would place ship on top of another
+
+  //Case 1 - Vertical Ship
+  //Check that shipHead would not be moved on to another ship
+  if (vertical) {
+    if (
+      playerGridArray[shipHeadRow - 1][shipHeadColumn].containsShip != "none"
+    ) {
+      alert("VShip Cannot be moved Upwards, another Ship is in the way");
+      return;
+    }
+  } else {
+    //Case 2 - Horizontal Ship
+    //Check that each grid block of ship would not be moved onto another ship
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      if (
+        playerGridArray[shipHeadRow - 1][shipHeadColumn + i].containsShip !=
+        "none"
+      ) {
+        alert("HShip Cannot be moved Upwards, another Ship is in the way");
+        return;
+      }
+    }
+  }
+
+  //At this point all conditions have been passed and ship can be rotated
+}
+
+/*###############################################################################
+ROTATE AND MOVE SHIP HELPER FUNCTIONS
+#################################################################################
+*/
+
+//Find head of ship
+//1) Find Row number of ship head
+function findShipHeadRow(shipName) {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (
+        playerGridArray[i][j].shipHead == true &&
+        playerGridArray[i][j].containsShip == shipName
+      ) {
+        return i;
+      }
+    }
+  }
+}
+
+//2) Find Column number of ship head
+function findShipHeadColumn(shipName) {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (
+        playerGridArray[i][j].shipHead == true &&
+        playerGridArray[i][j].containsShip == shipName
+      ) {
+        return j;
+      }
+    }
+  }
+}
+
+//Determine if Ship is currently horizontal or vertical
+function isShipVertical(shipName, shipHeadRow, shipHeadColumn) {
+  //if grid block below is the same ship type, then ship is positioned vertically
+  if (
+    playerGridArray[shipHeadRow + 1][shipHeadColumn].containsShip == shipName
+  ) {
+    return true;
+  } else {
+    //Grid block to the right would be the same as the ship (horizontal)
+    return false;
+  }
+}
+
 //return all ships background color to default
 function resetShipColor() {
   playerCarrier.style.backgroundColor = "black";
@@ -316,15 +385,18 @@ function resetShipColor() {
   playerDestroyer.style.backgroundColor = "black";
 }
 
-/*###############################################################################
-PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
-#################################################################################
-*/
-
-
-
-
-
+//return length of current ship type
+function returnShipLength(shipname) {
+  if (shipname == "playerCarrier") {
+    return 5;
+  } else if (shipname == "playerBattleship") {
+    return 4;
+  } else if (shipName == "playerCruiser" || shipName == "playerSubmarine") {
+    return 3;
+  } else {
+    return 2; //Destoyer
+  }
+}
 
 /*###############################################################################
 BOARD EFFECTS FOR MOVEMENT OF CURSOR
@@ -345,13 +417,12 @@ document.querySelectorAll(".playerGridElement").forEach((element) => {
   });
 });
 
-
 /*###############################################################################
 TESTING FUNCTIONS FOR LAB MARKER
 #################################################################################
 */
 
-//Display All Grid Blocks 
+//Display All Grid Blocks
 function displayGridBlocks() {
   for (let i = 0; i < 10; i++) {
     console.log(...playerGridArray[i]);
