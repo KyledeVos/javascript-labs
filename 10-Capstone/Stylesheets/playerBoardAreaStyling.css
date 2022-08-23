@@ -23,7 +23,6 @@
   color: white;
 }
 
-
 .playerGrid {
   width: 370px;
   display: grid;
@@ -31,8 +30,6 @@
   grid-template-rows: repeat(10, 37px);
   border: 0.3rem ridge rgb(69, 69, 69);
   margin-left: 0.3rem;
- 
- 
 }
 
 .playerGridElement {
@@ -43,59 +40,49 @@
   color: white;
   cursor: crosshair;
   background-color: transparent;
-  
-}
-
-#rotatebutton{
-    position:absolute;
-    z-index:3;
-    margin-left: 30rem;
-    margin-top: -20rem;
 }
 
 /*PLAYER SHIPS*/
 
-.ship{
-    position: absolute;
-    z-index:2;
-    border: 0.2rem solid red;
-    border-radius: 20%;
-    background-color: black;
+.ship {
+  position: absolute;
+  z-index: 2;
+  border: 0.2rem solid red;
+  border-radius: 20%;
+  background-color: black;
 }
 
-#playerCarrier{
-    margin-top: 3px;
-    margin-left: 3px;
-    width: 175px;
-    height:25px;
+#playerCarrier {
+  margin-top: 3px;
+  margin-left: 3px;
+  width: 175px;
+  height: 25px;
 }
 
-#playerBattleship{
-    margin-top: 150px;
-    margin-left: 40px;
-    width: 25px;
-    height: 135px;
+#playerBattleship {
+  margin-top: 151px;
+  margin-left: 40px;
+  width: 25px;
+  height: 135px;
 }
 
-#playerCruiser{
-    margin-top: 115px;
-    margin-left: 115px;
-    width: 25px;
-    height: 100px;
+#playerCruiser {
+  margin-top: 114px;
+  margin-left: 114px;
+  width: 25px;
+  height: 100px;
 }
 
-#playerSubmarine{
-    margin-top: 260px;
-    margin-left: 190px;
-    width: 100px;
-    height: 25px;
+#playerSubmarine {
+  margin-top: 262px;
+  margin-left: 188px;
+  width: 100px;
+  height: 25px;
 }
 
-#playerDestroyer{
-    margin-top: 75px;
-    margin-left: 190px;
-    width: 60px;
-    height: 25px;
+#playerDestroyer {
+  margin-top: 77px;
+  margin-left: 188px;
+  width: 60px;
+  height: 25px;
 }
-
-
