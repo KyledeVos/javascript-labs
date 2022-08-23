@@ -104,23 +104,21 @@ PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
 let allowRotationButton = false; //ensures rotation only done if a ship is selected
 let shipName = "noneSelected";
 
-//variables used to track previous and current ships when user is changing ship positions 
+//variables used to track previous and current ships when user is changing ship positions
 //on board - needed to change previous ship color back to default
-let previousShip = "none";    
-let currentShip="none"
+let previousShip = "none";
+let currentShip = "none";
 
 //check if user clicks on a ship to rotate or move ship position
 document.querySelectorAll(".ship").forEach((element) => {
   element.addEventListener("mousedown", () => {
-    
     shipName = element.id;
     currentShip = shipName;
     //only allows player to rotate or move a ship if they select one first on page load
     allowRotationButton = true;
     allowMovement = true;
 
-  
-    if(previousShip!=currentShip){
+    if (previousShip != currentShip) {
       resetShipColor();
       element.style.backgroundColor = "blue";
     }
@@ -131,7 +129,9 @@ document.querySelectorAll(".ship").forEach((element) => {
 //_______________________________________________________________________
 //event listener if user wants to rotate a selected ship
 //if multiple ships are selected, only the last one will be rotated
-document.getElementById("rotatebutton").addEventListener("mousedown", function () {
+document
+  .getElementById("rotatebutton")
+  .addEventListener("mousedown", function () {
     if (allowRotationButton) {
       rotateShip(shipName);
     } else {
@@ -139,20 +139,32 @@ document.getElementById("rotatebutton").addEventListener("mousedown", function (
     }
   });
 
-
 //MOVE SHIP
 //_______________________________________________________________________
 
-// 1) UPWARDS - event listener if user wants to move a selected ship 
+// 1) UPWARDS - event listener if user wants to move a selected ship
 //if multiple ships are selected, only the last one will be moved
-document.getElementById("moveShipUpButton").addEventListener("mousedown", function(){
-  if(allowMovement){
-    moveShipUp(shipName);
-  } else {
-    alert("Please Select a Ship to Move Upwards");
-  }
-})
+document
+  .getElementById("moveShipUpButton")
+  .addEventListener("mousedown", function () {
+    if (allowMovement) {
+      moveShipUp(shipName);
+    } else {
+      alert("Please Select a Ship to Move Upwards");
+    }
+  });
 
+// 2) DOWNWARDS - event listener if user wants to move a selected ship
+//if multiple ships are selected, only the last one will be moved
+document
+.getElementById("moveShipDownButton")
+.addEventListener("mousedown", function () {
+  if (allowMovement) {
+    moveShipDown(shipName);
+  } else {
+    alert("Please Select a Ship to Move Downwards");
+  }
+});
 
 /*#####################################################
 PLAYER SHIP ROTATIONS
@@ -215,7 +227,9 @@ function rotateShip(shipName) {
       if (
         playerGridArray[shipHeadRow][shipHeadColumn + k].containsShip != "none"
       ) {
-        alert("Cannot Rotate Ship Horizontally as there is another Ship in the way");
+        alert(
+          "Cannot Rotate Ship Horizontally as there is another Ship in the way"
+        );
         return;
       }
     }
@@ -225,7 +239,9 @@ function rotateShip(shipName) {
       if (
         playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip != "none"
       ) {
-        alert("Cannot Rotate Ship Vertically as there is another Ship in the way");
+        alert(
+          "Cannot Rotate Ship Vertically as there is another Ship in the way"
+        );
         return;
       }
     }
@@ -284,6 +300,13 @@ PLAYER SHIP MOVEMENTS
 
 Ship div positions on gameboard are measured 3px from top and left of board
 Movement by one block (in any direction) requires the addition or subtraction of 37px
+
+All Ships Movements use this initial logic:
+1) Find Head Block of Ship:
+  i) Vetical Ship: Head = top block
+  ii) Horizontal Ship: Head = leftmost block
+2) Determine if Ship is set horizontally or vertically
+
 ######################################################################################
 */
 let allowMovement = false;
@@ -292,17 +315,12 @@ let allowMovement = false;
 //Move Ship Upwards
 //______________________________________________________________________________
 Function used to move a ship upwards by one block
-1) Find Head Block of Ship:
-  i) Vetical Ship: Head = top block
-  ii) Horizontal Ship: Head = leftmost block
-2) Determine if Ship is set horizontally or vertically
-3) Determine if Ship Can be moved upwards 
+ Determine if Ship Can be moved upwards 
     i) Ensure upward movement would not cause ship to extend beyond top border
     ii) Ensure upward movement would not place this ship on top of another
-4) Move Ship
+ Move Ship
 */
 function moveShipUp(shipName) {
-
   previousShip = shipName;
 
   //1) and 2)
@@ -315,7 +333,6 @@ function moveShipUp(shipName) {
   //would occur is headRow becomes -1;
   if (shipHeadRow - 1 < 0) {
     alert("Ship Cannot be moved Upwards");
-    resetShipColor();
     return;
   }
 
@@ -328,50 +345,49 @@ function moveShipUp(shipName) {
       playerGridArray[shipHeadRow - 1][shipHeadColumn].containsShip != "none"
     ) {
       alert("Ship Cannot be moved Upwards, another Ship is in the way");
-      resetShipColor();
       return;
     }
   } else {
     //Case 2 - Horizontal Ship
     //Check that each grid block of ship would not be moved onto another ship
     for (let i = 0; i < returnShipLength(shipName); i++) {
-      
       if (
         playerGridArray[shipHeadRow - 1][shipHeadColumn + i].containsShip !=
         "none"
       ) {
         alert("Ship Cannot be moved Upwards, another Ship is in the way");
-        resetShipColor();
         return;
       }
     }
   }
 
   //At this point all conditions have been passed and ship can be moved upwards
-  
+
   //MOVE SHIP IN PLAYER GRID
   //CASE 1 - Vertical Ship
-  
-  if(vertical){
-    //Change block above Ship Head to contain ship and turn into new ship head
-    playerGridArray[shipHeadRow-1][shipHeadColumn].containsShip = shipName;
-    playerGridArray[shipHeadRow-1][shipHeadColumn].shipHead = true;
-    //remove old Ship Head
-    playerGridArray[shipHeadRow][shipHeadColumn].shipHead=false;
-    //remove bottom grid block of ship
-    playerGridArray[shipHeadRow+(returnShipLength(shipName)-1)][shipHeadColumn].containsShip="none";
-  }else{
 
+  if (vertical) {
+    //Change block above Ship Head to contain ship and turn into new ship head
+    playerGridArray[shipHeadRow - 1][shipHeadColumn].containsShip = shipName;
+    playerGridArray[shipHeadRow - 1][shipHeadColumn].shipHead = true;
+    //remove old Ship Head
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    //remove bottom grid block of ship
+    playerGridArray[shipHeadRow + (returnShipLength(shipName) - 1)][
+      shipHeadColumn
+    ].containsShip = "none";
+  } else {
     //CASE 2 - Horizontal Ship
     //Change block above Ship Head into new ship head
-    playerGridArray[shipHeadRow-1][shipHeadColumn].shipHead = true;
+    playerGridArray[shipHeadRow - 1][shipHeadColumn].shipHead = true;
     //remove old Ship Head
-    playerGridArray[shipHeadRow][shipHeadColumn].shipHead=false;
-    for(let i =0; i<(returnShipLength(shipName));i++){
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    for (let i = 0; i < returnShipLength(shipName); i++) {
       //change grid blocks above current horizontal ship to contain ship
-      playerGridArray[shipHeadRow-1][shipHeadColumn+i].containsShip = shipName;
+      playerGridArray[shipHeadRow - 1][shipHeadColumn + i].containsShip =
+        shipName;
       //change current grid blocks containing ship to 'none'
-      playerGridArray[shipHeadRow][shipHeadColumn+i].containsShip="none";
+      playerGridArray[shipHeadRow][shipHeadColumn + i].containsShip = "none";
     }
   }
 
@@ -382,12 +398,95 @@ function moveShipUp(shipName) {
 /*______________________________________________________________________________
 //Move Ship Downwards
 //______________________________________________________________________________
+Function used to move a ship downwards by one block
+ Determine if Ship Can be moved downwards 
+    i) Ensure downward movement would not cause ship to extend beyond bottom border
+    ii) Ensure downward movement would not place this ship on top of another
+ Move Ship
+ */
 
+function moveShipDown(shipName) {
+  previousShip = shipName;
 
+  //1) and 2)
+  //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
+  let shipHeadRow = findShipHeadRow(shipName);
+  let shipHeadColumn = findShipHeadColumn(shipName);
+  let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
+ 
+  //3 i) Determine if downward movement of Ship would cause ship to move out of player grid
+  //would occur is bottomRow becomes >9;
+  if (vertical) {
+    if (shipHeadRow + returnShipLength(shipName) > 9) {
+      alert("Ship Cannot be moved Downwards");
+      return;
+    }
+  } else {
+    if (shipHeadRow + 1 > 9) {
+      alert("Ship Cannot be moved Downwards");
+      return;
+    }
+  }
 
+  //3 ii) Determine if Downward Movement of Ship would place ship on top of another
 
+  //Case 1 - Vertical Ship
+  //Check that shipHead would not be moved on to another ship at the bottom
+  if (vertical) {
+    if (
+      playerGridArray[shipHeadRow + returnShipLength(shipName)][shipHeadColumn]
+        .containsShip != "none"
+    ) {
+      alert("Ship Cannot be moved Downwards, another Ship is in the way");
+      return;
+    }
+  } else {
+    //Case 2 - Horizontal Ship
+    //Check that each grid block of ship would not be moved onto another ship
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      if (
+        playerGridArray[shipHeadRow + 1][shipHeadColumn + i].containsShip !=
+        "none"
+      ) {
+        alert("Ship Cannot be moved Downwards, another Ship is in the way");
+        return;
+      }
+    }
+  }
 
+  //At this point all conditions have been passed and ship can be moved Downwards
 
+  //MOVE SHIP IN PLAYER GRID
+  //CASE 1 - Vertical Ship
+
+  if (vertical) {
+    //Change block at the bottom of the ship into a ship block
+    playerGridArray[shipHeadRow + returnShipLength(shipName)][
+      shipHeadColumn
+    ].containsShip = shipName;
+    //set block below current Ship Head into new Ship Head and remove current one
+    playerGridArray[shipHeadRow + 1][shipHeadColumn].shipHead = true;
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    //remove ship element from old Ship Head Block
+    playerGridArray[shipHeadRow][shipHeadColumn].containsShip = "none";
+  } else {
+    //CASE 2 - Horizontal Ship
+    //Change block below Ship Head into new ship head
+    playerGridArray[shipHeadRow + 1][shipHeadColumn].shipHead = true;
+    //remove old Ship Head
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      //change grid blocks below current horizontal ship to contain ship
+      playerGridArray[shipHeadRow + 1][shipHeadColumn + i].containsShip =
+        shipName;
+      //change current grid blocks containing ship to 'none'
+      playerGridArray[shipHeadRow][shipHeadColumn + i].containsShip = "none";
+    }
+  }
+
+  //MOVE SHIP DIV ON GAMEBOARD
+  determineShipAndDirectionToMove(shipName, "down");
+}
 
 /*______________________________________________________________________________
 //Move Ship Left
@@ -396,10 +495,16 @@ function moveShipUp(shipName) {
 
 
 
+
+/*______________________________________________________________________________
+//Move Ship Right
+//______________________________________________________________________________
+*/
+
 //HELPER FUNCTION
 //Determine which ship needs to be moved and in what direction
-function determineShipAndDirectionToMove(shipName, direction){
-  switch(shipName){
+function determineShipAndDirectionToMove(shipName, direction) {
+  switch (shipName) {
     case "playerCarrier":
       moveShipOnBoard(playerCarrier, direction);
       break;
@@ -417,7 +522,7 @@ function determineShipAndDirectionToMove(shipName, direction){
       break;
     default:
       console.error("unable to move ship upwards");
-      break;   
+      break;
   }
 }
 
@@ -428,27 +533,34 @@ function determineShipAndDirectionToMove(shipName, direction){
           Direction of movement (up, down, left or right)
   NOTE: Validation of movement is verified in above calling functions
 */
-function moveShipOnBoard (element, direction){
-  let currentShipMarginValue=0;
-  switch(direction){
-      case "up":
-        currentShipMarginValue=parseInt((window.getComputedStyle(element).marginTop).slice(0,-2));
-        element.style.marginTop = (currentShipMarginValue-=37)+"px";
-        break;
-      case"down":
-        currentShipMarginValue=parseInt((window.getComputedStyle(element).marginTop).slice(0,-2));
-        element.style.marginTop = (currentShipMarginValue+=37)+"px";
-        break;
-      case "left":
-        currentShipMarginValue=parseInt((window.getComputedStyle(element).marginLeft).slice(0,-2));
-        element.style.marginLeft = (currentShipMarginValue-=37)+"px";
-        break;
-      case "right":
-        currentShipMarginValue=parseInt((window.getComputedStyle(element).marginLeft).slice(0,-2));
-        element.style.marginLeft = (currentShipMarginValue+=37)+"px";
-        break;  
+function moveShipOnBoard(element, direction) {
+  let currentShipMarginValue = 0;
+  switch (direction) {
+    case "up":
+      currentShipMarginValue = parseInt(
+        window.getComputedStyle(element).marginTop.slice(0, -2)
+      );
+      element.style.marginTop = (currentShipMarginValue -= 37) + "px";
+      break;
+    case "down":
+      currentShipMarginValue = parseInt(
+        window.getComputedStyle(element).marginTop.slice(0, -2)
+      );
+      element.style.marginTop = (currentShipMarginValue += 37) + "px";
+      break;
+    case "left":
+      currentShipMarginValue = parseInt(
+        window.getComputedStyle(element).marginLeft.slice(0, -2)
+      );
+      element.style.marginLeft = (currentShipMarginValue -= 37) + "px";
+      break;
+    case "right":
+      currentShipMarginValue = parseInt(
+        window.getComputedStyle(element).marginLeft.slice(0, -2)
+      );
+      element.style.marginLeft = (currentShipMarginValue += 37) + "px";
+      break;
   }
-  
 }
 
 /*###############################################################################
@@ -487,13 +599,18 @@ function findShipHeadColumn(shipName) {
 
 //Determine if Ship is currently horizontal or vertical
 function isShipVertical(shipName, shipHeadRow, shipHeadColumn) {
-  //if grid block below is the same ship type, then ship is positioned vertically
-  if (
-    playerGridArray[shipHeadRow + 1][shipHeadColumn].containsShip == shipName
-  ) {
-    return true;
-  } else {
-    //Grid block to the right would be the same as the ship (horizontal)
+  try {
+    //if grid block below is the same ship type, then ship is positioned vertically
+    if (
+      playerGridArray[shipHeadRow + 1][shipHeadColumn].containsShip == shipName
+    ) {
+      return true;
+    } else {
+      //Grid block to the right would be the same as the ship (horizontal)
+      return false;
+    }
+  } catch(e) {
+    //occurs if ship is horizontal and checking element below extends beyond grid
     return false;
   }
 }
@@ -545,12 +662,12 @@ TESTING FUNCTIONS FOR LAB MARKER
 */
 
 //Display All Grid Blocks Data
+//Shows all object info each grid block
 function displayGridBlocksData() {
   for (let i = 0; i < 10; i++) {
     console.log(...playerGridArray[i]);
   }
 }
-
 
 //Display All Grid Blocks - Summary
 //Creates a second 2D containing H, X or .
@@ -558,24 +675,26 @@ function displayGridBlocksData() {
 //      X = Block contains a Ship (not head)
 //      . = Empty Block
 function displayGridBlocks() {
+  //Create 2D Display Array
   let displayArray = new Array(10);
-  for(let i =0; i<10;i++){
-    displayArray[i]=new Array(10);
+  for (let i = 0; i < 10; i++) {
+    displayArray[i] = new Array(10);
   }
 
+  //Populate display Array with H, X or .
   for (let i = 0; i < 10; i++) {
-    for(let j=0; j<10;j++){
-      if(playerGridArray[i][j].shipHead==true){
+    for (let j = 0; j < 10; j++) {
+      if (playerGridArray[i][j].shipHead == true) {
         displayArray[i][j] = "H";
-      }else if(playerGridArray[i][j].containsShip!="none"){
+      } else if (playerGridArray[i][j].containsShip != "none") {
         displayArray[i][j] = "X";
-      }else{
+      } else {
         displayArray[i][j] = ".";
       }
     }
   }
-
-  for(let i=0;i<10;i++){
+  //Display Array
+  for (let i = 0; i < 10; i++) {
     console.log(...displayArray[i]);
   }
 }
