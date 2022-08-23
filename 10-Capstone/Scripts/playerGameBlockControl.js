@@ -120,7 +120,7 @@ document.querySelectorAll(".ship").forEach((element) => {
 
     if (previousShip != currentShip) {
       resetShipColor();
-      element.style.backgroundColor = "blue";
+      element.style.backgroundColor = "rgb(237, 87, 6)";
     }
   });
 });
@@ -128,7 +128,6 @@ document.querySelectorAll(".ship").forEach((element) => {
 //ROTATE SHIP
 //_______________________________________________________________________
 //event listener if user wants to rotate a selected ship
-//if multiple ships are selected, only the last one will be rotated
 document
   .getElementById("rotatebutton")
   .addEventListener("mousedown", function () {
@@ -143,7 +142,6 @@ document
 //_______________________________________________________________________
 
 // 1) UPWARDS - event listener if user wants to move a selected ship
-//if multiple ships are selected, only the last one will be moved
 document
   .getElementById("moveShipUpButton")
   .addEventListener("mousedown", function () {
@@ -155,16 +153,37 @@ document
   });
 
 // 2) DOWNWARDS - event listener if user wants to move a selected ship
-//if multiple ships are selected, only the last one will be moved
 document
-.getElementById("moveShipDownButton")
-.addEventListener("mousedown", function () {
-  if (allowMovement) {
-    moveShipDown(shipName);
-  } else {
-    alert("Please Select a Ship to Move Downwards");
-  }
-});
+  .getElementById("moveShipDownButton")
+  .addEventListener("mousedown", function () {
+    if (allowMovement) {
+      moveShipDown(shipName);
+    } else {
+      alert("Please Select a Ship to Move Downwards");
+    }
+  });
+
+// 3) LEFT - event listener if user wants to move a selected ship
+document
+  .getElementById("moveShipLeftButton")
+  .addEventListener("mousedown", function () {
+    if (allowMovement) {
+      moveShipLeft(shipName);
+    } else {
+      alert("Please Select a Ship to Move to the Left");
+    }
+  });
+
+// 4) Right - event listener if user wants to move a selected ship
+document
+  .getElementById("moveShipRightButton")
+  .addEventListener("mousedown", function () {
+    if (allowMovement) {
+      moveShipRight(shipName);
+    } else {
+      alert("Please Select a Ship to Move to the Right");
+    }
+  });
 
 /*#####################################################
 PLAYER SHIP ROTATIONS
@@ -206,14 +225,22 @@ function rotateShip(shipName) {
   if (vertical) {
     if (shipHeadColumn + (shipLength - 1) > 9) {
       //rotation not allowed
-      alert("Cannot Rotate Ship Horizontally. Please move ship LEFT first");
+      alert(
+        "Cannot Rotate Ship Horizontally. Please move ship LEFT by at least " +
+          (returnShipLength(shipName) - 1) +
+          " blocks first"
+      );
       return;
     }
   } else {
     //check horizontal ship rotation to vertical would not extend grid border
     if (shipHeadRow + (shipLength - 1) > 9) {
       //rotation not allowed
-      alert("Cannot Rotate Ship Vertically. Please move ship UP first");
+      alert(
+        "Cannot Rotate Ship Vertically. Please move ship UP by at least " +
+          (returnShipLength(shipName) - 1) +
+          " blocks first"
+      );
       return;
     }
   }
@@ -413,7 +440,7 @@ function moveShipDown(shipName) {
   let shipHeadRow = findShipHeadRow(shipName);
   let shipHeadColumn = findShipHeadColumn(shipName);
   let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
- 
+
   //3 i) Determine if downward movement of Ship would cause ship to move out of player grid
   //would occur is bottomRow becomes >9;
   if (vertical) {
@@ -491,15 +518,181 @@ function moveShipDown(shipName) {
 /*______________________________________________________________________________
 //Move Ship Left
 //______________________________________________________________________________
-*/
+Function used to move a ship to the left by one block
+ Determine if Ship Can be moved to the left
+    i) Ensure movement to left would not cause ship to extend beyond left border
+    ii) Ensure movement to left would not place this ship on top of another
+ Move Ship
+ */
 
+function moveShipLeft(shipName) {
+  previousShip = shipName;
 
+  //1) and 2)
+  //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
+  let shipHeadRow = findShipHeadRow(shipName);
+  let shipHeadColumn = findShipHeadColumn(shipName);
+  let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
 
+  //3 i) Determine if left movement of Ship would cause ship to move out of player grid
+  //would occur if left column becomes < 0;
+  if (shipHeadColumn - 1 < 0) {
+    alert("Ship Cannot be moved Left");
+    return;
+  }
+
+  //3 ii) Determine if Left Movement of Ship would place ship on top of another
+
+  //CASE 1 - VERTICAL SHIP
+  if (vertical) {
+    //check if a ship is next to any of the grid blocks for vertical ship
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      if (
+        playerGridArray[shipHeadRow + i][shipHeadColumn - 1].containsShip !=
+        "none"
+      ) {
+        alert("Ship Cannot be moved Left, another Ship is in the way");
+        return;
+      }
+    }
+  } else {
+    //CASE 2 - HORIZONTAL SHIP
+    //check if there is a ship next to the current head
+    if (
+      playerGridArray[shipHeadRow][shipHeadColumn - 1].containsShip != "none"
+    ) {
+      alert("Ship Cannot be moved Left, another Ship is in the way");
+      return;
+    }
+  }
+
+  //At this point all conditions have been passed and ship can be moved to the Left
+
+  //MOVE SHIP IN PLAYER GRID
+  //CASE 1 - Vertical Ship
+
+  if (vertical) {
+    //Change block to the left of head into new head and remove current one
+    playerGridArray[shipHeadRow][shipHeadColumn - 1].shipHead = true;
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    //change all blocks to the left of the ship to contain the ship and remove ship from
+    //all current grid blocks
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      playerGridArray[shipHeadRow + i][shipHeadColumn - 1].containsShip =
+        shipName;
+      playerGridArray[shipHeadRow + i][shipHeadColumn].containsShip = "none";
+    }
+  } else {
+    //CASE 2 - Horizontal Ship
+    //Change block to the left of ship head into new head and remove current one
+    playerGridArray[shipHeadRow][shipHeadColumn - 1].shipHead = true;
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    //change block now containing ship head (left of old one) to contain the ship
+    playerGridArray[shipHeadRow][shipHeadColumn - 1].containsShip = shipName;
+    //remove ship from rightmost block
+    playerGridArray[shipHeadRow][
+      shipHeadColumn + (returnShipLength(shipName) - 1)
+    ].containsShip = "none";
+  }
+
+  //MOVE SHIP DIV ON GAMEBOARD
+  determineShipAndDirectionToMove(shipName, "left");
+}
 
 /*______________________________________________________________________________
 //Move Ship Right
 //______________________________________________________________________________
-*/
+Function used to move a ship to the right by one block
+ Determine if Ship Can be moved to the right
+    i) Ensure movement to the right would not cause ship to extend beyond right border
+    ii) Ensure movement to the right would not place this ship on top of another
+ Move Ship
+ */
+
+function moveShipRight(shipName) {
+  previousShip = shipName;
+
+  //1) and 2)
+  //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
+  let shipHeadRow = findShipHeadRow(shipName);
+  let shipHeadColumn = findShipHeadColumn(shipName);
+  let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
+
+  //3 i) Determine if right movement of Ship would cause ship to move out of player grid
+
+  if (vertical) {
+    //would occur if moving vertical ship to the right would make shipHeadColumn > 9
+    if (shipHeadColumn + 1 > 9) {
+      alert("Ship Cannot be moved Right");
+      return;
+    }
+  } else {
+    //for Horizontal ship, would occur if rightmost block of ship +1 would be greater than 9
+    //if moved to the right
+    if (shipHeadColumn + returnShipLength(shipName) > 9) {
+      alert("Ship Cannot be moved Right");
+      return;
+    }
+  }
+
+  //3 ii) Determine if Right Movement of Ship would place ship on top of another
+
+  //CASE 1 - VERTICAL SHIP
+  if (vertical) {
+    //check if a ship is next to any of the grid blocks for vertical ship
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      if (
+        playerGridArray[shipHeadRow + i][shipHeadColumn + 1].containsShip !=
+        "none"
+      ) {
+        alert("Ship Cannot be moved Right, another Ship is in the way");
+        return;
+      }
+    }
+  } else {
+    //CASE 2 - HORIZONTAL SHIP
+    //check if there is a ship next to the rightmost block of the ship
+    if (
+      playerGridArray[shipHeadRow][shipHeadColumn + returnShipLength(shipName)]
+        .containsShip != "none"
+    ) {
+      alert("Ship Cannot be moved Right, another Ship is in the way");
+      return;
+    }
+  }
+
+  //At this point all conditions have been passed and ship can be moved to the Right
+
+  //MOVE SHIP IN PLAYER GRID
+  //CASE 1 - Vertical Ship
+
+  if (vertical) {
+    //Change block to the right of head into new head and remove current one
+    playerGridArray[shipHeadRow][shipHeadColumn + 1].shipHead = true;
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    //change all blocks to the right of the ship to contain the ship and remove ship from
+    //all current grid blocks
+    for (let i = 0; i < returnShipLength(shipName); i++) {
+      playerGridArray[shipHeadRow + i][shipHeadColumn + 1].containsShip =
+        shipName;
+      playerGridArray[shipHeadRow + i][shipHeadColumn].containsShip = "none";
+    }
+  } else {
+    //CASE 2 - Horizontal Ship
+    //Change block to the right of the current head into the new head and remove the old one
+    playerGridArray[shipHeadRow][shipHeadColumn + 1].shipHead = true;
+    playerGridArray[shipHeadRow][shipHeadColumn].shipHead = false;
+    //add ship block to the rightmost end of ship
+    playerGridArray[shipHeadRow][
+      shipHeadColumn + returnShipLength(shipName)
+    ].containsShip = shipName;
+    //remove old head block from ship (remove containsShip)
+    playerGridArray[shipHeadRow][shipHeadColumn].containsShip = "none";
+  }
+
+  //MOVE SHIP DIV ON GAMEBOARD
+  determineShipAndDirectionToMove(shipName, "right");
+}
 
 //HELPER FUNCTION
 //Determine which ship needs to be moved and in what direction
@@ -609,19 +802,25 @@ function isShipVertical(shipName, shipHeadRow, shipHeadColumn) {
       //Grid block to the right would be the same as the ship (horizontal)
       return false;
     }
-  } catch(e) {
-    //occurs if ship is horizontal and checking element below extends beyond grid
-    return false;
+  } catch (e) {
+    //error occurs if:
+    //i) Ship is Horizontal and in bottom row
+    //ii) Ship is Vertical and is in last column
+    if (shipHeadRow == 9) {
+      return false; //Ship is horizontal in last row
+    } else {
+      return true; //Ship is vetical in last column
+    }
   }
 }
 
 //return all ships background color to default
 function resetShipColor() {
-  playerCarrier.style.backgroundColor = "black";
-  playerBattleship.style.backgroundColor = "black";
-  playerCruiser.style.backgroundColor = "black";
-  playerSubmarine.style.backgroundColor = "black";
-  playerDestroyer.style.backgroundColor = "black";
+  playerCarrier.style.backgroundColor = "rgb(73, 77, 77";
+  playerBattleship.style.backgroundColor = "rgb(73, 77, 77";
+  playerCruiser.style.backgroundColor = "rgb(73, 77, 77";
+  playerSubmarine.style.backgroundColor = "rgb(73, 77, 77";
+  playerDestroyer.style.backgroundColor = "rgb(73, 77, 77";
 }
 
 //return length of current ship type
