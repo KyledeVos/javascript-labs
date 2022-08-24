@@ -1,3 +1,4 @@
+/*Main Div Containing Player and Enemy Grid Boards*/
 #playerGamePlayArea {
   position: relative;
   width: 98%;
@@ -6,7 +7,8 @@
   border: 0.1rem solid white;
 }
 
-.shipBoardArea {
+/*Div holding Player Board and surrounding Div*/
+.playerShipBoardArea {
   float: left;
   width: 45%;
   height: 25rem;
@@ -19,10 +21,8 @@
   color: white;
 }
 
-#enemyBoardArea {
-  color: white;
-}
 
+/*Grid Containing Player grid blocks*/
 .playerGrid {
   width: 370px;
   display: grid;
@@ -32,6 +32,7 @@
   margin-left: 0.3rem;
 }
 
+/*Styling for each grid block in player Grid*/
 .playerGridElement {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.8);

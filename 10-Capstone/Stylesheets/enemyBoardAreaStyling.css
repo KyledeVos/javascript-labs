@@ -1,0 +1,36 @@
+/*Div holding Enemy Board and surrounding Div*/
+#enemyBoardArea{
+    color: white;
+  }
+
+  /*Div holding Player Board and surrounding Div*/
+.enemyShipBoardArea {
+    float: left;
+    width: 45%;
+    height: 25rem;
+    border: 0.3rem ridge rgb(144, 141, 139);
+    margin: 0.35rem;
+    margin-left: 2rem;
+  }
+  
+  /*Grid Containing Enemy grid blocks*/
+.enemyGrid {
+    z-index:1;
+    width: 370px;
+    display: grid;
+    grid-template-columns: repeat(10, 37px);
+    grid-template-rows: repeat(10, 37px);
+    border: 0.3rem ridge rgb(69, 69, 69);
+    margin-left: 0.5rem;
+  }
+  
+  /*Styling for each grid block in enemy Grid*/
+  .enemyGridElement {
+    background-color: red;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+    cursor: crosshair;
+    background-color: transparent;
+  }

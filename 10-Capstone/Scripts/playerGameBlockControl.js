@@ -803,14 +803,8 @@ function isShipVertical(shipName, shipHeadRow, shipHeadColumn) {
       return false;
     }
   } catch (e) {
-    //error occurs if:
-    //i) Ship is Horizontal and in bottom row
-    //ii) Ship is Vertical and is in last column
-    if (shipHeadRow == 9) {
-      return false; //Ship is horizontal in last row
-    } else {
-      return true; //Ship is vetical in last column
-    }
+    //error occurs if Ship is Horizontal and in bottom row (cannot check block below)
+      return false;
   }
 }
 
@@ -856,24 +850,29 @@ document.querySelectorAll(".playerGridElement").forEach((element) => {
 });
 
 /*###############################################################################
-TESTING FUNCTIONS FOR LAB MARKER
+TESTING FUNCTIONS FOR LAB MARKER - use in Dev Console
 #################################################################################
 */
 
+//--------------------------------------------------------
+//Player Grid Data
+//-------------------------------------------------------
+
 //Display All Grid Blocks Data
-//Shows all object info each grid block
-function displayGridBlocksData() {
+//Shows all object info for each grid block
+function displayPlayerGridBlocksData() {
   for (let i = 0; i < 10; i++) {
     console.log(...playerGridArray[i]);
   }
 }
 
-//Display All Grid Blocks - Summary
-//Creates a second 2D containing H, X or .
+
+//Display All Grid Blocks Ship Positions - Summary
+//Creates a second 2D Array containing H, X or .
 // KEY: H = Block holds Head of a Ship
 //      X = Block contains a Ship (not head)
 //      . = Empty Block
-function displayGridBlocks() {
+function displayPlayerGridBlocksSummary() {
   //Create 2D Display Array
   let displayArray = new Array(10);
   for (let i = 0; i < 10; i++) {
@@ -897,3 +896,7 @@ function displayGridBlocks() {
     console.log(...displayArray[i]);
   }
 }
+
+//--------------------------------------------------------
+//Enemy (Computer Player) Grid Data
+//-------------------------------------------------------
