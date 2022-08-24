@@ -831,10 +831,62 @@ function returnShipLength(shipName) {
 }
 
 /*###############################################################################
-BOARD EFFECTS FOR MOVEMENT OF CURSOR
+BOARD EFFECTS FOR MOVEMENT OF CURSOR ON BUTTONS OR OVER GRIDS
 #################################################################################
 */
 
+//________________________________________________________________________
+//Direction of Movement Buttons
+// Changes Button Color (Border Color) to green when hovered over by mouse
+//________________________________________________________________________
+
+//assign elements to movement buttons
+let moveUpButton = document.getElementById("moveShipUpButton");
+let moveDownButton = document.getElementById("moveShipDownButton");
+let moveLeftButton = document.getElementById("moveShipLeftButton");
+let moveRightButton = document.getElementById("moveShipRightButton");
+
+//Move Up Button to Green on hover
+moveUpButton.addEventListener("mouseover",(element)=>{
+    moveUpButton.setAttribute("style","border-bottom: 25px solid green;")
+});
+
+//Move Up Button back to red when mouse leaves
+moveUpButton.addEventListener("mouseout",(element)=>{
+  moveUpButton.setAttribute("style","border-bottom: 25px solid red;")
+});
+
+//Move Down Button to Green on hover
+moveDownButton.addEventListener("mouseover",(element)=>{
+moveDownButton.setAttribute("style","border-top: 25px solid green;")
+});
+
+//Move Down Button back to red when mouse leaves
+moveDownButton.addEventListener("mouseout",(element)=>{
+moveDownButton.setAttribute("style","border-top: 25px solid red;")
+});
+
+//Move Left Button to Green on hover
+moveLeftButton.addEventListener("mouseover",(element)=>{
+  moveLeftButton.setAttribute("style","border-right: 25px solid green;")
+  });
+  
+  //Move Left Button back to red when mouse leaves
+  moveLeftButton.addEventListener("mouseout",(element)=>{
+  moveLeftButton.setAttribute("style","border-right: 25px solid red;")
+  });
+
+  //Move Right Button to Green on hover
+moveRightButton.addEventListener("mouseover",(element)=>{
+  moveRightButton.setAttribute("style","border-left: 25px solid green;")
+  });
+  
+  //Move Left Button back to red when mouse leaves
+  moveRightButton.addEventListener("mouseout",(element)=>{
+  moveRightButton.setAttribute("style","border-left: 25px solid red;")
+  });
+
+//_______________________________________________________________________________________
 //Highlights grid block Border hovered over by mouse green
 document.querySelectorAll(".playerGridElement").forEach((element) => {
   element.addEventListener("mouseover", () => {
@@ -848,7 +900,6 @@ document.querySelectorAll(".playerGridElement").forEach((element) => {
     element.setAttribute("style", "border: 1px solid white");
   });
 });
-
 /*###############################################################################
 TESTING FUNCTIONS FOR LAB MARKER - use in Dev Console
 #################################################################################

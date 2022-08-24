@@ -14,7 +14,7 @@
   height: 25rem;
   border: 0.3rem ridge rgb(144, 141, 139);
   margin: 0.35rem;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 #playerBoardArea {
@@ -23,7 +23,8 @@
 
 
 /*Grid Containing Player grid blocks*/
-.playerGrid {
+#playerGrid {
+  position:relative;
   width: 370px;
   display: grid;
   grid-template-columns: repeat(10, 37px);
@@ -86,4 +87,97 @@
   margin-left: 188px;
   width: 60px;
   height: 25px;
+}
+
+/*Div holding player buttons initially and game play details after*/
+#playerButtonsAndDisplayDiv{
+  position: inherit;
+  border: 0.3rem ridge rgb(144, 141, 139);
+  background-color:rgb(50, 48, 48);
+  width: 26%;
+  float:right;
+  height: 20rem;
+  margin-top: -23rem;
+  margin-left: 24.6rem;
+  margin-right: 0.5rem;
+}
+
+/*PLAYER BUTTONS*/
+
+.movementButton{
+  position: absolute;
+  width: 0; 
+  height: 0;
+  padding:0;
+  cursor:pointer;
+}
+
+#rotatebutton{
+  position: absolute;
+  z-index:3;
+  margin-left: 4.5rem;
+  margin-top: 2rem;
+  cursor:grab;
+}
+
+#playerShipMovementOuterButton{
+  position: absolute;
+  float:left;
+  z-index:3;
+  margin-top:6.3rem;
+  margin-left:1rem;
+  border: 0.3rem solid black;
+  border-radius: 50%;
+  height: 112px;
+  width:112px;
+  box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8);
+}
+
+#moveShipUpButton{
+  z-index:3;
+  margin-left: 3.3rem;
+  margin-top: 7rem;
+  background-color:rgb(50, 48, 48);
+  border-bottom: 25px solid red; 
+  border-right:25px solid transparent; 
+  border-left:25px solid transparent;
+  border-top:none;
+  box-shadow: 0px 0.5px 0 rgb(255, 255, 255);
+  
+}
+
+#moveShipLeftButton{
+  z-index:3;
+  margin-left: 1.8rem;
+  margin-top: 8.5rem;
+  background-color:rgb(50, 48, 48);
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent; 
+  border-right:25px solid red; 
+  border-left:none;
+  box-shadow: 0.5px 0px 0 rgb(255, 255, 255);
+}
+
+#moveShipRightButton{
+  z-index:3;
+  margin-left: 6.4rem;
+  margin-top: 8.5rem;
+  background-color:rgb(50, 48, 48);
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent; 
+  border-left:25px solid red;
+  border-right:none;
+  box-shadow: -0.5px 0px 0 rgb(255, 255, 255);
+}
+
+#moveShipDownButton{
+  z-index:3;
+  margin-left: 3.3rem;
+  margin-top: 11.6rem;
+  background-color:rgb(50, 48, 48);
+  border-top: 25px solid red;
+  border-right:25px solid transparent; 
+  border-left:25px solid transparent;
+  border-bottom:none;
+  box-shadow: 0 -0.5px 0 rgb(255, 255, 255);
 }
