@@ -11,9 +11,9 @@ class blockElement {
   }
 }
 
-/*###############################################################################
+/*################################################################################################
 PLAYER AND ENEMY GRIDS - CREATION
-#################################################################################
+#################################################################################################
 */
 //Array of all gridBlocks for Player and Enemy (Computer Player)
 //Create a 2-D array for each consisiting of 100 grid blocks in total (10 x 10)
@@ -50,9 +50,9 @@ function initializeGame() {
   setInitialPlayerShipPositions();
 }
 
-/*###############################################################################
+/*##############################################################################################
 PLAYER AND ENEMY GRIDS - POPULATION WITH DEFAULT SHIP POSITIONS AND ORIENTATIONS
-#################################################################################
+###############################################################################################
 */
 //link Player elements to HTML ship elements
 let playerCarrier = document.getElementById("playerCarrier");
@@ -96,9 +96,9 @@ function setInitialPlayerShipPositions() {
   playerGridArray[2][6].containsShip = "playerDestroyer";
 }
 
-/*###############################################################################
+/*###########################################################################################
 PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
-#################################################################################
+##############################################################################################
 */
 
 let allowRotationButton = false; //ensures rotation only done if a ship is selected
@@ -126,7 +126,7 @@ document.querySelectorAll(".ship").forEach((element) => {
 });
 
 //ROTATE SHIP
-//_______________________________________________________________________
+//_____________________________________________________________________________________________
 //event listener if user wants to rotate a selected ship
 document
   .getElementById("rotatebutton")
@@ -139,7 +139,7 @@ document
   });
 
 //MOVE SHIP
-//_______________________________________________________________________
+//_______________________________________________________________________________________________
 
 // 1) UPWARDS - event listener if user wants to move a selected ship
 document
@@ -185,9 +185,9 @@ document
     }
   });
 
-/*#####################################################
+/*####################################################################################
 PLAYER SHIP ROTATIONS
-#######################################################
+######################################################################################
 */
 
 let rotatebutton = document.getElementById("rotatebutton");
@@ -211,7 +211,7 @@ function rotateShip(shipName) {
   //determine if ship is positioned vertically or horizontally
   let vertical = isShipVertical(shipName, shipHeadRow, shipHeadColumn);
 
-  //--------------------------------------------------------------------------------------------
+  //_______________________________________________________________________________________________
   //CHECK IF ROTATION CAN BE DONE
   //i)
   //If Ship is currently vertical, check that horizontal change would not make rightmost block
@@ -226,10 +226,7 @@ function rotateShip(shipName) {
     if (shipHeadColumn + (shipLength - 1) > 9) {
       //rotation not allowed
       alert(
-        "Cannot Rotate Ship Horizontally. Please move ship LEFT by at least " +
-          (returnShipLength(shipName) - 1) +
-          " blocks first"
-      );
+        "Cannot Rotate Ship Horizontally. Please move ship LEFT");
       return;
     }
   } else {
@@ -237,10 +234,7 @@ function rotateShip(shipName) {
     if (shipHeadRow + (shipLength - 1) > 9) {
       //rotation not allowed
       alert(
-        "Cannot Rotate Ship Vertically. Please move ship UP by at least " +
-          (returnShipLength(shipName) - 1) +
-          " blocks first"
-      );
+        "Cannot Rotate Ship Vertically. Please move ship UP");
       return;
     }
   }
@@ -274,7 +268,7 @@ function rotateShip(shipName) {
     }
   }
 
-  //--------------------------------------------------------------------------------------------
+  //__________________________________________________________________________________________
   //ROTATE SELECTED SHIP
   //At this point all conditions have been met to allow for ship rotation
   //i) Change grid blocks that contain ship
@@ -338,9 +332,9 @@ All Ships Movements use this initial logic:
 */
 let allowMovement = false;
 
-/*______________________________________________________________________________
+/*____________________________________________________________________________________
 //Move Ship Upwards
-//______________________________________________________________________________
+//____________________________________________________________________________________
 Function used to move a ship upwards by one block
  Determine if Ship Can be moved upwards 
     i) Ensure upward movement would not cause ship to extend beyond top border
@@ -422,9 +416,9 @@ function moveShipUp(shipName) {
   determineShipAndDirectionToMove(shipName, "up");
 }
 
-/*______________________________________________________________________________
+/*________________________________________________________________________________________
 //Move Ship Downwards
-//______________________________________________________________________________
+//________________________________________________________________________________________
 Function used to move a ship downwards by one block
  Determine if Ship Can be moved downwards 
     i) Ensure downward movement would not cause ship to extend beyond bottom border
@@ -515,9 +509,9 @@ function moveShipDown(shipName) {
   determineShipAndDirectionToMove(shipName, "down");
 }
 
-/*______________________________________________________________________________
+/*______________________________________________________________________________________
 //Move Ship Left
-//______________________________________________________________________________
+//______________________________________________________________________________________
 Function used to move a ship to the left by one block
  Determine if Ship Can be moved to the left
     i) Ensure movement to left would not cause ship to extend beyond left border
@@ -599,9 +593,9 @@ function moveShipLeft(shipName) {
   determineShipAndDirectionToMove(shipName, "left");
 }
 
-/*______________________________________________________________________________
+/*_______________________________________________________________________________________
 //Move Ship Right
-//______________________________________________________________________________
+//_______________________________________________________________________________________
 Function used to move a ship to the right by one block
  Determine if Ship Can be moved to the right
     i) Ensure movement to the right would not cause ship to extend beyond right border
@@ -756,9 +750,9 @@ function moveShipOnBoard(element, direction) {
   }
 }
 
-/*###############################################################################
+/*#####################################################################################
 ROTATE AND MOVE SHIP HELPER FUNCTIONS
-#################################################################################
+#######################################################################################
 */
 
 //Find head of ship
@@ -826,25 +820,37 @@ function returnShipLength(shipName) {
   } else if (shipName == "playerCruiser" || shipName == "playerSubmarine") {
     return 3;
   } else {
-    return 2; //Destoyer
+    return 2; //Destoyer       
   }
 }
 
-/*###############################################################################
+/*#######################################################################################
 BOARD EFFECTS FOR MOVEMENT OF CURSOR ON BUTTONS OR OVER GRIDS
-#################################################################################
+#########################################################################################
 */
 
-//________________________________________________________________________
-//Direction of Movement Buttons
+//_______________________________________________________________________________________
+//Direction of Player Ship Movement Buttons - Hover
 // Changes Button Color (Border Color) to green when hovered over by mouse
-//________________________________________________________________________
+//_______________________________________________________________________________________
 
 //assign elements to movement buttons
+let rotateButton = document.getElementById("rotatebutton");
 let moveUpButton = document.getElementById("moveShipUpButton");
 let moveDownButton = document.getElementById("moveShipDownButton");
 let moveLeftButton = document.getElementById("moveShipLeftButton");
 let moveRightButton = document.getElementById("moveShipRightButton");
+let playerShipMovementOuterButton = document.getElementById("playerShipMovementOuterButton");
+
+//Rotate Button to Orange on hover
+rotateButton.addEventListener("mouseover",(element)=>{
+  rotateButton.setAttribute("style","background-color:orange;color:black")
+});
+
+//Rotate Button back to black when mouse leaves
+rotatebutton.addEventListener("mouseout",(element)=>{
+  rotatebutton.setAttribute("style","background-color:black;color:white")
+});
 
 //Move Up Button to Green on hover
 moveUpButton.addEventListener("mouseover",(element)=>{
@@ -853,7 +859,9 @@ moveUpButton.addEventListener("mouseover",(element)=>{
 
 //Move Up Button back to red when mouse leaves
 moveUpButton.addEventListener("mouseout",(element)=>{
-  moveUpButton.setAttribute("style","border-bottom: 25px solid red;")
+  moveUpButton.setAttribute("style","border-bottom: 25px solid red;");
+  //change outer div test shadow to normal if upward movement is not allowed
+  playerShipMovementOuterButton.setAttribute("style","box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8)");
 });
 
 //Move Down Button to Green on hover
@@ -864,28 +872,60 @@ moveDownButton.setAttribute("style","border-top: 25px solid green;")
 //Move Down Button back to red when mouse leaves
 moveDownButton.addEventListener("mouseout",(element)=>{
 moveDownButton.setAttribute("style","border-top: 25px solid red;")
+//change outer div test shadow to normal if down movement is not allowed
+playerShipMovementOuterButton.setAttribute("style","box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8)");
 });
 
 //Move Left Button to Green on hover
 moveLeftButton.addEventListener("mouseover",(element)=>{
   moveLeftButton.setAttribute("style","border-right: 25px solid green;")
-  });
+});
   
-  //Move Left Button back to red when mouse leaves
-  moveLeftButton.addEventListener("mouseout",(element)=>{
+//Move Left Button back to red when mouse leaves
+moveLeftButton.addEventListener("mouseout",(element)=>{
   moveLeftButton.setAttribute("style","border-right: 25px solid red;")
-  });
+  //change outer div test shadow to normal if left movement is not allowed
+  playerShipMovementOuterButton.setAttribute("style","box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8)");
+});
 
-  //Move Right Button to Green on hover
+//Move Right Button to Green on hover
 moveRightButton.addEventListener("mouseover",(element)=>{
   moveRightButton.setAttribute("style","border-left: 25px solid green;")
-  });
+});
   
-  //Move Left Button back to red when mouse leaves
-  moveRightButton.addEventListener("mouseout",(element)=>{
+//Move Left Button back to red when mouse leaves
+moveRightButton.addEventListener("mouseout",(element)=>{
   moveRightButton.setAttribute("style","border-left: 25px solid red;")
+  //change outer div test shadow to normal if right movement is not allowed
+  playerShipMovementOuterButton.setAttribute("style","box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8)");
+});
+
+//_______________________________________________________________________________________
+//Direction of Player Ship Movement Buttons - Click
+// Changes Text Shadow around Rotate Button or large div containg all 
+// movement buttons when pressed
+//_______________________________________________________________________________________
+
+  //Rotate Button - Remove Box Shadow when pressed
+  rotateButton.addEventListener("mousedown",(element)=>{
+    rotateButton.setAttribute("style","box-shadow:none; background-color:orange;color:black")
+  });
+    
+  //Rotate Button - Return Box Shadow to Normal After Click
+  rotateButton.addEventListener("mouseup",(element)=>{
+    rotateButton.setAttribute("style", "box-shadow: -1px 1px 5px 1px rgba(255, 255, 255, 0.8);background-color:orange;color:black");
   });
 
+
+  document.querySelectorAll(".movementButton").forEach((element)=>{
+    element.addEventListener("mousedown",()=>{
+      playerShipMovementOuterButton.setAttribute("style", "box-shadow:none");
+    });
+    element.addEventListener("mouseup",()=>{
+      playerShipMovementOuterButton.setAttribute("style", "box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8)");
+    });
+  })
+  
 //_______________________________________________________________________________________
 //Highlights grid block Border hovered over by mouse green
 document.querySelectorAll(".playerGridElement").forEach((element) => {
@@ -916,7 +956,6 @@ function displayPlayerGridBlocksData() {
     console.log(...playerGridArray[i]);
   }
 }
-
 
 //Display All Grid Blocks Ship Positions - Summary
 //Creates a second 2D Array containing H, X or .

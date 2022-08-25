@@ -5,3 +5,7 @@
 2) ocean_background_2
 	Author: Conor Sexton
 	Available From: https://unsplash.com/photos/hRemch0ZDwI
+
+3) ShipWheel_RotationButtonBackground
+	Author: RockMotorArt
+	Available From: https://pixabay.com/vectors/steering-wheel-sea-ship-boat-4010079/

@@ -21,10 +21,9 @@
   color: white;
 }
 
-
 /*Grid Containing Player grid blocks*/
 #playerGrid {
-  position:relative;
+  position: relative;
   width: 370px;
   display: grid;
   grid-template-columns: repeat(10, 37px);
@@ -44,6 +43,7 @@
   background-color: transparent;
 }
 
+/*__________________________________________________________________________________*/
 /*PLAYER SHIPS*/
 
 .ship {
@@ -89,95 +89,98 @@
   height: 25px;
 }
 
+/*__________________________________________________________________________________*/
+/*PLAYER BUTTONS*/
+
 /*Div holding player buttons initially and game play details after*/
-#playerButtonsAndDisplayDiv{
+#playerButtonsAndDisplayDiv {
   position: inherit;
   border: 0.3rem ridge rgb(144, 141, 139);
-  background-color:rgb(50, 48, 48);
+  background-color: rgb(50, 48, 48);
   width: 26%;
-  float:right;
+  float: right;
   height: 20rem;
   margin-top: -23rem;
   margin-left: 24.6rem;
   margin-right: 0.5rem;
 }
 
-/*PLAYER BUTTONS*/
-
-.movementButton{
+/*Circle Containing Rotate and Movement Buttons*/
+#playerShipMovementOuterButton {
   position: absolute;
-  width: 0; 
-  height: 0;
-  padding:0;
-  cursor:pointer;
-}
-
-#rotatebutton{
-  position: absolute;
-  z-index:3;
-  margin-left: 4.5rem;
-  margin-top: 2rem;
-  cursor:grab;
-}
-
-#playerShipMovementOuterButton{
-  position: absolute;
-  float:left;
-  z-index:3;
-  margin-top:6.3rem;
-  margin-left:1rem;
+  float: left;
+  z-index: 3;
+  margin-top: 6.5rem;
+  margin-left: 1.2rem;
   border: 0.3rem solid black;
   border-radius: 50%;
-  height: 112px;
-  width:112px;
+  height: 105px;
+  width: 105px;
   box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8);
 }
+#rotatebutton {
+  position: absolute;
+  z-index:4;
+  margin-left: 3.6rem;
+  margin-top: 8.7rem;
+  cursor: grab;
+  background-color:black;
+  border:0.2rem solid black;
+  border-radius:50%;
+  font-size:2rem;
+  color: white;
+  box-shadow: -1px 1px 5px 1px rgba(255, 255, 255, 0.8);
+}
 
-#moveShipUpButton{
-  z-index:3;
+.movementButton {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+#moveShipUpButton {
+  z-index: 3;
   margin-left: 3.3rem;
   margin-top: 7rem;
-  background-color:rgb(50, 48, 48);
-  border-bottom: 25px solid red; 
-  border-right:25px solid transparent; 
-  border-left:25px solid transparent;
-  border-top:none;
-  box-shadow: 0px 0.5px 0 rgb(255, 255, 255);
-  
+  border-bottom: 25px solid red;
+  border-right: 25px solid transparent;
+  border-left: 25px solid transparent;
+  border-top: none;
+  box-shadow: 0px 0.5px 0 rgb(0, 0, 0);
 }
 
-#moveShipLeftButton{
-  z-index:3;
+#moveShipLeftButton {
+  z-index: 3;
   margin-left: 1.8rem;
   margin-top: 8.5rem;
-  background-color:rgb(50, 48, 48);
   border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent; 
-  border-right:25px solid red; 
-  border-left:none;
-  box-shadow: 0.5px 0px 0 rgb(255, 255, 255);
+  border-bottom: 25px solid transparent;
+  border-right: 25px solid red;
+  border-left: none;
+  box-shadow: 0.5px 0px 0 rgb(0, 0, 0);
 }
 
-#moveShipRightButton{
-  z-index:3;
+#moveShipRightButton {
+  z-index: 3;
   margin-left: 6.4rem;
   margin-top: 8.5rem;
-  background-color:rgb(50, 48, 48);
   border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent; 
-  border-left:25px solid red;
-  border-right:none;
-  box-shadow: -0.5px 0px 0 rgb(255, 255, 255);
+  border-bottom: 25px solid transparent;
+  border-left: 25px solid red;
+  border-right: none;
+  box-shadow: -0.5px 0px 0 rgb(0, 0, 0);
 }
 
-#moveShipDownButton{
-  z-index:3;
+#moveShipDownButton {
+  z-index: 3;
   margin-left: 3.3rem;
   margin-top: 11.6rem;
-  background-color:rgb(50, 48, 48);
   border-top: 25px solid red;
-  border-right:25px solid transparent; 
-  border-left:25px solid transparent;
-  border-bottom:none;
-  box-shadow: 0 -0.5px 0 rgb(255, 255, 255);
+  border-right: 25px solid transparent;
+  border-left: 25px solid transparent;
+  border-bottom: none;
+  box-shadow: 0 -0.5px 0 rgb(0, 0, 0);
 }
