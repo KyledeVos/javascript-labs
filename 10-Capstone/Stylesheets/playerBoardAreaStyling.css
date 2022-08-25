@@ -80,6 +80,7 @@
   margin-left: 188px;
   width: 100px;
   height: 25px;
+  border-radius: 40%;
 }
 
 #playerDestroyer {
@@ -95,14 +96,31 @@
 /*Div holding player buttons initially and game play details after*/
 #playerButtonsAndDisplayDiv {
   position: inherit;
-  border: 0.3rem ridge rgb(144, 141, 139);
-  background-color: rgb(50, 48, 48);
-  width: 26%;
+  border: none;
+  background-color: transparent;
+  width: 24%;
   float: right;
   height: 20rem;
   margin-top: -23rem;
-  margin-left: 24.6rem;
-  margin-right: 0.5rem;
+  margin-right: 1.2rem;
+}
+
+#startGameButton{
+  position: absolute;
+  margin-top: -1rem;
+  margin-left:1.8rem;
+  border:0.2rem solid black;
+  border-radius:20%;
+  height: 3rem;
+  width:5rem;
+  background-color: rgb(44, 232, 44);
+  color:black;;
+  font-weight:bold;
+  font-size:1rem;
+  text-align: center;
+  padding:auto;
+  cursor:grab;
+  box-shadow: -1px 1px 5px 3px rgba(5, 4, 4, 0.8)
 }
 
 /*Circle Containing Rotate and Movement Buttons*/
@@ -111,7 +129,7 @@
   float: left;
   z-index: 3;
   margin-top: 6.5rem;
-  margin-left: 1.2rem;
+  margin-left: 0.9rem;
   border: 0.3rem solid black;
   border-radius: 50%;
   height: 105px;
@@ -121,7 +139,7 @@
 #rotatebutton {
   position: absolute;
   z-index:4;
-  margin-left: 3.6rem;
+  margin-left: 3.3rem;
   margin-top: 8.7rem;
   cursor: grab;
   background-color:black;
@@ -143,7 +161,7 @@
 
 #moveShipUpButton {
   z-index: 3;
-  margin-left: 3.3rem;
+  margin-left: 3rem;
   margin-top: 7rem;
   border-bottom: 25px solid red;
   border-right: 25px solid transparent;
@@ -154,7 +172,7 @@
 
 #moveShipLeftButton {
   z-index: 3;
-  margin-left: 1.8rem;
+  margin-left: 1.5rem;
   margin-top: 8.5rem;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
@@ -165,7 +183,7 @@
 
 #moveShipRightButton {
   z-index: 3;
-  margin-left: 6.4rem;
+  margin-left: 6.1rem;
   margin-top: 8.5rem;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
@@ -176,11 +194,26 @@
 
 #moveShipDownButton {
   z-index: 3;
-  margin-left: 3.3rem;
+  margin-left: 3rem;
   margin-top: 11.6rem;
   border-top: 25px solid red;
   border-right: 25px solid transparent;
   border-left: 25px solid transparent;
   border-bottom: none;
   box-shadow: 0 -0.5px 0 rgb(0, 0, 0);
+}
+
+/*__________________________________________________________________________________*/
+/*Div containing name of currently selected ship*/
+#currentSelectedShip{
+  margin-top:17rem;
+  padding:0.3rem;
+  text-align: center;
+  color:white;
+  font-weight: 100;
+  font-size:1.2rem;
+  font-family:'Courier New', Courier, monospace;
+  border: 0.4rem inset rgb(29, 29, 29);
+  background-color: rgb(77, 74, 73);
+  width:90%;
 }

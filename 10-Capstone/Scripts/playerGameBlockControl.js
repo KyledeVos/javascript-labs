@@ -103,6 +103,8 @@ PLAYER SHIP ROTATIONS AND MOVEMENTS - INITIAL BOARD SETUP
 
 let allowRotationButton = false; //ensures rotation only done if a ship is selected
 let shipName = "noneSelected";
+//display current ship name upon user ship selection
+let currentSelectedShip = document.getElementById("currentSelectedShip");
 
 //variables used to track previous and current ships when user is changing ship positions
 //on board - needed to change previous ship color back to default
@@ -114,6 +116,7 @@ document.querySelectorAll(".ship").forEach((element) => {
   element.addEventListener("mousedown", () => {
     shipName = element.id;
     currentShip = shipName;
+    currentSelectedShip.textContent= showCurrentShipName(element);
     //only allows player to rotate or move a ship if they select one first on page load
     allowRotationButton = true;
     allowMovement = true;
@@ -124,6 +127,24 @@ document.querySelectorAll(".ship").forEach((element) => {
     }
   });
 });
+
+//Function to show name of currently selected Ship to Player
+function showCurrentShipName(element){
+  switch(element.id){
+    case "playerCarrier":
+      return "CARRIER";
+    case "playerBattleship":
+      return "BATTLESHIP";
+    case "playerCruiser":
+      return "CRUISER";
+    case "playerSubmarine":
+      return "SUBMARINE";
+    case "playerDestroyer":
+      return "DESTROYER";
+    default:
+      return "CURRENT SHIP: NONE";
+  }
+}
 
 //ROTATE SHIP
 //_____________________________________________________________________________________________
