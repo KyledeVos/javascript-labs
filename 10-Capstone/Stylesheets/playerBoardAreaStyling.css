@@ -108,10 +108,10 @@
 #startGameButton{
   position: absolute;
   margin-top: -1rem;
-  margin-left:1.8rem;
-  border:0.2rem solid black;
+  margin-left: 2.5rem;
+  border:0.4rem outset rgb(71, 70, 70);
   border-radius:20%;
-  height: 3rem;
+  height: 2.5rem;
   width:5rem;
   background-color: rgb(44, 232, 44);
   color:black;;
@@ -120,7 +120,7 @@
   text-align: center;
   padding:auto;
   cursor:grab;
-  box-shadow: -1px 1px 5px 3px rgba(5, 4, 4, 0.8)
+  box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8);
 }
 
 /*Circle Containing Rotate and Movement Buttons*/
@@ -136,6 +136,7 @@
   width: 105px;
   box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8);
 }
+
 #rotatebutton {
   position: absolute;
   z-index:4;

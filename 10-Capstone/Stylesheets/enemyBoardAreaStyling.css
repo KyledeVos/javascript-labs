@@ -15,7 +15,7 @@
 
 /*Grid Containing Enemy grid blocks*/
 .enemyGrid {
-  z-index: 1;
+  position: inherit;
   width: 370px;
   display: grid;
   grid-template-columns: repeat(10, 37px);
@@ -26,6 +26,8 @@
 
 /*Styling for each grid block in enemy Grid*/
 .enemyGridElement {
+  position: inherit;
+  z-index:1;
   background-color: red;
   border: 1px solid rgba(255, 255, 255, 0.8);
   font-size: 1.5rem;
@@ -34,6 +36,12 @@
   cursor: crosshair;
   background-color: transparent;
 }
+
+
+
+
+
+
 
 #enemyInfoDisplayGrid {
   position: inherit;

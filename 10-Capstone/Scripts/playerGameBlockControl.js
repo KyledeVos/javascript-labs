@@ -28,7 +28,7 @@ function initializeGame() {
     enemyGridArray[i] = new Array(10);
   }
 
-  //initialize each block in player Array as:
+  //initialize each block in player and enemy Arrays as:
   /* id = element of each block in HTML Page
   Row and Column Counts ranging from 0 - 9
   ContainsShip = "none" and shipHead = false
@@ -44,15 +44,27 @@ function initializeGame() {
         false,
         false
       );
+
+      enemyGridArray[i][j]=new blockElement(
+        document.getElementById("e" + i + j),
+        i,
+        j,
+        "none",
+        false,
+        false
+      );
     }
   }
 
+  //function that places player ships in default positions
   setInitialPlayerShipPositions();
+  //function to randomly arrange enemy player (computer) ships
+  setEnemyShipPositions();
 }
 
 /*##############################################################################################
-PLAYER AND ENEMY GRIDS - POPULATION WITH DEFAULT SHIP POSITIONS AND ORIENTATIONS
-###############################################################################################
+PLAYER GRID - POPULATION WITH DEFAULT SHIP POSITIONS AND ORIENTATIONS
+################################################################################################
 */
 //link Player elements to HTML ship elements
 let playerCarrier = document.getElementById("playerCarrier");
@@ -126,9 +138,21 @@ document.querySelectorAll(".ship").forEach((element) => {
       element.style.backgroundColor = "rgb(237, 87, 6)";
     }
   });
+
+  //add box shadow to element if user hovers over
+  element.addEventListener("mouseover",()=>{
+    element.style.boxShadow="-1px 1px 5px 3px rgba(255, 255, 255, 0.8)"
+  });
+
+  //remove box shadow if user leaves element
+  element.addEventListener("mouseout",()=>{
+    element.style.boxShadow="none";
+  });
+
 });
 
-//Function to show name of currently selected Ship to Player
+//HELPER FUNCTION
+//Shows name of currently selected Ship to Player
 function showCurrentShipName(element){
   switch(element.id){
     case "playerCarrier":
@@ -205,6 +229,28 @@ document
       alert("Please Select a Ship to Move to the Right");
     }
   });
+
+//Start Game Button 
+//_______________________________________________________________________________________________
+
+//Event listener when start button is hovered over
+let startGameButton = document.getElementById("startGameButton");
+startGameButton.addEventListener("mouseover",()=>{
+  startGameButton.setAttribute("style"," box-shadow: -1px 1px 5px 2px rgba(255, 255, 255, 0.8)")
+})
+
+//Event listener when mouse leaves start button
+startGameButton.addEventListener("mouseout",()=>{
+  startGameButton.setAttribute("style","box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8)")
+})
+
+//Event listener when user clicks start button
+startGameButton.addEventListener("mousedown",()=>{
+  startGameButton.setAttribute("style","box-shadow: none")
+  startGameButton.style.marginTop="-1.1rem";
+  startGameButton.style.marginLeft="1.9rem";
+})
+
 
 /*####################################################################################
 PLAYER SHIP ROTATIONS
@@ -834,11 +880,12 @@ function resetShipColor() {
 
 //return length of current ship type
 function returnShipLength(shipName) {
-  if (shipName == "playerCarrier") {
+  if (shipName == "playerCarrier" || shipName=="enemyCarrier") {
     return 5;
-  } else if (shipName == "playerBattleship") {
+  } else if (shipName == "playerBattleship" || shipName=="enemyBattleship") {
     return 4;
-  } else if (shipName == "playerCruiser" || shipName == "playerSubmarine") {
+  } else if (shipName == "playerCruiser" || shipName == "playerSubmarine" 
+      || shipName=="enemyCruiser" || shipName=="enemySubmarine") {
     return 3;
   } else {
     return 2; //Destoyer       
@@ -946,21 +993,186 @@ moveRightButton.addEventListener("mouseout",(element)=>{
       playerShipMovementOuterButton.setAttribute("style", "box-shadow: -1px 1px 5px 3px rgba(255, 255, 255, 0.8)");
     });
   })
+
+/*###############################################################################
+ENEMY GAMEPLAY
+#################################################################################
+*/
+
+//link Enemey Ship elements to HTML ship elements
+let enemyCarrier = document.getElementById("enemyCarrier");
+let enemyBattleship = document.getElementById("enemyBattleship");
+let enemyCruiser = document.getElementById("enemyCruiser");
+let enemySubmarine = document.getElementById("enemySubmarine");
+let enemyDestroyer = document.getElementById("enemyDestroyer");
+
+//_______________________________________________________________________________________
+// Functions to randomly set positions of enemy ships
+//_______________________________________________________________________________________
+
+/*Function to determine 'random' position for enemy ships
+  Uses a random number generator to determine row and column number and decide if 
+  ship should be vertical or horizontal
+  Performs checks to see if this would result in ship exceeding any borders or
+  being placed on top of another ship
+*/
+function determineEnemyShipPosition(shipElement, shipName){
   
+  //determine ship length
+  let shipLength=returnShipLength(shipName);
+  //variable to quit loop
+  let quit = false;
+
+  while(!quit){
+
+  //variable to check if all conditions have been met to place a ship
+  //any conditions that fail will change this to "false"
+  let shipPlacement=true;
+
+    //assign random row and column numbers
+    let randomRow=Math.floor(Math.random()*10);
+    let randomColumn=Math.floor(Math.random()*10);
+    
+    if(enemyGridArray[randomRow][randomColumn].containsShip!="none"){
+      //re-itterate loop
+      continue;
+    }
+
+    //randomly choose horizontal or vertical placement of ship
+    let vertical = (Math.random()>=0.5);
+    if(vertical){
+      //If Ship placement is vertical, determine if current row placement would allow 
+      //vertical position below
+      if(randomRow+(shipLength-1)<=9){
+        //check if there is another ship in the way
+        for(let i=0;i<shipLength;i++){
+            if(enemyGridArray[randomRow+i][randomColumn].containsShip!="none"){
+              //a ship is in the way
+              shipPlacement = false;
+              break;
+              
+            }
+        }
+        if(shipPlacement){
+        //at this point the ship can be placed vertically below as no other ship is in the way
+          for(let i=0;i<shipLength;i++){
+            enemyGridArray[randomRow+i][randomColumn].containsShip=shipName;
+          }
+          //terminate while loop
+          quit=true;
+        }
+
+      }else if(randomRow-(shipLength-1)>=0){
+        //check if current row placement would otherwise allow ship to be placed
+        //vertically above
+
+        //check if there is another ship in the way
+        for(let i=0;i<shipLength;i++){
+          if(enemyGridArray[randomRow-i][randomColumn].containsShip!="none"){
+             //a ship is in the way
+             shipPlacement = false;
+             break;
+             
+          }
+        }
+
+        if(shipPlacement){
+          //at this point the ship can be placed vertically above as no other ship is in the way
+          for(let i=0;i<shipLength;i++){
+            enemyGridArray[randomRow-i][randomColumn].containsShip=shipName;
+          }
+          //terminate while loop
+          quit=true;
+        }
+      }
+      
+    }else{
+      //If Ship placement is horizontal, determine if current column placement would allow 
+      //horizontal position to the right
+      if(randomColumn+(shipLength-1)<=9){
+
+        //check if there is another ship in the way
+        for(let i=0;i<shipLength;i++){
+          if(enemyGridArray[randomRow][randomColumn+i].containsShip!="none"){
+            //a ship is in the way
+            shipPlacement = false;
+            break;
+            
+          }
+        }
+
+        if(shipPlacement){
+          //at this point the ship can be placed horizontally to the right as no other ship is in the way
+          for(let i=0;i<shipLength;i++){
+            enemyGridArray[randomRow][randomColumn+i].containsShip=shipName;
+          }
+          //terminate while loop
+          quit=true;
+        }
+
+      }else if(randomColumn-(shipLength-1)>=0){
+      //If Ship placement is horizontal, determine if current column placement would allow 
+      //horizontal position to the right
+
+        //check if there is another ship in the way
+        for(let i=0;i<shipLength;i++){
+          if(enemyGridArray[randomRow][randomColumn-i].containsShip!="none"){
+            //a ship is in the way
+            shipPlacement = false;
+            break;
+            
+          }
+        }
+
+        //at this point the ship can be placed horizontally to the left as no other ship is in the way
+        if(shipPlacement){
+          for(let i=0;i<shipLength;i++){
+            enemyGridArray[randomRow][randomColumn-i].containsShip=shipName;
+          }
+          //terminate while loop
+          quit=true;
+        }
+      }
+    }
+  }
+}
+
+//Function used to to arrange ships sequentially in order of:
+//Carrier, BattleShip, Cruiser, Submarine, Destroyer
+function setEnemyShipPositions(){
+  //Set Position of Carrier
+  determineEnemyShipPosition(enemyCarrier, "enemyCarrier");
+  //Set Position of Battleship
+  determineEnemyShipPosition(enemyBattleship, "enemyBattleship");
+  //Set Position of Cruiser
+  determineEnemyShipPosition(enemyCruiser, "enemyCruiser");
+  //Set Position of Submarine
+  determineEnemyShipPosition(enemySubmarine, "enemySubmarine");
+  //Set Position of Destroyer
+  determineEnemyShipPosition(enemyDestroyer, "enemyDestroyer");
+}
+
+
+
+//_______________________________________________________________________________________
+// Event Listeners for Mouse Actions
 //_______________________________________________________________________________________
 //Highlights grid block Border hovered over by mouse green
-document.querySelectorAll(".playerGridElement").forEach((element) => {
+document.querySelectorAll(".enemyGridElement").forEach((element) => {
   element.addEventListener("mouseover", () => {
     element.setAttribute("style", "border: 4px solid green");
   });
 });
 
 //Set grid block border back to original color when mouse leaves
-document.querySelectorAll(".playerGridElement").forEach((element) => {
+document.querySelectorAll(".enemyGridElement").forEach((element) => {
   element.addEventListener("mouseout", () => {
     element.setAttribute("style", "border: 1px solid white");
   });
 });
+  
+
+
 /*###############################################################################
 TESTING FUNCTIONS FOR LAB MARKER - use in Dev Console
 #################################################################################
@@ -978,12 +1190,24 @@ function displayPlayerGridBlocksData() {
   }
 }
 
+//Display All Player Grid Blocks Summary
+function displayPlayerGridBlocksSummary(){
+  console.log("PLAYER CURRENT GRID");
+  displayGridBlocksSummary(playerGridArray);
+}
+
+//Display All Enemy Grid Blocks Summary
+function displayEnemyGridBlocksSummary(){
+  console.log("ENEMY CURRENT GRID");
+  displayGridBlocksSummary(enemyGridArray);
+}
+
 //Display All Grid Blocks Ship Positions - Summary
 //Creates a second 2D Array containing H, X or .
 // KEY: H = Block holds Head of a Ship
 //      X = Block contains a Ship (not head)
 //      . = Empty Block
-function displayPlayerGridBlocksSummary() {
+function displayGridBlocksSummary(gridArray) {
   //Create 2D Display Array
   let displayArray = new Array(10);
   for (let i = 0; i < 10; i++) {
@@ -993,9 +1217,9 @@ function displayPlayerGridBlocksSummary() {
   //Populate display Array with H, X or .
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
-      if (playerGridArray[i][j].shipHead == true) {
+      if (gridArray[i][j].shipHead == true) {
         displayArray[i][j] = "H";
-      } else if (playerGridArray[i][j].containsShip != "none") {
+      } else if (gridArray[i][j].containsShip != "none") {
         displayArray[i][j] = "X";
       } else {
         displayArray[i][j] = ".";
@@ -1008,6 +1232,4 @@ function displayPlayerGridBlocksSummary() {
   }
 }
 
-//--------------------------------------------------------
-//Enemy (Computer Player) Grid Data
-//-------------------------------------------------------
+
