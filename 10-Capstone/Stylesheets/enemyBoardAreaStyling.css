@@ -28,20 +28,13 @@
 .enemyGridElement {
   position: inherit;
   z-index:1;
-  background-color: red;
+  background-color: black;
   border: 1px solid rgba(255, 255, 255, 0.8);
   font-size: 1.5rem;
   text-align: center;
   color: white;
   cursor: crosshair;
-  background-color: transparent;
 }
-
-
-
-
-
-
 
 #enemyInfoDisplayGrid {
   position: inherit;

@@ -1,3 +1,10 @@
+//variable holding boolean if player is ready to start game
+let startGame=false;
+
+//variable to ensure all enemy ships have been placed before player can press startButton
+//set to true after last ship (enemyDestroyer) is placed
+let enemyShipsReady = false;
+
 //Class blueprint for each gridBlock
 // id = id of block in HTML page
 class blockElement {
@@ -9,6 +16,35 @@ class blockElement {
     this.shipHead = shipHead;
     this.firedOn = firedOn;
   }
+}
+
+/*################################################################################################
+PLAYER AND ENEMY OBJECTS
+#################################################################################################
+*/
+
+//Player Object
+let player ={
+  sunkenShips:0,  //count used to determine if player has won. Win = 5
+  turn:true,
+  //variables to determine how many successful hits for each ship     
+  playerCarrierHitCount:0,
+  playerBattleshipHitCount:0,
+  playerCruiserHitCount:0,
+  playerSubmarineHitCount:0,
+  playerDestroyerHitCount:0
+}
+
+//Enemy Object
+let enemy ={
+  sunkenShips:0,   //count used to determine if enemy has won. Win = 5
+  turn:false,
+  //variables to determine how many successful hits for each ship 
+  enemyCarrierHitCount:0,
+  enemyBattleshipHitCount:0,
+  enemyCruiserHitCount:0,
+  enemySubmarineHitCount:0,
+  enemyDestroyerHitCount:0
 }
 
 /*################################################################################################
@@ -55,8 +91,7 @@ function initializeGame() {
       );
     }
   }
-
-  //function that places player ships in default positions
+  //function to place player ships in default positions
   setInitialPlayerShipPositions();
   //function to randomly arrange enemy player (computer) ships
   setEnemyShipPositions();
@@ -118,25 +153,20 @@ let shipName = "noneSelected";
 //display current ship name upon user ship selection
 let currentSelectedShip = document.getElementById("currentSelectedShip");
 
-//variables used to track previous and current ships when user is changing ship positions
-//on board - needed to change previous ship color back to default
-let previousShip = "none";
-let currentShip = "none";
-
 //check if user clicks on a ship to rotate or move ship position
 document.querySelectorAll(".ship").forEach((element) => {
+    //here element is the ship in the HTML page, not in the grid
   element.addEventListener("mousedown", () => {
     shipName = element.id;
-    currentShip = shipName;
     currentSelectedShip.textContent= showCurrentShipName(element);
     //only allows player to rotate or move a ship if they select one first on page load
     allowRotationButton = true;
     allowMovement = true;
 
-    if (previousShip != currentShip) {
-      resetShipColor();
-      element.style.backgroundColor = "rgb(237, 87, 6)";
-    }
+    //remove selection color from previous ships
+    resetShipColor();
+    //color currently selected ship
+    element.style.backgroundColor = "rgb(237, 87, 6)";
   });
 
   //add box shadow to element if user hovers over
@@ -151,7 +181,6 @@ document.querySelectorAll(".ship").forEach((element) => {
 
 });
 
-//HELPER FUNCTION
 //Shows name of currently selected Ship to Player
 function showCurrentShipName(element){
   switch(element.id){
@@ -230,27 +259,6 @@ document
     }
   });
 
-//Start Game Button 
-//_______________________________________________________________________________________________
-
-//Event listener when start button is hovered over
-let startGameButton = document.getElementById("startGameButton");
-startGameButton.addEventListener("mouseover",()=>{
-  startGameButton.setAttribute("style"," box-shadow: -1px 1px 5px 2px rgba(255, 255, 255, 0.8)")
-})
-
-//Event listener when mouse leaves start button
-startGameButton.addEventListener("mouseout",()=>{
-  startGameButton.setAttribute("style","box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8)")
-})
-
-//Event listener when user clicks start button
-startGameButton.addEventListener("mousedown",()=>{
-  startGameButton.setAttribute("style","box-shadow: none")
-  startGameButton.style.marginTop="-1.1rem";
-  startGameButton.style.marginLeft="1.9rem";
-})
-
 
 /*####################################################################################
 PLAYER SHIP ROTATIONS
@@ -270,7 +278,6 @@ let rotatebutton = document.getElementById("rotatebutton");
 4) Rotate Ship
 */
 function rotateShip(shipName) {
-  previousShip = shipName;
   //find head of ship
   let shipHeadRow = findShipHeadRow(shipName);
   let shipHeadColumn = findShipHeadColumn(shipName);
@@ -409,7 +416,6 @@ Function used to move a ship upwards by one block
  Move Ship
 */
 function moveShipUp(shipName) {
-  previousShip = shipName;
 
   //1) and 2)
   //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
@@ -494,7 +500,6 @@ Function used to move a ship downwards by one block
  */
 
 function moveShipDown(shipName) {
-  previousShip = shipName;
 
   //1) and 2)
   //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
@@ -587,7 +592,6 @@ Function used to move a ship to the left by one block
  */
 
 function moveShipLeft(shipName) {
-  previousShip = shipName;
 
   //1) and 2)
   //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
@@ -671,8 +675,6 @@ Function used to move a ship to the right by one block
  */
 
 function moveShipRight(shipName) {
-  previousShip = shipName;
-
   //1) and 2)
   //find shipHeadRow, shipHeadColumn and determine if ship is positioned vertically
   let shipHeadRow = findShipHeadRow(shipName);
@@ -995,16 +997,9 @@ moveRightButton.addEventListener("mouseout",(element)=>{
   })
 
 /*###############################################################################
-ENEMY GAMEPLAY
+ENEMY SHIP SETUP
 #################################################################################
 */
-
-//link Enemey Ship elements to HTML ship elements
-let enemyCarrier = document.getElementById("enemyCarrier");
-let enemyBattleship = document.getElementById("enemyBattleship");
-let enemyCruiser = document.getElementById("enemyCruiser");
-let enemySubmarine = document.getElementById("enemySubmarine");
-let enemyDestroyer = document.getElementById("enemyDestroyer");
 
 //_______________________________________________________________________________________
 // Functions to randomly set positions of enemy ships
@@ -1016,7 +1011,8 @@ let enemyDestroyer = document.getElementById("enemyDestroyer");
   Performs checks to see if this would result in ship exceeding any borders or
   being placed on top of another ship
 */
-function determineEnemyShipPosition(shipElement, shipName){
+function determineEnemyShipPosition(shipName){
+  
   
   //determine ship length
   let shipLength=returnShipLength(shipName);
@@ -1129,7 +1125,7 @@ function determineEnemyShipPosition(shipElement, shipName){
           for(let i=0;i<shipLength;i++){
             enemyGridArray[randomRow][randomColumn-i].containsShip=shipName;
           }
-          //terminate while loop
+          //terminate while loops
           quit=true;
         }
       }
@@ -1141,36 +1137,304 @@ function determineEnemyShipPosition(shipElement, shipName){
 //Carrier, BattleShip, Cruiser, Submarine, Destroyer
 function setEnemyShipPositions(){
   //Set Position of Carrier
-  determineEnemyShipPosition(enemyCarrier, "enemyCarrier");
+  determineEnemyShipPosition("enemyCarrier");
   //Set Position of Battleship
-  determineEnemyShipPosition(enemyBattleship, "enemyBattleship");
+  determineEnemyShipPosition("enemyBattleship");
   //Set Position of Cruiser
-  determineEnemyShipPosition(enemyCruiser, "enemyCruiser");
+  determineEnemyShipPosition("enemyCruiser");
   //Set Position of Submarine
-  determineEnemyShipPosition(enemySubmarine, "enemySubmarine");
+  determineEnemyShipPosition("enemySubmarine");
   //Set Position of Destroyer
-  determineEnemyShipPosition(enemyDestroyer, "enemyDestroyer");
+  determineEnemyShipPosition("enemyDestroyer");
+
+  //after last enemy ship has been successfully placed, allow player
+  //to press StartGameButton
+  enemyShipsReady=true;
 }
 
+/*###############################################################################
+GAMEPLAY
+#################################################################################
+*/
+
+//_______________________________________________________________________________________
+// Event Listeners for Start Game Button
+//_______________________________________________________________________________________
+
+//Event listener when start button is hovered over
+let startGameButton = document.getElementById("startGameButton");
+startGameButton.addEventListener("mouseover",()=>{
+  startGameButton.setAttribute("style"," box-shadow: -1px 1px 5px 2px rgba(255, 255, 255, 0.8)")
+})
+
+//Event listener when mouse leaves start button
+startGameButton.addEventListener("mouseout",()=>{
+  startGameButton.setAttribute("style","box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8)")
+})
+
+//Event Listener if player presses startGameButton
+//confirm enemy ships have been placed
+//set div holding player setup buttons to hidden and show gameplay div
+startGameButton.addEventListener("mousedown",()=>{
+  if(enemyShipsReady){
+    //styling to make start button look 'clicked'
+    startGameButton.setAttribute("style","box-shadow: none")
+    startGameButton.style.marginTop="-1.1rem";
+    startGameButton.style.marginLeft="1.9rem";
+
+    //hide div containing rotate button, move buttons, startGameButton and currentSelectedShip
+    document.getElementById("playerButtonsAndDisplayDiv").style.display = "none";
+
+    //allow player to select and fire on enemy grid blocks
+    startGame = true;
+
+    //show div containing player in-gameInfo
+    // FILL ME IN!!!!!!!!!
+    //######################################################
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+  }else{
+    alert("Enemy Ships are being placed");
+  }
+});
 
 
 //_______________________________________________________________________________________
-// Event Listeners for Mouse Actions
+// Event Listeners for Mouse Hover and mouseout over enemy grid blocks
 //_______________________________________________________________________________________
 //Highlights grid block Border hovered over by mouse green
 document.querySelectorAll(".enemyGridElement").forEach((element) => {
   element.addEventListener("mouseover", () => {
-    element.setAttribute("style", "border: 4px solid green");
+    //element is the block in the HTML page, not in the enemy Grid
+
+    //player can only interact with grid (see changes) if game has been started
+    if(startGame){
+      //get row and column count from HTML id
+      let rowCount = retrieveRowCountOfSelectedBlock(element);
+      let columnCount = retrieveColumnCountOfSelectedBlock(element);
+
+      if(enemyGridArray[rowCount][columnCount].firedOn==true){
+        element.style.border="4px solid red";
+      }else{
+        element.style.border="4px solid green";
+      }
+    }
   });
 });
 
 //Set grid block border back to original color when mouse leaves
 document.querySelectorAll(".enemyGridElement").forEach((element) => {
   element.addEventListener("mouseout", () => {
-    element.setAttribute("style", "border: 1px solid white");
+    //player can only interact with grid (see changes) if game has been started
+    if(startGame){
+      element.style.border="1px solid white";
+    }
   });
 });
+
+//HELPER FUNCTION
+//Retrieve Row Count of Element selected on Enemy Board
+function retrieveRowCountOfSelectedBlock(element){
+  return element.id.slice(1,-1);
+}
+
+//HELPER FUNCTION
+//Retrieve Column Count of Element selected on Enemy Board
+function retrieveColumnCountOfSelectedBlock(element){
+  return element.id.charAt(element.id.length-1);
+ 
+}
+
+//_______________________________________________________________________________________
+// Event Listeners for player fire on enemy grid block (mousedown)
+//_______________________________________________________________________________________
+
+document.querySelectorAll(".enemyGridElement").forEach((element) => {
+  element.addEventListener("mousedown", () => {
+    //player can only interact with grid (see changes) if game has been started
+    if(startGame){
+      fireOnEnemy(element);
+    }
+  });
+});
+
+//Player Fire Function
+//Allows player to select a block on enemy grid to fire on
+//param: HTML grid Block that has been selected (mousedown)
+function fireOnEnemy(element){
+  //find row and column count of selected block for enemyGridArray
+  let rowCount = retrieveRowCountOfSelectedBlock(element);
+  let columnCount = retrieveColumnCountOfSelectedBlock(element);
+
+  //variable assigned to selected grid Block in enemyGridArray
+  let selectedgridBlock = enemyGridArray[rowCount][columnCount];
   
+  //check if element has already been fired on. If so do nothing
+  if(selectedgridBlock.firedOn==false){
+    //check if element does not contain a ship
+    if(selectedgridBlock.containsShip=="none"){
+      //if grid block has no ship, set background color to transparent;
+      element.style.backgroundColor="transparent";
+    }else{
+      //block contains a ship - successful hit
+
+      //set background color of block to red
+      element.style.backgroundColor="red";
+      //call function to manage ship damage and check if player has won
+      addDamageToEnemyShipAndCheckForPlayerWin(selectedgridBlock);
+    }
+
+    //set firedOn to true for this grid block
+    selectedgridBlock.firedOn=true;
+  }
+}
+
+//function to add damage to ship and check if player has won game
+function addDamageToEnemyShipAndCheckForPlayerWin(element){
+
+   //get name of ship
+   let shipName = element.containsShip;
+
+   //check if ship has now sustained maximum damage according to ship type
+   let checkforPlayerWin=checkForMaxShipDamage(shipName);
+
+   //if ship has sustained maximum damage, check if player has won game
+   //check if all enemy ships have sustained respective max damage
+   if(checkforPlayerWin){
+    if(enemy.enemyCarrierHitCount==5 &&
+        enemy.enemyBattleshipHitCount==4 &&
+        enemy.enemyCruiserHitCount==3 &&
+        enemy.enemySubmarineHitCount==3 &&
+        enemy.enemyDestroyerHitCount==2){
+        console.log("PLAYER HAS WON");
+      }
+    }
+}
+
+//add ship hit to damage level for ship and check if ship has sustained
+//maximum damage for either a player or enemy ship
+//returns true if selected ship is at max damage level and false if not
+function checkForMaxShipDamage(shipName){
+ 
+  //retrieve current ship damage level
+  switch(shipName){
+    //ENEMY SHIPS
+    case "enemyCarrier":
+      //carrier can sustain 5 hits
+      if(enemy.enemyCarrierHitCount<5){
+        enemy.enemyCarrierHitCount++;
+        //return true to check for player win if enemy carrier is at max damage
+        if(enemy.enemyCarrierHitCount==5){
+         return true;
+        }
+      }
+      return false;
+      
+    case "enemyBattleship":
+      //battleship can sustain 4 hits
+      if(enemy.enemyBattleshipHitCount<4){
+        enemy.enemyBattleshipHitCount++;
+        //return true to check for player win if enemy battleship is at max damage
+        if(enemy.enemyBattleshipHitCount==4){
+          return true;
+        }
+      }
+      return false;
+      
+    case "enemyCruiser":
+       //cruiser can sustain 3 hits 
+      if(enemy.enemyCruiserHitCount<3){
+        enemy.enemyCruiserHitCount++;
+        //return true to check for player win if enemy cruiser is at max damage
+        if(enemy.enemyCruiserHitCount==3){
+          return true;
+        }
+      }
+      return false;
+      
+    case "enemySubmarine":
+       //submarine can sustain 3 hits
+        if(enemy.enemySubmarineHitCount<3){
+          enemy.enemySubmarineHitCount++;
+          //return true to check for player win if enemy submarine is at max damage
+          if(enemy.enemySubmarineHitCount==3){
+            return true;
+          }
+        }
+        return false;
+        
+    case "enemyDestroyer":
+        //destoyer can sustain 2 hits
+        if(enemy.enemyDestroyerHitCount<2){
+          enemy.enemyDestroyerHitCount++;
+          //return true to check for player win if enemy destroyer is at max damage
+          if(enemy.enemyDestroyerHitCount==2){
+            return true;
+          }
+        }
+        return false;
+        
+    //PLAYER SHIPS
+    case "playerCarrier":
+        //carrier can sustain 5 hits
+        if(player.playerCarrierHitCount<5){
+          player.playerCarrierHitCount++;
+          //return true to check for enemy win if player carrier is at max damage
+          if(player.playerCarrierHitCount==5){
+            return true;
+          }
+        }
+        return false;
+
+    case "playerBattleship":
+        //Battleship can sustain 4 hits
+        if(player.playerBattleshipHitCount<4){
+          player.playerBattleshipHitCount++;
+          //return true to check for enemy win if player battleship is at max damage
+          if(player.playerBattleshipHitCount==4){
+            return true;
+          }
+        }
+        return false;
+        
+    case "playerCruiser":
+        //Cruiser can sustain 3 hits
+        if(player.playerCruiserHitCount<3){
+          player.playerCruiserHitCount++;
+          //return true to check for enemy win if player cruiser is at max damage
+          if(player.playerCruiserHitCount==3){
+            return true;
+          }
+        }
+        return false;
+        
+    case "playerSubmarine":
+        //Submarine can sustain 3 hits
+        if(player.playerSubmarineHitCount<3){
+          player.playerSubmarineHitCount++;
+          //return true to check for enemy win if player Submarine is at max damage
+          if(player.playerSubmarineHitCount==3){
+            return true;
+          }
+        }
+        return false;
+        
+    case "playerDestroyer":
+        //Destroyer can sustain 2 hits
+        if(player.playerDestroyerHitCount<2){
+          player.playerDestroyerHitCount++;
+          //return true to check for enemy win if player Destroyer is at max damage
+          if(player.playerDestroyerHitCount==2){
+            return true;
+          }
+        }   
+        return false;
+  }
+}
+
+//_______________________________________________________________________________________
+// Enemy (Computer) Player Functions to fire on Player Ships
+//_______________________________________________________________________________________
 
 
 /*###############################################################################
@@ -1182,7 +1446,7 @@ TESTING FUNCTIONS FOR LAB MARKER - use in Dev Console
 //Player Grid Data
 //-------------------------------------------------------
 
-//Display All Grid Blocks Data
+//Display All Player Grid Blocks Data in Console
 //Shows all object info for each grid block
 function displayPlayerGridBlocksData() {
   for (let i = 0; i < 10; i++) {
@@ -1190,23 +1454,69 @@ function displayPlayerGridBlocksData() {
   }
 }
 
-//Display All Player Grid Blocks Summary
+//Display All Player Grid Blocks Summary in Console
 function displayPlayerGridBlocksSummary(){
   console.log("PLAYER CURRENT GRID");
   displayGridBlocksSummary(playerGridArray);
 }
 
-//Display All Enemy Grid Blocks Summary
+//--------------------------------------------------------
+//Enemy Grid Data
+//-------------------------------------------------------
+
+//Display All Enemy Grid Blocks Summary in Console
 function displayEnemyGridBlocksSummary(){
   console.log("ENEMY CURRENT GRID");
   displayGridBlocksSummary(enemyGridArray);
 }
 
+//Show Enemy Ships on Grid
+//Changes background-color of enemy ships with different colors
+//for each ship. Does NOT update live
+function showEnemyShips(){
+  console.log("Quick Reference Function - No live update");
+  console.log("KEY:");
+  console.log("Carrier: Green");
+  console.log("Battleship: Red");
+  console.log("Submarine: Yellow");
+  console.log("Cruiser: Blue");
+  console.log("Destroyer: White");
+  for(let i=0;i<10;i++){
+    for(let j=0;j<10;j++){
+      let ship=enemyGridArray[i][j];
+      if(ship.containsShip!="none"){
+        switch(ship.containsShip){
+          case "enemyCarrier":
+            document.getElementById("e"+i+j).style.backgroundColor="green";
+            break;
+          case "enemyBattleship":
+            document.getElementById("e"+i+j).style.backgroundColor="red";
+            break;
+          case "enemySubmarine":
+            document.getElementById("e"+i+j).style.backgroundColor="yellow";
+            break;
+          case "enemyCruiser":
+            document.getElementById("e"+i+j).style.backgroundColor="blue";
+            break;
+          case "enemyDestroyer":
+            document.getElementById("e"+i+j).style.backgroundColor="white";
+            break;
+
+        }
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------
+//Helper Functions
+//-------------------------------------------------------
+//HERLPER FUNCTION
 //Display All Grid Blocks Ship Positions - Summary
 //Creates a second 2D Array containing H, X or .
 // KEY: H = Block holds Head of a Ship
 //      X = Block contains a Ship (not head)
-//      . = Empty Block
+//      . = Empty Block 
 function displayGridBlocksSummary(gridArray) {
   //Create 2D Display Array
   let displayArray = new Array(10);
@@ -1231,5 +1541,7 @@ function displayGridBlocksSummary(gridArray) {
     console.log(...displayArray[i]);
   }
 }
+
+
 
 
