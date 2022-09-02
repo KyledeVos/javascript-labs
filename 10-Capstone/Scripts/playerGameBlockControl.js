@@ -18,6 +18,29 @@ class blockElement {
   }
 }
 
+//class blueprint for each gird block in Enemy Brain Grid
+//grid computer (enemy) player uses and adds to during its turn
+/*FIELDS:
+    playerBlockElement - Block element linked to in player board grid
+    row - row of block element
+    column - column of block element
+    firedOn - if this block has been firedOn yet or not by enemy player
+    containsShip - name of player ship in block (or 'none' if there is no ship)\
+    shipDestroyed - if ship contained within this block has been completely destroyed
+*/
+
+class brainBlockElement{
+  constructor(playerBlockElement, row, column, firedOn, containsShip, shipDestroyed){
+    this.playerBlockElement = playerBlockElement;
+    this.row = row;
+    this.column = column;
+    this.firedOn=firedOn;
+    this.containsShip = containsShip;
+    this.shipDestroyed=shipDestroyed;
+  }
+}
+
+
 /*################################################################################################
 PLAYER AND ENEMY OBJECTS
 #################################################################################################
@@ -48,7 +71,7 @@ let enemy ={
 }
 
 /*################################################################################################
-PLAYER AND ENEMY GRIDS - CREATION
+PLAYER, ENEMY AND ENEMY BRAIN GRIDS - CREATION
 #################################################################################################
 */
 //Array of all gridBlocks for Player and Enemy (Computer Player)
@@ -56,12 +79,15 @@ PLAYER AND ENEMY GRIDS - CREATION
 
 let playerGridArray = new Array(10);
 let enemyGridArray = new Array(10);
+let enemyBrainGrid = new Array(10);
 
 //initialize GameBoard
 function initializeGame() {
+  //create 2D Arrays
   for (let i = 0; i < 10; i++) {
     playerGridArray[i] = new Array(10);
     enemyGridArray[i] = new Array(10);
+    enemyBrainGrid[i] = new Array(10);
   }
 
   //initialize each block in player and enemy Arrays as:
@@ -69,6 +95,14 @@ function initializeGame() {
   Row and Column Counts ranging from 0 - 9
   ContainsShip = "none" and shipHead = false
   firedOn = false;
+
+  Initialize each block in enemyBrainArray as:
+  playerBlockElement = link to corresponding block in player grid
+  row = row count of block
+  column = column count of block
+  firedOn = false;
+  containsShip="none";
+  shipDestroyed = false;
 */
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
@@ -89,6 +123,14 @@ function initializeGame() {
         false,
         false
       );
+      enemyBrainGrid[i][j]=new brainBlockElement(
+        playerGridArray[i][j],
+        i,
+        j,
+        false,
+        "none",
+        false
+      )
     }
   }
   //function to place player ships in default positions
@@ -1279,7 +1321,7 @@ function fireOnEnemy(element){
       //block contains a ship - successful hit
 
       //set background color of block to red
-      element.style.backgroundColor="red";
+      element.style.backgroundColor="green";
       //call function to manage ship damage and check if player has won
       addDamageToEnemyShipAndCheckForPlayerWin(selectedgridBlock);
     }
@@ -1433,8 +1475,213 @@ function checkForMaxShipDamage(shipName){
 }
 
 //_______________________________________________________________________________________
-// Enemy (Computer) Player Functions to fire on Player Ships
+// Enemy (Computer) Player Functions to fire on Player Grid
 //_______________________________________________________________________________________
+
+//ENEMY (computer player) uses enemyBrainGrid to track progress of firing at player ships
+//This Grid is not connected to the enemy board grid,but is connected to the player grid for  
+//the purposes of retrieving the current ship name of a grid block. Enemy player does not 
+//use player grid to guide or predict any turns for enemy in order to keep game fair
+
+//array used to track names of ships found that are not yet destroyed
+//will contain subarrays of currently found ship - shipName, row, column, shipOrientation
+let playerShipsFound =[];
+
+//Control Function determining blocks enemy will fire at on player grid
+function determineEnemyFireControlFunction(){
+
+  //first check if a player ship has not been found
+  if(playerShipsFound.length==0){
+    //no player ships have been fouund and thus a random block on player
+    //grid will be chosen
+
+    //loop through random enemy brain grid blocks until one is found that has not been 
+    //fired at yet
+    let breakLoop = false;
+    let currentSelectedPlayerGridBlock;
+    while(!breakLoop){
+      let row = Math.floor(Math.random()*10);
+      let column = Math.floor(Math.random()*10);
+      currentSelectedPlayerGridBlock = enemyBrainGrid[row][column];
+      if(currentSelectedPlayerGridBlock.firedOn==false){
+        //if block has been found that has not been fired at yet
+        //mark firedOn as true
+        currentSelectedPlayerGridBlock.firedOn=true;
+        //terminate loop
+        breakLoop=true;
+      }
+    }
+    showVisualEffectOfFire(currentSelectedPlayerGridBlock);
+    console.log(playerShipsFound);
+
+  }else{
+    //At this point at least one player ship has been found
+    //enemy player will always work on destroying first ship in playerShipsFoundArray
+
+    //CASE 1 - Orientation of ship is not known
+    if(playerShipsFound[0][3]=="unknown"){
+
+      let currentGridBlock=enemyBrainGrid[playerShipsFound[0][0]][playerShipsFound[0][1]];
+
+      //array holding possible directions of fire
+      let arrayOfFireDirections=[];
+
+      //Check if fire above is possible
+      if(currentGridBlock.row>0){
+        //check if block above has been fired at
+        if(enemyBrainGrid[playerShipsFound[0][0]-1][playerShipsFound[0][1]].firedOn==false){
+          //add possibility to fire above
+          arrayOfFireDirections.push("up");
+        }
+      }
+      //Check if fire below is possible
+      if(currentGridBlock.row<9){
+        //check if block below has been fired at
+        if(enemyBrainGrid[playerShipsFound[0][0]+1][playerShipsFound[0][1]].firedOn==false){
+          //add possibility to fire below
+          arrayOfFireDirections.push("down");
+        }
+      }
+
+      //Check if fire to the left is possible
+      if(currentGridBlock.column>0){
+        //check if block to the left has been fired at
+        if(enemyBrainGrid[playerShipsFound[0][0]][playerShipsFound[0][1]-1].firedOn==false){
+          //add possibility to fire to the left
+          arrayOfFireDirections.push("left");
+        }
+      }
+
+      //Check if fire to the right is possible
+      if(currentGridBlock.column<9){
+        //check if block to the left has been fired at
+        if(enemyBrainGrid[playerShipsFound[0][0]][playerShipsFound[0][1]+1].firedOn==false){
+          //add possibility to fire to the right
+          arrayOfFireDirections.push("right");
+        }
+      }
+
+      //Randomly decide which block from arrayOfFireDirections to fire at
+      let optionIndexNumber = Math.floor(Math.random()*arrayOfFireDirections.length);
+      //variable holding direction of fire
+      let directionOfFire = arrayOfFireDirections[optionIndexNumber];
+      //variable holding name of possible ship found from player grid block fired on
+      let foundShipName;
+
+      if(arrayOfFireDirections[optionIndexNumber]=="left" ||
+          arrayOfFireDirections[optionIndexNumber]=="right"){
+            foundShipName=horizontalFire(arrayOfFireDirections[optionIndexNumber],currentGridBlock);
+            
+            console.log("horizontal fire");
+      }else{
+        foundShipName=verticalFire(arrayOfFireDirections[optionIndexNumber],currentGridBlock);
+        console.log("vertical fire");
+      }
+
+      //Check if Ship Orientation is now known
+      //1) check if block that was fired at contains a ship with the same name as the 
+      //one currently being attacked (first in playerShipsFound Array)
+      if(foundShipName == playerShipsFound[0][2]){
+        //1) Check if Orientation is horizontal
+        if(directionOfFire=="left" || directionOfFire=="right"){
+          playerShipsFound[0][3]="horizontal";
+        }else{
+          playerShipsFound[0][3]="vertical";
+        }
+        console.log("Orientation:" + playerShipsFound[0][3]);
+    }
+
+    
+  
+    }else if(playerShipsFound[0][3]=="horizontal"){
+      console.log("Horizontal In Development");
+      
+    }else if(playerShipsFound[0][3]=="vertical"){
+      console.log("Vertical In Development");
+    }
+  }
+}
+
+
+//Function used to fire to either the left or right of a selected block
+//return name of ship found or "none" if no ship has been found
+function horizontalFire(direction, currentSelectedPlayerGridBlock){
+  let fireBlock;
+  if(direction=="left"){
+    //fire to the left of the current grid block
+    fireBlock = enemyBrainGrid[currentSelectedPlayerGridBlock.row][currentSelectedPlayerGridBlock.column-1];
+    
+  }else{
+    //fire to the right of current grid block
+    fireBlock=enemyBrainGrid[currentSelectedPlayerGridBlock.row][currentSelectedPlayerGridBlock.column+1];
+  }
+  fireBlock.firedOn=true;
+  showVisualEffectOfFire(fireBlock);
+  if(fireBlock.containsShip!="none"){
+    return fireBlock.containsShip;
+  }else{
+    return "none"
+  }
+}
+
+//Function used to fire to either above or below of a selected block
+//return name of ship found or "none" if no ship has been found
+function verticalFire(direction, currentSelectedPlayerGridBlock){
+  let fireBlock;
+  if(direction=="up"){
+    //fire above current grid block
+    fireBlock = enemyBrainGrid[currentSelectedPlayerGridBlock.row-1][currentSelectedPlayerGridBlock.column];
+    
+  }else{
+    //fire below current grid block
+    fireBlock=enemyBrainGrid[currentSelectedPlayerGridBlock.row+1][currentSelectedPlayerGridBlock.column];
+  }
+  fireBlock.firedOn=true;
+  showVisualEffectOfFire(fireBlock);
+  if(fireBlock.containsShip!="none"){
+    return fireBlock.containsShip;
+  }else{
+    return "none"
+  }
+}
+
+//HELPER FUNCTION
+//change background color of block on player grid 
+//add found ship to foundShipsArray(if not already in array)
+function showVisualEffectOfFire(currentSelectedPlayerGridBlock){
+  //show fired block on player HTML Grid and update playershipsFound Array
+  if(currentSelectedPlayerGridBlock.playerBlockElement.containsShip=="none"){
+    //no ship found, set block background to green
+    currentSelectedPlayerGridBlock.playerBlockElement.id.style.backgroundColor="green";
+  }else{
+    //if block did contain a ship, make background red
+    currentSelectedPlayerGridBlock.playerBlockElement.id.style.backgroundColor="red";
+    //add name of ship to brain block element
+    currentSelectedPlayerGridBlock.containsShip=currentSelectedPlayerGridBlock.playerBlockElement.containsShip;
+
+    //check if array already contains name, if not then add 
+    //shipName to back of array
+      if(playerShipsFound.length==0){
+        playerShipsFound.push([currentSelectedPlayerGridBlock.row, 
+          currentSelectedPlayerGridBlock.column, 
+          currentSelectedPlayerGridBlock.containsShip,
+        "unknown"]);
+      }else{
+        let containsShip=false;
+        for(let i=0;i<playerShipsFound.length;i++){
+          if(playerShipsFound[i]==currentSelectedPlayerGridBlock.playerBlockElement.containsShip){
+            containsShip=true;
+          }
+        }
+        if(!containsShip){
+          playerShipsFound.push([currentSelectedPlayerGridBlock.row, 
+            currentSelectedPlayerGridBlock.column, 
+            currentSelectedPlayerGridBlock.containsShip,
+          "unknown"]);
+        }
+      }
+  }
+}
 
 
 /*###############################################################################
