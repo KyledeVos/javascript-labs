@@ -48,7 +48,6 @@ PLAYER AND ENEMY OBJECTS
 
 //Player Object
 let player ={
-  sunkenShips:0,  //count used to determine if player has won. Win = 5
   turn:true,
   //variables to determine how many successful hits for each ship     
   playerCarrierHitCount:0,
@@ -60,7 +59,6 @@ let player ={
 
 //Enemy Object
 let enemy ={
-  sunkenShips:0,   //count used to determine if enemy has won. Win = 5
   turn:false,
   //variables to determine how many successful hits for each ship 
   enemyCarrierHitCount:0,
@@ -1511,8 +1509,7 @@ function determineEnemyFireControlFunction(){
         breakLoop=true;
       }
     }
-    showVisualEffectOfFire(currentSelectedPlayerGridBlock);
-    console.log(playerShipsFound);
+    showVisualEffectOfFireAndAddShipDamage(currentSelectedPlayerGridBlock);
 
   }else{
     //At this point at least one player ship has been found
@@ -1572,36 +1569,36 @@ function determineEnemyFireControlFunction(){
           arrayOfFireDirections[optionIndexNumber]=="right"){
             foundShipName=horizontalFire(arrayOfFireDirections[optionIndexNumber],currentGridBlock);
             
-            console.log("horizontal fire");
       }else{
         foundShipName=verticalFire(arrayOfFireDirections[optionIndexNumber],currentGridBlock);
-        console.log("vertical fire");
       }
 
       //Check if Ship Orientation is now known
-      //1) check if block that was fired at contains a ship with the same name as the 
+      //NOTE: If a different ship has been found its details are added to playerShipsFound
+      //array by showVisualEffectOfFire()
+      //check if block that was fired at contains a ship with the same name as the 
       //one currently being attacked (first in playerShipsFound Array)
       if(foundShipName == playerShipsFound[0][2]){
-        //1) Check if Orientation is horizontal
+        //Check if Orientation is horizontal
         if(directionOfFire=="left" || directionOfFire=="right"){
           playerShipsFound[0][3]="horizontal";
         }else{
+          //If not Horizontal, Orientation must be vertical
           playerShipsFound[0][3]="vertical";
         }
-        console.log("Orientation:" + playerShipsFound[0][3]);
-    }
+      }
 
-    
-  
+    //CASE 2 - Ship Orientation is Horizontal
     }else if(playerShipsFound[0][3]=="horizontal"){
       console.log("Horizontal In Development");
-      
+
+
+    //CASE 3 - Ship Orientation is Vertical
     }else if(playerShipsFound[0][3]=="vertical"){
       console.log("Vertical In Development");
     }
   }
 }
-
 
 //Function used to fire to either the left or right of a selected block
 //return name of ship found or "none" if no ship has been found
@@ -1616,7 +1613,7 @@ function horizontalFire(direction, currentSelectedPlayerGridBlock){
     fireBlock=enemyBrainGrid[currentSelectedPlayerGridBlock.row][currentSelectedPlayerGridBlock.column+1];
   }
   fireBlock.firedOn=true;
-  showVisualEffectOfFire(fireBlock);
+  showVisualEffectOfFireAndAddShipDamage(fireBlock);
   if(fireBlock.containsShip!="none"){
     return fireBlock.containsShip;
   }else{
@@ -1637,7 +1634,7 @@ function verticalFire(direction, currentSelectedPlayerGridBlock){
     fireBlock=enemyBrainGrid[currentSelectedPlayerGridBlock.row+1][currentSelectedPlayerGridBlock.column];
   }
   fireBlock.firedOn=true;
-  showVisualEffectOfFire(fireBlock);
+  showVisualEffectOfFireAndAddShipDamage(fireBlock);
   if(fireBlock.containsShip!="none"){
     return fireBlock.containsShip;
   }else{
@@ -1648,7 +1645,7 @@ function verticalFire(direction, currentSelectedPlayerGridBlock){
 //HELPER FUNCTION
 //change background color of block on player grid 
 //add found ship to foundShipsArray(if not already in array)
-function showVisualEffectOfFire(currentSelectedPlayerGridBlock){
+function showVisualEffectOfFireAndAddShipDamage(currentSelectedPlayerGridBlock){
   //show fired block on player HTML Grid and update playershipsFound Array
   if(currentSelectedPlayerGridBlock.playerBlockElement.containsShip=="none"){
     //no ship found, set block background to green
@@ -1669,7 +1666,7 @@ function showVisualEffectOfFire(currentSelectedPlayerGridBlock){
       }else{
         let containsShip=false;
         for(let i=0;i<playerShipsFound.length;i++){
-          if(playerShipsFound[i]==currentSelectedPlayerGridBlock.playerBlockElement.containsShip){
+          if(playerShipsFound[i][2]==currentSelectedPlayerGridBlock.playerBlockElement.containsShip){
             containsShip=true;
           }
         }
@@ -1680,7 +1677,33 @@ function showVisualEffectOfFire(currentSelectedPlayerGridBlock){
           "unknown"]);
         }
       }
+
+      //Add Damage to found player Ship and Check if Enemy has won the game
+      addDamageToPlayerShipAndCheckForEnemyWin(currentSelectedPlayerGridBlock);
   }
+}
+
+//Function to add damage to a player ship and check if enemy player has won the game
+function addDamageToPlayerShipAndCheckForEnemyWin(element){
+
+  //get name of ship
+  let shipName = element.containsShip;
+  console.log("Visual ship Name: " + shipName);
+
+  //check if ship has now sustained maximum damage according to ship type
+  let checkforEnemyWin=checkForMaxShipDamage(shipName);
+
+  //if ship has sustained maximum damage, check if enemy has won game
+  //check if all player ships have sustained respective max damage
+  if(checkforEnemyWin){
+   if(player.playerCarrierHitCount==5 &&
+       player.playerBattleshipHitCount==4 &&
+       player.playerCruiserHitCount==3 &&
+       player.playerSubmarineHitCount==3 &&
+       player.playerDestroyerHitCount==2){
+       console.log("ENEMY HAS WON");
+     }
+   }
 }
 
 
