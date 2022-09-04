@@ -1484,12 +1484,21 @@ function checkForMaxShipDamage(shipName){
 //array used to track names of ships found that are not yet destroyed
 //will contain subarrays of currently found ship - shipName, row, column, shipOrientation
 let playerShipsFound =[];
-
+let test = true;
 //Control Function determining blocks enemy will fire at on player grid
 function determineEnemyFireControlFunction(){
 
+
+
+if(test){
+  enemyBrainGrid[0][9].firedOn=true;
+  showVisualEffectOfFireAndAddShipDamage(enemyBrainGrid[0][9]);
+  test=false;
+}
+
+
   //first check if a player ship has not been found
-  if(playerShipsFound.length==0){
+  else if(playerShipsFound.length==0){
     //no player ships have been fouund and thus a random block on player
     //grid will be chosen
 
@@ -1590,9 +1599,103 @@ function determineEnemyFireControlFunction(){
 
     //CASE 2 - Ship Orientation is Horizontal
     }else if(playerShipsFound[0][3]=="horizontal"){
-      console.log("Horizontal In Development");
 
+      //row and column of first hit ship block
+      let shiprow = playerShipsFound[0][0];
+      let shipcolumn = playerShipsFound[0][1];
 
+      //row and Column of desired block to fire at
+      let loopRow = shiprow;
+      let loopColumn = shipcolumn;
+
+      //variable allowing check to the left of current block whilst looping
+      let checkLeft = true;
+
+       //hold current name of ship
+       let currentShipName = playerShipsFound[0][2];
+
+      //variable to control looping until ship block not yet fired at is found
+      let breakLoop = false;
+      while(!breakLoop){
+        console.log("looping");
+        //debugger;
+      
+        //Obvious Checks First
+        //---------------------------
+        //i) If first hit ship block is on the leftmost column, then rest of ship
+        //can only be to the right, keep firing right until ship is destroyed
+        if(shipcolumn==0){
+          if (enemyBrainGrid[loopRow][loopColumn].firedOn==false){
+               //At this point column will equal the correct block to fire at
+              //horizontal fire adds one to the column
+              horizontalFire("right", enemyBrainGrid[loopRow][loopColumn-1]);
+              breakLoop=true;
+          }else{
+            //current block has been fired at, increment column count
+            loopColumn++;
+          }
+        //ii) If first hit ship block is on the rightmost column, then rest of ship
+        //can only be to the left, keep firing left until ship is destroyed
+        }else if(shipcolumn==9){
+          if (enemyBrainGrid[loopRow][loopColumn].firedOn==false){
+            breakLoop=true;
+             //At this point column will equal the correct block to fire at
+              //horizontal fire subtracts one from the column
+              horizontalFire("left", enemyBrainGrid[loopRow][loopColumn+1]);    
+              breakLoop;      
+          }else{
+            //current block has been fired at, decrement column count
+            loopColumn--;
+          }
+        }else{
+          //First Block was not on the leftmost or rightmost columns
+          //----------------------------------------------------------
+
+          //i) Check Left of Current Block First
+          if(checkLeft){
+            //ensure that block checked is within bounds of grid
+            if(loopColumn>0){
+              if(currentShipName==enemyBrainGrid[loopRow][loopColumn].containsShip){
+              
+                //a) check if block to the left of first fired block has been checked
+                if(enemyBrainGrid[loopRow][loopColumn-1].firedOn==false){
+               
+
+                  //fire to the left of the block
+                  let foundShipName = horizontalFire("left", enemyBrainGrid[loopRow][loopColumn]);
+                  breakLoop=true;
+
+                  //check if block contained a different ship or no ship at all
+                  //if so, stop checking Left
+                  if(foundShipName!=currentShipName){
+                    checkLeft==false;
+                  }
+                }else{
+                  //block to the left has been fired at, but keep looping
+                  //to check if more of the ship to the left has not been fired at
+                  loopColumn--;
+                  console.log("Loop Column:" + loopColumn);
+
+                }
+              }else{
+                checkLeft=false;
+              }
+            }else{
+              checkLeft=false;
+            }
+
+          //ii) All blocks to left have been fired at, contain a different ship, contain
+          //no ship or reach end of grid to the left  
+          }else{
+            console.log("Fire Right");
+            breakLoop=true;
+            
+          }
+
+        }
+      }
+
+   
     //CASE 3 - Ship Orientation is Vertical
     }else if(playerShipsFound[0][3]=="vertical"){
       console.log("Vertical In Development");
@@ -1688,22 +1791,27 @@ function addDamageToPlayerShipAndCheckForEnemyWin(element){
 
   //get name of ship
   let shipName = element.containsShip;
-  console.log("Visual ship Name: " + shipName);
-
   //check if ship has now sustained maximum damage according to ship type
   let checkforEnemyWin=checkForMaxShipDamage(shipName);
 
   //if ship has sustained maximum damage, check if enemy has won game
   //check if all player ships have sustained respective max damage
   if(checkforEnemyWin){
+     //if ship is at max damage level (destroyed), remove ship from
+        //playerShipsFoundArray - will always be the first ship in array
+        playerShipsFound.shift();
    if(player.playerCarrierHitCount==5 &&
        player.playerBattleshipHitCount==4 &&
        player.playerCruiserHitCount==3 &&
        player.playerSubmarineHitCount==3 &&
        player.playerDestroyerHitCount==2){
        console.log("ENEMY HAS WON");
-     }
-   }
+
+      
+    }
+  }
+
+  
 }
 
 
