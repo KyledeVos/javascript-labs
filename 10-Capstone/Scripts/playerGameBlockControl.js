@@ -1,6 +1,13 @@
 //variable holding boolean if player is ready to start game
 let startGame=false;
 
+//variable holding boolean if player or computer has won the game
+let gameOver = false;
+
+//variable holding boolean to enable and disable player firing on enemy grid
+//used to prevent player from selecting two blocks at once
+let allowPlayerFire = true;
+
 //variable to ensure all enemy ships have been placed before player can press startButton
 //set to true after last ship (enemyDestroyer) is placed
 let enemyShipsReady = false;
@@ -48,7 +55,6 @@ PLAYER AND ENEMY OBJECTS
 
 //Player Object
 let player ={
-  turn:true,
   //variables to determine how many successful hits for each ship     
   playerCarrierHitCount:0,
   playerBattleshipHitCount:0,
@@ -59,7 +65,6 @@ let player ={
 
 //Enemy Object
 let enemy ={
-  turn:false,
   //variables to determine how many successful hits for each ship 
   enemyCarrierHitCount:0,
   enemyBattleshipHitCount:0,
@@ -196,17 +201,19 @@ let currentSelectedShip = document.getElementById("currentSelectedShip");
 //check if user clicks on a ship to rotate or move ship position
 document.querySelectorAll(".ship").forEach((element) => {
     //here element is the ship in the HTML page, not in the grid
-  element.addEventListener("mousedown", () => {
-    shipName = element.id;
-    currentSelectedShip.textContent= showCurrentShipName(element);
-    //only allows player to rotate or move a ship if they select one first on page load
-    allowRotationButton = true;
-    allowMovement = true;
+  element.addEventListener("mousedown", ()=>{
+    if(!startGame){
+      shipName = element.id;
+      currentSelectedShip.textContent= showCurrentShipName(element);
+      //only allows player to rotate or move a ship if they select one first on page load
+      allowRotationButton = true;
+      allowMovement = true;
 
-    //remove selection color from previous ships
-    resetShipColor();
-    //color currently selected ship
-    element.style.backgroundColor = "rgb(237, 87, 6)";
+      //remove selection color from previous ships
+      resetShipColor();
+      //color currently selected ship
+      element.style.backgroundColor = "rgb(237, 87, 6)";
+    }
   });
 
   //add box shadow to element if user hovers over
@@ -938,7 +945,6 @@ function returnShipLength(shipName) {
 BOARD EFFECTS FOR MOVEMENT OF CURSOR ON BUTTONS OR OVER GRIDS
 #########################################################################################
 */
-
 //_______________________________________________________________________________________
 //Direction of Player Ship Movement Buttons - Hover
 // Changes Button Color (Border Color) to green when hovered over by mouse
@@ -1026,7 +1032,6 @@ moveRightButton.addEventListener("mouseout",(element)=>{
     rotateButton.setAttribute("style", "box-shadow: -1px 1px 5px 1px rgba(255, 255, 255, 0.8);background-color:orange;color:black");
   });
 
-
   document.querySelectorAll(".movementButton").forEach((element)=>{
     element.addEventListener("mousedown",()=>{
       playerShipMovementOuterButton.setAttribute("style", "box-shadow:none");
@@ -1086,7 +1091,6 @@ function determineEnemyShipPosition(shipName){
               //a ship is in the way
               shipPlacement = false;
               break;
-              
             }
         }
         if(shipPlacement){
@@ -1108,7 +1112,6 @@ function determineEnemyShipPosition(shipName){
              //a ship is in the way
              shipPlacement = false;
              break;
-             
           }
         }
 
@@ -1121,7 +1124,6 @@ function determineEnemyShipPosition(shipName){
           quit=true;
         }
       }
-      
     }else{
       //If Ship placement is horizontal, determine if current column placement would allow 
       //horizontal position to the right
@@ -1133,10 +1135,8 @@ function determineEnemyShipPosition(shipName){
             //a ship is in the way
             shipPlacement = false;
             break;
-            
           }
         }
-
         if(shipPlacement){
           //at this point the ship can be placed horizontally to the right as no other ship is in the way
           for(let i=0;i<shipLength;i++){
@@ -1156,7 +1156,6 @@ function determineEnemyShipPosition(shipName){
             //a ship is in the way
             shipPlacement = false;
             break;
-            
           }
         }
 
@@ -1221,7 +1220,9 @@ startGameButton.addEventListener("mousedown",()=>{
     startGameButton.setAttribute("style","box-shadow: none")
     startGameButton.style.marginTop="-1.1rem";
     startGameButton.style.marginLeft="1.9rem";
-
+    //reset player ship colors
+    resetShipColor();
+    
     //hide div containing rotate button, move buttons, startGameButton and currentSelectedShip
     document.getElementById("playerButtonsAndDisplayDiv").style.display = "none";
 
@@ -1282,7 +1283,6 @@ function retrieveRowCountOfSelectedBlock(element){
 //Retrieve Column Count of Element selected on Enemy Board
 function retrieveColumnCountOfSelectedBlock(element){
   return element.id.charAt(element.id.length-1);
- 
 }
 
 //_______________________________________________________________________________________
@@ -1292,7 +1292,7 @@ function retrieveColumnCountOfSelectedBlock(element){
 document.querySelectorAll(".enemyGridElement").forEach((element) => {
   element.addEventListener("mousedown", () => {
     //player can only interact with grid (see changes) if game has been started
-    if(startGame){
+    if(startGame && allowPlayerFire){ //ensure player can only select one block at a time
       fireOnEnemy(element);
     }
   });
@@ -1314,12 +1314,12 @@ function fireOnEnemy(element){
     //check if element does not contain a ship
     if(selectedgridBlock.containsShip=="none"){
       //if grid block has no ship, set background color to transparent;
-      element.style.backgroundColor="transparent";
+      fadeBlockOut(element, "transparent", true);
     }else{
       //block contains a ship - successful hit
 
       //set background color of block to red
-      element.style.backgroundColor="green";
+      fadeBlockOut(element, "red", true);
       //call function to manage ship damage and check if player has won
       addDamageToEnemyShipAndCheckForPlayerWin(selectedgridBlock);
     }
@@ -1347,8 +1347,10 @@ function addDamageToEnemyShipAndCheckForPlayerWin(element){
         enemy.enemySubmarineHitCount==3 &&
         enemy.enemyDestroyerHitCount==2){
         console.log("PLAYER HAS WON");
+        gameOver=true;
       }
     }
+
 }
 
 //add ship hit to damage level for ship and check if ship has sustained
@@ -1471,6 +1473,41 @@ function checkForMaxShipDamage(shipName){
         return false;
   }
 }
+
+//Function to add fade out of selected block
+function fadeBlockOut(element, desiredColor, player){
+  //disable player ability to fire
+  allowPlayerFire=false;
+  //initially set background color of fired at block to white
+  element.style.backgroundColor="white";
+
+  //fade out
+  let fadeEffect = setInterval(function () {
+      if (!element.style.opacity) {
+          element.style.opacity = 1;
+      }
+      if (element.style.opacity > 0.1) {
+          element.style.opacity -= 0.1;
+      } else {
+          clearInterval(fadeEffect);       
+          element.style.opacity=1;
+          element.style.backgroundColor=desiredColor;
+          //if it was player's turn, call function to start enemy turn
+          if(player && gameOver==false){
+            setTimeout(()=>{
+              //delay time between completion of player turn and start of enemy turn
+              determineEnemyFireControlFunction()}, 800);
+          }else{
+          //re-enable player ability to fire if it was currently enemy turn
+            if(!gameOver){
+              allowPlayerFire=true;
+            }
+          }
+      }
+  }, 100);
+}
+
+
 
 //_______________________________________________________________________________________
 // Enemy (Computer) Player Functions to fire on Player Grid
@@ -1738,7 +1775,6 @@ function determineEnemyFireControlFunction(){
             loopRow--;
           }
         }else{
-          //debugger;
           //First Block was not on the top or bottom rows
           //----------------------------------------------------------
 
@@ -1844,10 +1880,12 @@ function showVisualEffectOfFireAndAddShipDamage(currentSelectedPlayerGridBlock){
   //show fired block on player HTML Grid and update playershipsFound Array
   if(currentSelectedPlayerGridBlock.playerBlockElement.containsShip=="none"){
     //no ship found, set block background to green
-    currentSelectedPlayerGridBlock.playerBlockElement.id.style.backgroundColor="green";
+    fadeBlockOut(currentSelectedPlayerGridBlock.playerBlockElement.id, "green", false);
+    //currentSelectedPlayerGridBlock.playerBlockElement.id.style.backgroundColor="green";
   }else{
     //if block did contain a ship, make background red
-    currentSelectedPlayerGridBlock.playerBlockElement.id.style.backgroundColor="red";
+    fadeBlockOut(currentSelectedPlayerGridBlock.playerBlockElement.id, "red", false);
+    //currentSelectedPlayerGridBlock.playerBlockElement.id.style.backgroundColor="red";
     //add name of ship to brain block element
     currentSelectedPlayerGridBlock.containsShip=currentSelectedPlayerGridBlock.playerBlockElement.containsShip;
 
@@ -1898,6 +1936,7 @@ function addDamageToPlayerShipAndCheckForEnemyWin(element){
        player.playerSubmarineHitCount==3 &&
        player.playerDestroyerHitCount==2){
        console.log("ENEMY HAS WON");
+       gameOver=true;
 
       
     }
