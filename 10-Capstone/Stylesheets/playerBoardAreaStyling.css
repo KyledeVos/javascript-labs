@@ -91,6 +91,26 @@
 }
 
 /*__________________________________________________________________________________*/
+/*PLAYER TITLE*/
+#playerTitle {
+  position: absolute;
+  width: 7%;
+  padding: 0.1rem;
+  float: right;
+  margin-left: 1.2rem;
+  margin-top: -1rem;
+  border: 0.3rem ridge rgb(45, 45, 45);
+  background-color: rgb(77, 74, 73);
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 1.6rem;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+
+/*__________________________________________________________________________________*/
 /*PLAYER BUTTONS*/
 
 /*Div holding player buttons initially and game play details after*/
@@ -103,23 +123,24 @@
   height: 20rem;
   margin-top: -23rem;
   margin-right: 1.2rem;
+  display: block;
 }
 
-#startGameButton{
+#startGameButton {
   position: absolute;
-  margin-top: -1rem;
-  margin-left: 2.5rem;
-  border:0.4rem outset rgb(71, 70, 70);
-  border-radius:20%;
+  margin-top: 3rem;
+  margin-left: 2rem;
+  border: 0.4rem outset rgb(71, 70, 70);
+  border-radius: 20%;
   height: 2.5rem;
-  width:5rem;
+  width: 5rem;
   background-color: rgb(44, 232, 44);
-  color:black;;
-  font-weight:bold;
-  font-size:1rem;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
   text-align: center;
-  padding:auto;
-  cursor:grab;
+  padding: auto;
+  cursor: grab;
   box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8);
 }
 
@@ -128,7 +149,7 @@
   position: absolute;
   float: left;
   z-index: 3;
-  margin-top: 6.5rem;
+  margin-top: 7.5rem;
   margin-left: 0.9rem;
   border: 0.3rem solid black;
   border-radius: 50%;
@@ -139,14 +160,14 @@
 
 #rotatebutton {
   position: absolute;
-  z-index:4;
+  z-index: 4;
   margin-left: 3.3rem;
-  margin-top: 8.7rem;
+  margin-top: 9.7rem;
   cursor: grab;
-  background-color:black;
-  border:0.2rem solid black;
-  border-radius:50%;
-  font-size:2rem;
+  background-color: black;
+  border: 0.2rem solid black;
+  border-radius: 50%;
+  font-size: 2rem;
   color: white;
   box-shadow: -1px 1px 5px 1px rgba(255, 255, 255, 0.8);
 }
@@ -163,7 +184,7 @@
 #moveShipUpButton {
   z-index: 3;
   margin-left: 3rem;
-  margin-top: 7rem;
+  margin-top: 8rem;
   border-bottom: 25px solid red;
   border-right: 25px solid transparent;
   border-left: 25px solid transparent;
@@ -174,7 +195,7 @@
 #moveShipLeftButton {
   z-index: 3;
   margin-left: 1.5rem;
-  margin-top: 8.5rem;
+  margin-top: 9.5rem;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
   border-right: 25px solid red;
@@ -185,7 +206,7 @@
 #moveShipRightButton {
   z-index: 3;
   margin-left: 6.1rem;
-  margin-top: 8.5rem;
+  margin-top: 9.5rem;
   border-top: 25px solid transparent;
   border-bottom: 25px solid transparent;
   border-left: 25px solid red;
@@ -196,7 +217,7 @@
 #moveShipDownButton {
   z-index: 3;
   margin-left: 3rem;
-  margin-top: 11.6rem;
+  margin-top: 12.6rem;
   border-top: 25px solid red;
   border-right: 25px solid transparent;
   border-left: 25px solid transparent;
@@ -206,15 +227,115 @@
 
 /*__________________________________________________________________________________*/
 /*Div containing name of currently selected ship*/
-#currentSelectedShip{
-  margin-top:17rem;
-  padding:0.3rem;
+#currentSelectedShip {
+  margin-top: 17rem;
+  padding: 0.3rem;
   text-align: center;
-  color:white;
+  color: white;
   font-weight: 100;
-  font-size:1.2rem;
-  font-family:'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  font-family: "Courier New", Courier, monospace;
   border: 0.4rem inset rgb(29, 29, 29);
   background-color: rgb(77, 74, 73);
-  width:90%;
+  width: 90%;
+}
+
+/*__________________________________________________________________________________*/
+/*PLAYER GAME INFO*/
+
+#playerGameInfoDisplayDiv {
+  position: inherit;
+  border: 0.1rem solid white;
+  background-color: rgb(103, 101, 100);
+  width: 27%;
+  float: right;
+  height: 19rem;
+  margin-top: -23rem;
+  margin-right: 0.4rem;
+  display: none;
+}
+
+#playerTitleTwo {
+  position: inherit;
+  margin: auto;
+  width: 60%;
+  padding: 0.3rem;
+  margin-top: 0.5rem;
+  background-color: rgb(39, 38, 38);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3rem;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+
+/*Div Containing Info for Player Weapons Fire - Linked to Player or Enemy Turn*/
+#playerWeaponsDiv {
+  position: inherit;
+  margin: auto;
+  width: 60%;
+  padding: 0.3rem;
+  margin-top: 1.2rem;
+  border: 0.2rem ridge rgb(74, 71, 71);
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  text-align: center;
+}
+
+#playerWeaponsState {
+  margin-top: 0.2rem;
+  padding: 0.2rem;
+  position: inherit;
+  border: 0.1rem solid black;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-weight: 800;
+  /*Font and Background color are changed and controller by Javascript according to player
+    or Enemy Turn*/
+  color: black;
+  background-color: yellow;
+  -webkit-text-stroke: 0.3px black;
+}
+
+/*PLAYER SHIPS DATA*/
+
+#playerShipData {
+  position: inherit;
+  width: 88%;
+  height: 9rem;
+  padding: 0.2rem;
+  margin: auto;
+  margin-top: 0.7rem;
+  border: 0.2rem ridge rgb(74, 71, 71);
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  text-align: left;
+  color: white;
+}
+
+.playerShipDataBox{
+  margin-bottom: 0.5rem;
+  padding: 0.1rem;
+  border: 0.1rem solid black;
+}
+
+#playerCarrierData {
+  background-color: green;
+}
+
+#playerBattleshipData {
+  background-color: green;
+}
+
+#playerCruiserData{
+  background-color: green;
+}
+
+#playerSubmarineData{
+  background-color: green;
+}
+
+#playerDestoyerData{
+  background-color: green;
 }

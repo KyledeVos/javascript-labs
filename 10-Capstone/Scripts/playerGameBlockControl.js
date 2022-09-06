@@ -1225,6 +1225,8 @@ startGameButton.addEventListener("mousedown",()=>{
     
     //hide div containing rotate button, move buttons, startGameButton and currentSelectedShip
     document.getElementById("playerButtonsAndDisplayDiv").style.display = "none";
+    //display div containing player weapons state and ship info
+    document.getElementById("playerGameInfoDisplayDiv").style.display="block";
 
     //allow player to select and fire on enemy grid blocks
     startGame = true;
@@ -1478,6 +1480,14 @@ function checkForMaxShipDamage(shipName){
 function fadeBlockOut(element, desiredColor, player){
   //disable player ability to fire
   allowPlayerFire=false;
+
+  //if it is players turn, set weapons system color to fire
+  if(player){
+    document.getElementById("playerWeaponsState").style.color="black";
+    document.getElementById("playerWeaponsState").style.backgroundColor="red";
+    document.getElementById("playerWeaponsState").textContent="FIRING";
+  }
+
   //initially set background color of fired at block to white
   element.style.backgroundColor="white";
 
@@ -1496,11 +1506,21 @@ function fadeBlockOut(element, desiredColor, player){
           if(player && gameOver==false){
             setTimeout(()=>{
               //delay time between completion of player turn and start of enemy turn
-              determineEnemyFireControlFunction()}, 800);
+              determineEnemyFireControlFunction();
+              //Set player weapons style state to "DISABLED" - enemy turn
+              document.getElementById("playerWeaponsState").style.color="black";
+              document.getElementById("playerWeaponsState").style.backgroundColor="rgb(74, 71, 71)";
+              document.getElementById("playerWeaponsState").textContent="DISABLED";
+            }, 800);
+              
           }else{
           //re-enable player ability to fire if it was currently enemy turn
             if(!gameOver){
               allowPlayerFire=true;
+              //Set player weapons style state to "ARMED" - now player's turn
+              document.getElementById("playerWeaponsState").style.color="white";
+              document.getElementById("playerWeaponsState").style.backgroundColor="yellow";
+              document.getElementById("playerWeaponsState").textContent="ARMED";
             }
           }
       }
@@ -1523,6 +1543,7 @@ function fadeBlockOut(element, desiredColor, player){
 let playerShipsFound =[];
 //Control Function determining blocks enemy will fire at on player grid
 function determineEnemyFireControlFunction(){
+
 
   //first check if a player ship has not been found
   if(playerShipsFound.length==0){
@@ -1913,6 +1934,7 @@ function showVisualEffectOfFireAndAddShipDamage(currentSelectedPlayerGridBlock){
 
       //Add Damage to found player Ship and Check if Enemy has won the game
       addDamageToPlayerShipAndCheckForEnemyWin(currentSelectedPlayerGridBlock);
+
   }
 }
 

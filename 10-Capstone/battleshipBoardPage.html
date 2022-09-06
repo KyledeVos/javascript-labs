@@ -37,8 +37,7 @@
 
     <main id="playerGamePlayArea">
       <div id="playerBoardArea" class="playerShipBoardArea">
-        player
-
+        &nbsp;
         <!--Player Game Play Grid-->
         <div id="playerGrid">
           <!--Player Ships-->
@@ -158,7 +157,9 @@
           <div class="playerGridElement" id="p98"></div>
           <div class="playerGridElement" id="p99"></div>
         </div>
+       <!--Div Containing Player Position Ship Buttons BEFORE game starts-->
         <div id="playerButtonsAndDisplayDiv">
+          <div id="playerTitle">PLAYER</div>
           <button id="startGameButton">START</button>
           <div id="playerShipMovementOuterButton"></div>
           <button id="rotatebutton">R</button>
@@ -168,9 +169,25 @@
           <button id="moveShipDownButton" class="movementButton"></button>
           <div id="currentSelectedShip">CURRENT SHIP:  NONE</div>
         </div>
+      <!--Div Containing Player Game Info AFTER game starts-->
+        <div id="playerGameInfoDisplayDiv">
+          <div id="playerTitleTwo">PLAYER</div>
+          <div id="playerWeaponsDiv">
+              WEAPONS
+              <div id="playerWeaponsState">ARMED</div>
+          </div>
+          <!--Div containing number of hits for each player ship-->
+          <div id="playerShipData" >
+            <div id="playerCarrierData" class="playerShipDataBox">Carrier: ACTIVE</div>
+            <div id="playerBattleshipData" class="playerShipDataBox">Battleship: ACTIVE</div>
+            <div id="playerCruiserData" class="playerShipDataBox">Cruiser: ACTIVE</div>
+            <div id="playerSubmarineData" class="playerShipDataBox">Submarine: ACTIVE</div>
+            <div id="playerDestoyerData" class="playerShipDataBox">Destroyer: ACTIVE</div>
+          </div>
+        </div>
       </div>
       <div id="enemyBoardArea" class="enemyShipBoardArea">
-        enemy
+        &nbsp;
         <div class="enemyGrid" id="enemyGrid">
           <div class="enemyGridElement" id="e00"></div>
           <div class="enemyGridElement" id="e01"></div>
