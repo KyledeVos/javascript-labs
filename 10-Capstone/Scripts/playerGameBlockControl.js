@@ -1242,6 +1242,12 @@ startGameButton.addEventListener("mousedown",()=>{
     //display div containing player weapons state and ship info
     document.getElementById("playerGameInfoDisplayDiv").style.display="block";
 
+    //display start game div and then remove after 2.5 seconds
+    document.getElementById("startGameTemporaryDiv").style.display="block";
+    setTimeout(()=>{
+      document.getElementById("startGameTemporaryDiv").style.display="none";
+    }, 2500);
+
     //allow player to select and fire on enemy grid blocks
     startGame = true;
 

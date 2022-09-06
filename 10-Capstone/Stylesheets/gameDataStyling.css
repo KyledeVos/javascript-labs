@@ -1,10 +1,70 @@
+/*Div displaying game has begun - runs for 2.5 seconds*/
+#startGameTemporaryDiv{
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height:120%;
+  padding-top: 11rem;
+  background-color: rgba(0,0,0,0.9);
+  color:white;
+  text-align:center;
+  font-size: 5rem;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-weight: 800;
+  display: none;
+  -webkit-text-stroke: 3px black;
+}
+
+/*Bottom Section Displaying Number of Blocks per Ship type*/
 #gamePiecesAndDataArea {
   position: relative;
   width: 98%;
   height: 5rem;
   margin: auto;
   margin-top: 0.5rem;
-  border: 0.1rem solid white;
+  border: none;
   color: white;
 }
+
+.shipExplaination{
+  position: inherit;
+  float:left;
+  border: 0.2rem ridge white;
+  border-radius: 20%;
+  width: 20%;
+  margin-top: 0.1rem;
+  margin-left:3rem;
+  padding-top:0.2rem;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+}
+
+#CarrierNumberOfBlocks{
+  width: 175px;
+  height: 25px;
+  margin-left: 8rem;
+}
+
+#BattleshipNumberOfBlocks{
+  width: 135px;
+  height: 25px;
+}
+
+#CruiserNumberOfBlocks{
+  width: 100px;
+  height: 25px;
+}
+
+#SubmarineNumberOfBlocks{
+  width: 100px;
+  height: 25px;
+  border-radius: 40%;
+}
+
+#DestoyerNumberOfBlocks{
+  width: 85px;
+  height: 25px;
+}
+
 

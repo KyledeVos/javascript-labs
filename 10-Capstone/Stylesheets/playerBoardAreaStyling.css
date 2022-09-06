@@ -4,7 +4,7 @@
   width: 98%;
   height: 27rem;
   margin: auto;
-  border: 0.1rem solid white;
+  border: none;
 }
 
 /*Div holding Player Board and surrounding Div*/
@@ -13,7 +13,6 @@
   width: 45%;
   height: 25rem;
   border: 0.3rem ridge red;
-  /*rgb(144, 141, 139)*/
   margin: 0.35rem;
   margin-left: 1rem;
 }

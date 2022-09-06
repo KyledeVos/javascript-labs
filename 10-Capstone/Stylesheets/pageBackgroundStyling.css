@@ -9,10 +9,14 @@ body{
     z-index: 1;
     width: 98%;
     height: 4rem;
-    border: 0.1rem solid white;
     margin: auto;
-    margin-bottom: 0.1rem;
-    color:white;
+    margin-bottom: 0.5rem;
+    margin-top: -0.6rem;
+    color:rgb(8, 35, 66);
+    text-align: center;
+    font-size: 5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    -webkit-text-stroke: 1.5px white;
 }
 
 img {

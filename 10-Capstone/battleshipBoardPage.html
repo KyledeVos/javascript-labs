@@ -32,8 +32,9 @@
 
   <body onload="initializeGame()">
     <img src="./Images/ocean_background_2.jpg" />
+    <div id="startGameTemporaryDiv">SELECT A BLOCK ON ENEMY GRID</div>
 
-    <div id="battleShipTitleArea">Battleship</div>
+    <div id="battleShipTitleArea">BATTLESHIP</div>
 
     <main id="playerGamePlayArea">
       <div id="playerBoardArea" class="playerShipBoardArea">
@@ -313,7 +314,13 @@
       </div>
     </main>
 
-    <div id="gamePiecesAndDataArea">Details</div>
+    <div id="gamePiecesAndDataArea">
+      <div id="CarrierNumberOfBlocks" class="shipExplaination">Carrier: 5</div>
+      <div id="BattleshipNumberOfBlocks" class="shipExplaination">Battleship: 4</div>
+      <div id="CruiserNumberOfBlocks" class="shipExplaination">Cruiser: 3</div>
+      <div id="SubmarineNumberOfBlocks" class="shipExplaination">Submarine: 3</div>
+      <div id="DestoyerNumberOfBlocks" class="shipExplaination">Destroyer: 2</div>
+    </div>
 
     <script src="./Scripts/playerGameBlockControl.js"></script>
   </body>
