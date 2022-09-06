@@ -28,22 +28,83 @@
 .enemyGridElement {
   position: inherit;
   z-index:1;
-  background-color: black;
+  background-color: white;
+  opacity: 0.3;
   border: 1px solid rgba(255, 255, 255, 0.8);
   font-size: 1.5rem;
   text-align: center;
   color: white;
-  cursor: crosshair;
+  cursor: auto;
 }
 
 #enemyInfoDisplayGrid {
   position: inherit;
-  border: 0.3rem ridge rgb(144, 141, 139);
-  background-color: rgb(50, 48, 48);
-  width: 26%;
+  border: 0.1rem solid white;
+  background-color: rgb(103, 101, 100);
+  width: 27%;
   float: right;
-  height: 20rem;
+  height: 14rem;
   margin-top: -23rem;
   margin-left: 24.6rem;
   margin-right: 0.5rem;
+}
+
+/*__________________________________________________________________________________*/
+/*ENEMY GAME INFO*/
+#enemyTitle{
+  position: inherit;
+  margin: auto;
+  width: 60%;
+  padding: 0.3rem;
+  margin-top: 0.5rem;
+  background-color: rgb(39, 38, 38);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3rem;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+
+/*ENEMY SHIPS DATA*/
+#enemyShipData {
+  position: inherit;
+  width: 88%;
+  height: 9rem;
+  padding: 0.2rem;
+  margin: auto;
+  margin-top: 0.7rem;
+  border: 0.2rem ridge rgb(74, 71, 71);
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  text-align: left;
+  color: white;
+  display:none;
+}
+
+.enemyShipDataBox{
+  margin-bottom: 0.5rem;
+  padding: 0.1rem;
+  border: 0.1rem solid black;
+}
+
+#enemyCarrierData {
+  background-color: green;
+}
+
+#enemyBattleshipData {
+  background-color: green;
+}
+
+#enemyCruiserData{
+  background-color: green;
+}
+
+#enemySubmarineData{
+  background-color: green;
+}
+
+#enemyDestoyerData{
+  background-color: green;
 }

@@ -12,7 +12,8 @@
   float: left;
   width: 45%;
   height: 25rem;
-  border: 0.3rem ridge rgb(144, 141, 139);
+  border: 0.3rem ridge red;
+  /*rgb(144, 141, 139)*/
   margin: 0.35rem;
   margin-left: 1rem;
 }

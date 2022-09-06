@@ -1222,6 +1222,20 @@ startGameButton.addEventListener("mousedown",()=>{
     startGameButton.style.marginLeft="1.9rem";
     //reset player ship colors
     resetShipColor();
+
+    //set enemy grid blocks to default color of black
+    document.querySelectorAll(".enemyGridElement").forEach((element)=>{
+      element.style.backgroundColor="black";
+      element.style.opacity=1;
+      element.style.cursor="crosshair";
+    });
+    
+    //turn on display of enemy ship data
+    document.getElementById("enemyShipData").style.display="block";
+
+    //set boarder around player area to normal color
+    document.getElementById("playerBoardArea").style.border="0.3rem ridge rgb(144, 141, 139)";
+
     
     //hide div containing rotate button, move buttons, startGameButton and currentSelectedShip
     document.getElementById("playerButtonsAndDisplayDiv").style.display = "none";
@@ -1350,6 +1364,11 @@ function addDamageToEnemyShipAndCheckForPlayerWin(element){
         enemy.enemyDestroyerHitCount==2){
         console.log("PLAYER HAS WON");
         gameOver=true;
+        //disable weapon style for player
+        document.getElementById("playerWeaponsState").style.color="white";
+        document.getElementById("playerWeaponsState").style.backgroundColor="rgb(74, 71, 71)";
+        document.getElementById("playerWeaponsState").textContent="DISABLED";
+
       }
     }
 
@@ -1369,6 +1388,9 @@ function checkForMaxShipDamage(shipName){
         enemy.enemyCarrierHitCount++;
         //return true to check for player win if enemy carrier is at max damage
         if(enemy.enemyCarrierHitCount==5){
+          //change status of Carrier ship to destroyed
+          document.getElementById("enemyCarrierData").textContent = "Carrier: LOST";
+          document.getElementById("enemyCarrierData").style.backgroundColor = "red";
          return true;
         }
       }
@@ -1380,6 +1402,9 @@ function checkForMaxShipDamage(shipName){
         enemy.enemyBattleshipHitCount++;
         //return true to check for player win if enemy battleship is at max damage
         if(enemy.enemyBattleshipHitCount==4){
+          //change status of Battleship ship to destroyed
+          document.getElementById("enemyBattleshipData").textContent = "Battleship: LOST";
+          document.getElementById("enemyBattleshipData").style.backgroundColor = "red";
           return true;
         }
       }
@@ -1391,6 +1416,9 @@ function checkForMaxShipDamage(shipName){
         enemy.enemyCruiserHitCount++;
         //return true to check for player win if enemy cruiser is at max damage
         if(enemy.enemyCruiserHitCount==3){
+           //change status of Cruiser ship to destroyed
+           document.getElementById("enemyCruiserData").textContent = "Cruiser: LOST";
+           document.getElementById("enemyCruiserData").style.backgroundColor = "red";
           return true;
         }
       }
@@ -1402,6 +1430,9 @@ function checkForMaxShipDamage(shipName){
           enemy.enemySubmarineHitCount++;
           //return true to check for player win if enemy submarine is at max damage
           if(enemy.enemySubmarineHitCount==3){
+            //change status of Submarine ship to destroyed
+           document.getElementById("enemySubmarineData").textContent = "Submarine: LOST";
+           document.getElementById("enemySubmarineData").style.backgroundColor = "red";
             return true;
           }
         }
@@ -1413,6 +1444,9 @@ function checkForMaxShipDamage(shipName){
           enemy.enemyDestroyerHitCount++;
           //return true to check for player win if enemy destroyer is at max damage
           if(enemy.enemyDestroyerHitCount==2){
+            //change status of Destroyer ship to destroyed
+           document.getElementById("enemyDestoyerData").textContent = "Destroyer: LOST";
+           document.getElementById("enemyDestoyerData").style.backgroundColor = "red";
             return true;
           }
         }
@@ -1425,6 +1459,9 @@ function checkForMaxShipDamage(shipName){
           player.playerCarrierHitCount++;
           //return true to check for enemy win if player carrier is at max damage
           if(player.playerCarrierHitCount==5){
+            //change status of carrier ship to destroyed
+            document.getElementById("playerCarrierData").textContent = "Carrier: LOST";
+            document.getElementById("playerCarrierData").style.backgroundColor = "red";
             return true;
           }
         }
@@ -1436,6 +1473,9 @@ function checkForMaxShipDamage(shipName){
           player.playerBattleshipHitCount++;
           //return true to check for enemy win if player battleship is at max damage
           if(player.playerBattleshipHitCount==4){
+            //change status of Battleship ship to destroyed
+            document.getElementById("playerBattleshipData").textContent = "Battleship: LOST";
+            document.getElementById("playerBattleshipData").style.backgroundColor = "red";
             return true;
           }
         }
@@ -1447,6 +1487,9 @@ function checkForMaxShipDamage(shipName){
           player.playerCruiserHitCount++;
           //return true to check for enemy win if player cruiser is at max damage
           if(player.playerCruiserHitCount==3){
+             //change status of Cruiser ship to destroyed
+             document.getElementById("playerCruiserData").textContent = "Cruiser: LOST";
+             document.getElementById("playerCruiserData").style.backgroundColor = "red";
             return true;
           }
         }
@@ -1458,6 +1501,9 @@ function checkForMaxShipDamage(shipName){
           player.playerSubmarineHitCount++;
           //return true to check for enemy win if player Submarine is at max damage
           if(player.playerSubmarineHitCount==3){
+            //change status of Submarine ship to destroyed
+            document.getElementById("playerSubmarineData").textContent = "Submarine: LOST";
+            document.getElementById("playerSubmarineData").style.backgroundColor = "red";
             return true;
           }
         }
@@ -1469,6 +1515,9 @@ function checkForMaxShipDamage(shipName){
           player.playerDestroyerHitCount++;
           //return true to check for enemy win if player Destroyer is at max damage
           if(player.playerDestroyerHitCount==2){
+            //change status of Destroyer ship to destroyed
+            document.getElementById("playerDestoyerData").textContent = "Destroyer: LOST";
+            document.getElementById("playerDestoyerData").style.backgroundColor = "red";
             return true;
           }
         }   
@@ -1508,7 +1557,7 @@ function fadeBlockOut(element, desiredColor, player){
               //delay time between completion of player turn and start of enemy turn
               determineEnemyFireControlFunction();
               //Set player weapons style state to "DISABLED" - enemy turn
-              document.getElementById("playerWeaponsState").style.color="black";
+              document.getElementById("playerWeaponsState").style.color="white";
               document.getElementById("playerWeaponsState").style.backgroundColor="rgb(74, 71, 71)";
               document.getElementById("playerWeaponsState").textContent="DISABLED";
             }, 800);
@@ -1518,7 +1567,7 @@ function fadeBlockOut(element, desiredColor, player){
             if(!gameOver){
               allowPlayerFire=true;
               //Set player weapons style state to "ARMED" - now player's turn
-              document.getElementById("playerWeaponsState").style.color="white";
+              document.getElementById("playerWeaponsState").style.color="black";
               document.getElementById("playerWeaponsState").style.backgroundColor="yellow";
               document.getElementById("playerWeaponsState").textContent="ARMED";
             }
@@ -2008,7 +2057,7 @@ function showEnemyShips(){
   console.log("Quick Reference Function - No live update");
   console.log("KEY:");
   console.log("Carrier: Green");
-  console.log("Battleship: Red");
+  console.log("Battleship: Orange");
   console.log("Submarine: Yellow");
   console.log("Cruiser: Blue");
   console.log("Destroyer: White");
@@ -2021,7 +2070,7 @@ function showEnemyShips(){
             document.getElementById("e"+i+j).style.backgroundColor="green";
             break;
           case "enemyBattleship":
-            document.getElementById("e"+i+j).style.backgroundColor="red";
+            document.getElementById("e"+i+j).style.backgroundColor="orange";
             break;
           case "enemySubmarine":
             document.getElementById("e"+i+j).style.backgroundColor="yellow";
