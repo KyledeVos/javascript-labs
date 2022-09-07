@@ -5,14 +5,14 @@ let startGame=false;
 let gameOver = false;
 
 //variable holding boolean to enable and disable player firing on enemy grid
-//used to prevent player from selecting two blocks at once
+//used to prevent player from selecting two (or more) blocks at once
 let allowPlayerFire = true;
 
-//variable to ensure all enemy ships have been placed before player can press startButton
-//set to true after last ship (enemyDestroyer) is placed
+//variable to ensure all enemy ships have been placed before player can press 
+//startButton - set to true after last ship (enemyDestroyer) is placed
 let enemyShipsReady = false;
 
-//Class blueprint for each gridBlock
+//Class blueprint for each player and enemy gridBlock
 // id = id of block in HTML page
 class blockElement {
   constructor(id, rowCount, columnCount, containsShip, shipHead, firedOn) {
@@ -35,7 +35,6 @@ class blockElement {
     containsShip - name of player ship in block (or 'none' if there is no ship)\
     shipDestroyed - if ship contained within this block has been completely destroyed
 */
-
 class brainBlockElement{
   constructor(playerBlockElement, row, column, firedOn, containsShip, shipDestroyed){
     this.playerBlockElement = playerBlockElement;
@@ -47,12 +46,10 @@ class brainBlockElement{
   }
 }
 
-
 /*################################################################################################
 PLAYER AND ENEMY OBJECTS
 #################################################################################################
 */
-
 //Player Object
 let player ={
   //variables to determine how many successful hits for each ship     
@@ -85,6 +82,7 @@ let enemyGridArray = new Array(10);
 let enemyBrainGrid = new Array(10);
 
 //initialize GameBoard
+//called on HTML page Load
 function initializeGame() {
   //create 2D Arrays
   for (let i = 0; i < 10; i++) {
@@ -107,8 +105,10 @@ function initializeGame() {
   containsShip="none";
   shipDestroyed = false;
 */
+
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
+      //Initialize Player Array
       playerGridArray[i][j] = new blockElement(
         document.getElementById("p" + i + j),
         i,
@@ -117,7 +117,7 @@ function initializeGame() {
         false,
         false
       );
-
+      //Initialize Enemy Array
       enemyGridArray[i][j]=new blockElement(
         document.getElementById("e" + i + j),
         i,
@@ -126,6 +126,7 @@ function initializeGame() {
         false,
         false
       );
+      //Initialize Enemy Brain Array
       enemyBrainGrid[i][j]=new brainBlockElement(
         playerGridArray[i][j],
         i,
@@ -202,6 +203,7 @@ let currentSelectedShip = document.getElementById("currentSelectedShip");
 document.querySelectorAll(".ship").forEach((element) => {
     //here element is the ship in the HTML page, not in the grid
   element.addEventListener("mousedown", ()=>{
+    //ensures a player ship can only be selected before the game has started
     if(!startGame){
       shipName = element.id;
       currentSelectedShip.textContent= showCurrentShipName(element);
@@ -306,7 +308,6 @@ document
     }
   });
 
-
 /*####################################################################################
 PLAYER SHIP ROTATIONS
 ######################################################################################
@@ -320,9 +321,9 @@ let rotatebutton = document.getElementById("rotatebutton");
   ii) Horizontal Ship: Head = leftmost block
 2) Determine if Ship is set horizontally or vertically
 3) Determine if Ship Can be rotated 
-    i) Ensure Rotation would not make ship extend beyond frid borders
+    i) Ensure Rotation would not make ship extend beyond grid borders
     ii) Ensure rotation would not place ship on top of another ship
-4) Rotate Ship
+4) Rotate Ship if that above conditions are met
 */
 function rotateShip(shipName) {
   //find head of ship
@@ -345,7 +346,7 @@ function rotateShip(shipName) {
   //check vertical ship rotation to horizontal would not extend grid borders
   if (vertical) {
     if (shipHeadColumn + (shipLength - 1) > 9) {
-      //rotation not allowed
+      //rotation not allowed 
       alert(
         "Cannot Rotate Ship Horizontally. Please move ship LEFT");
       return;
@@ -363,7 +364,8 @@ function rotateShip(shipName) {
   //ii)
   //Check that Ship rotation would not place ship on top of another
 
-  //vertical to Horizontal check
+  //vertical to Horizontal check - checking no ship would be in the way of
+  //newly aligned Horizontal ship
   if (vertical) {
     for (let k = 1; k < shipLength; k++) {
       if (
@@ -376,7 +378,8 @@ function rotateShip(shipName) {
       }
     }
   } else {
-    //Horizontal to Vertical Check
+  //Horizontal to Vertical check - checking no ship would be in the way of
+  //newly aligned Vertical ship
     for (let k = 1; k < shipLength; k++) {
       if (
         playerGridArray[shipHeadRow + k][shipHeadColumn].containsShip != "none"
@@ -410,6 +413,7 @@ function rotateShip(shipName) {
   }
 
   //rotate Ship Div on GameBoard
+  //done by swopping the width and height of the ships
   switch (shipName) {
     case "playerCarrier":
       swopShipHeightAndWidth(playerCarrier);
@@ -880,7 +884,7 @@ function findShipHeadRow(shipName) {
         playerGridArray[i][j].shipHead == true &&
         playerGridArray[i][j].containsShip == shipName
       ) {
-        return i;
+        return i; //return row number
       }
     }
   }
@@ -894,13 +898,14 @@ function findShipHeadColumn(shipName) {
         playerGridArray[i][j].shipHead == true &&
         playerGridArray[i][j].containsShip == shipName
       ) {
-        return j;
+        return j; //return column number
       }
     }
   }
 }
 
 //Determine if Ship is currently horizontal or vertical
+//works with the shipHead
 function isShipVertical(shipName, shipHeadRow, shipHeadColumn) {
   try {
     //if grid block below is the same ship type, then ship is positioned vertically
@@ -918,7 +923,7 @@ function isShipVertical(shipName, shipHeadRow, shipHeadColumn) {
   }
 }
 
-//return all ships background color to default
+//reset all player ship's background color to default
 function resetShipColor() {
   playerCarrier.style.backgroundColor = "rgb(73, 77, 77";
   playerBattleship.style.backgroundColor = "rgb(73, 77, 77";
@@ -1032,6 +1037,8 @@ moveRightButton.addEventListener("mouseout",(element)=>{
     rotateButton.setAttribute("style", "box-shadow: -1px 1px 5px 1px rgba(255, 255, 255, 0.8);background-color:orange;color:black");
   });
 
+  //change shadow of outer div containing ship rotation and movement control buttons
+  //when a movement button is clicked
   document.querySelectorAll(".movementButton").forEach((element)=>{
     element.addEventListener("mousedown",()=>{
       playerShipMovementOuterButton.setAttribute("style", "box-shadow:none");
@@ -1052,12 +1059,11 @@ ENEMY SHIP SETUP
 
 /*Function to determine 'random' position for enemy ships
   Uses a random number generator to determine row and column number and decide if 
-  ship should be vertical or horizontal
+  ship should be vertical or horizontal randomly (if possible)
   Performs checks to see if this would result in ship exceeding any borders or
   being placed on top of another ship
 */
 function determineEnemyShipPosition(shipName){
-  
   
   //determine ship length
   let shipLength=returnShipLength(shipName);
@@ -1065,7 +1071,6 @@ function determineEnemyShipPosition(shipName){
   let quit = false;
 
   while(!quit){
-
   //variable to check if all conditions have been met to place a ship
   //any conditions that fail will change this to "false"
   let shipPlacement=true;
@@ -1172,7 +1177,7 @@ function determineEnemyShipPosition(shipName){
   }
 }
 
-//Function used to to arrange ships sequentially in order of:
+//Function used to to arrange enemy ships sequentially in order of:
 //Carrier, BattleShip, Cruiser, Submarine, Destroyer
 function setEnemyShipPositions(){
   //Set Position of Carrier
@@ -1195,7 +1200,6 @@ function setEnemyShipPositions(){
 GAMEPLAY AND MENU BUTTONS
 #################################################################################
 */
-
 //_______________________________________________________________________________________
 // Event Listeners for Game Buttons
 //_______________________________________________________________________________________
@@ -1213,7 +1217,7 @@ document.querySelectorAll(".gameMenuButton").forEach((element)=>{
   });
 });
 
-//Event listener when mouse leaves start button
+//Event listener when mouse leaves a button button
 document.querySelectorAll(".gameMenuButton").forEach((element)=>{
   element.addEventListener("mouseout",()=>{
     element.setAttribute("style","box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8)")
@@ -1263,6 +1267,7 @@ startGameButton.addEventListener("mousedown",()=>{
     startGame = true;
 
   }else{
+    //game cannot be started yet as enemy is still placing ships
     alert("Enemy Ships are being placed");
   }
 });
@@ -1271,7 +1276,7 @@ startGameButton.addEventListener("mousedown",()=>{
 // RESET Button
 //_______________________________________________________________________________________
 
-//on page reset button will refresh page
+//on-page reset button will refresh page
 resetButton.addEventListener("mousedown", ()=>{
   location.reload();
 })
@@ -1293,7 +1298,6 @@ function displayRemainingEnemyShips(){
     }
   }
 }
-
 
 //_______________________________________________________________________________________
 // Event Listeners for Mouse Hover and mouseout over enemy grid blocks
@@ -1413,12 +1417,12 @@ function addDamageToEnemyShipAndCheckForPlayerWin(element){
 
       }
     }
-
 }
 
 //add ship hit to damage level for ship and check if ship has sustained
 //maximum damage for either a player or enemy ship
 //returns true if selected ship is at max damage level and false if not
+//true will cause trigger to check if player or enemy has won
 function checkForMaxShipDamage(shipName){
  
   //retrieve current ship damage level
@@ -1618,8 +1622,6 @@ function fadeBlockOut(element, desiredColor, player){
   }, 100);
 }
 
-
-
 //_______________________________________________________________________________________
 // Enemy (Computer) Player Functions to fire on Player Grid
 //_______________________________________________________________________________________
@@ -1631,10 +1633,10 @@ function fadeBlockOut(element, desiredColor, player){
 
 //array used to track names of ships found that are not yet destroyed
 //will contain subarrays of currently found ship - shipName, row, column, shipOrientation
+//ship at index of 0 in array is always destroyed first and removed from array once destroyed
 let playerShipsFound =[];
 //Control Function determining blocks enemy will fire at on player grid
 function determineEnemyFireControlFunction(){
-
 
   //first check if a player ship has not been found
   if(playerShipsFound.length==0){
@@ -1669,6 +1671,7 @@ function determineEnemyFireControlFunction(){
       let currentGridBlock=enemyBrainGrid[playerShipsFound[0][0]][playerShipsFound[0][1]];
 
       //array holding possible directions of fire
+      //will randomly choose one of the directions to make enemy gameplay more unpredictable
       let arrayOfFireDirections=[];
 
       //Check if fire above is possible
@@ -1713,11 +1716,13 @@ function determineEnemyFireControlFunction(){
       //variable holding name of possible ship found from player grid block fired on
       let foundShipName;
 
+      //if selected direction is to the left or right, fire horizontally
       if(arrayOfFireDirections[optionIndexNumber]=="left" ||
           arrayOfFireDirections[optionIndexNumber]=="right"){
             foundShipName=horizontalFire(arrayOfFireDirections[optionIndexNumber],currentGridBlock);
             
       }else{
+        //if selected direction is above or below, fire vertically
         foundShipName=verticalFire(arrayOfFireDirections[optionIndexNumber],currentGridBlock);
       }
 
@@ -1946,6 +1951,7 @@ function determineEnemyFireControlFunction(){
 //Function used to fire to either the left or right of a selected block
 //return name of ship found or "none" if no ship has been found
 function horizontalFire(direction, currentSelectedPlayerGridBlock){
+  //variable holding chosen block to fire at
   let fireBlock;
   if(direction=="left"){
     //fire to the left of the current grid block
@@ -1967,6 +1973,7 @@ function horizontalFire(direction, currentSelectedPlayerGridBlock){
 //Function used to fire to either above or below of a selected block
 //return name of ship found or "none" if no ship has been found
 function verticalFire(direction, currentSelectedPlayerGridBlock){
+  //variable holding chosen block to fire at
   let fireBlock;
   if(direction=="up"){
     //fire above current grid block
@@ -2055,23 +2062,9 @@ function addDamageToPlayerShipAndCheckForEnemyWin(element){
        console.log("ENEMY HAS WON");
        displayRemainingEnemyShips();
        gameOver=true;
-       
-
-      
     }
   }
 }
-
-/*###############################################################################
-PAGE MENU BUTTONS
-#################################################################################
-*/
-
-//--------------------------------------------------------
-//RESET Button
-//-------------------------------------------------------
-
-
 
 /*###############################################################################
 TESTING FUNCTIONS FOR LAB MARKER - use in Dev Console
@@ -2144,9 +2137,8 @@ function showEnemyShips(){
   }
 }
 
-
 //--------------------------------------------------------
-//Helper Functions
+//Helper Functions for LAB Testing Functions
 //-------------------------------------------------------
 //HERLPER FUNCTION
 //Display All Grid Blocks Ship Positions - Summary
@@ -2178,7 +2170,3 @@ function displayGridBlocksSummary(gridArray) {
     console.log(...displayArray[i]);
   }
 }
-
-
-
-

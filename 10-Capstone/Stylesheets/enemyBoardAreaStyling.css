@@ -37,6 +37,7 @@
   cursor: auto;
 }
 
+/*Div holding info of active or lost enemy ships*/
 #enemyInfoDisplayGrid {
   position: inherit;
   border: 0.1rem solid white;
@@ -89,6 +90,8 @@
   border: 0.1rem solid black;
 }
 
+/*Bakground color for each enemy ship info set to green for 'Active',
+  Changed to red when destroyed or 'lost'*/
 #enemyCarrierData {
   background-color: green;
 }

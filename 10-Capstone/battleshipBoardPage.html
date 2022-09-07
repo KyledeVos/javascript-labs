@@ -30,20 +30,21 @@
     />
   </head>
 
-  <body onload="initializeGame()">
+  <body onload="initializeGame()"> <!--Function to set up game board-->
     <!--Available From: https://unsplash.com/photos/hRemch0ZDwI-->
-    <img src="./Images/ocean_background_2.jpg" />
+    <img src="./Images/ocean_background_2.jpg" alt="Background Image of Ocean Waves">
     <!--Divs for popup Game Start and Game Over Boxes-->
     <div id="startGameTemporaryDiv">GAME START <br>SELECT A BLOCK ON ENEMY GRID</div>
     <div id="gameOverDiv">GAME OVER - YOU WIN!</div>
     <button id="gameOverResetButton">RESET</button>
-    <!--Menu Buttons-->
     <div id="battleShipTitleArea">
+      <!--On-Board Reset Button-->
       <button id="resetButton" class="gameMenuButton">RESET</button>
       <div id="battleshipTitle">BATTLESHIP</div>
     </div>
     <!--Game Area-->
     <main id="playerGamePlayArea">
+      <!--Board Containing Player Grid, Ship Movement and Ship Data Divs-->
       <div id="playerBoardArea" class="playerShipBoardArea">
         &nbsp;
         <!--Player Game Play Grid-->
@@ -170,16 +171,19 @@
           <div id="playerTitle">PLAYER</div>
           <button id="startGameButton" class="gameMenuButton">START</button>
           <div id="playerShipMovementOuterButton"></div>
+          <!--Buttons to move and rotate a selected Player Ship-->
           <button id="rotatebutton">R</button>
           <button id="moveShipUpButton" class="movementButton"></button>
           <button id="moveShipLeftButton" class="movementButton"></button>
           <button id="moveShipRightButton" class="movementButton"></button>
           <button id="moveShipDownButton" class="movementButton"></button>
+          <!--Displays Currently Selected Player Ship-->
           <div id="currentSelectedShip">CURRENT SHIP:  NONE</div>
         </div>
       <!--Div Containing Player Game Info AFTER game starts-->
         <div id="playerGameInfoDisplayDiv">
           <div id="playerTitleTwo">PLAYER</div>
+          <!--Shows state of weapons - means of showing player and enemy turns-->
           <div id="playerWeaponsDiv">
               WEAPONS
               <div id="playerWeaponsState">ARMED</div>
@@ -194,11 +198,14 @@
           </div>
         </div>
       </div>
+      <!--Div Containing Enemy Grid and Enemy Ship Data-->
       <div id="enemyBoardArea" class="enemyShipBoardArea">
         &nbsp;
         <div class="enemyGrid" id="enemyGrid">
           <!--Player Ship SetUp Controls Image - removed after game start-->
-         <img id="playerControlsImage" src="./Images/playerShipLayoutControls.jpg">
+         <img id="playerControlsImage" src="./Images/playerShipLayoutControls.jpg"
+          alt="Image of Explaination of Player Ship Movement and Rotation Controls">
+         <!--Row 1-->
           <div class="enemyGridElement" id="e00"></div>
           <div class="enemyGridElement" id="e01"></div>
           <div class="enemyGridElement" id="e02"></div>
@@ -323,6 +330,7 @@
       </div>
     </main>
 
+    <!--Div on bottom of page breaking down block count for each ship-->
     <div id="gamePiecesAndDataArea">
       <div id="CarrierNumberOfBlocks" class="shipExplaination">Carrier: 5</div>
       <div id="BattleshipNumberOfBlocks" class="shipExplaination">Battleship: 4</div>

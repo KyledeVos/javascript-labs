@@ -4,6 +4,7 @@ body{
     margin: 0;
 }
 
+/*Area at the Top of page holding BATTLESHIP title and on-board RESET button*/
 #battleShipTitleArea{
     position: relative;
     z-index: 1;
@@ -23,6 +24,7 @@ body{
     margin-left: 2rem;
 }
 
+/*General Styling for Image used by background Ocean Image*/
 img {
     position:absolute;
     z-index: 0;
@@ -31,6 +33,7 @@ img {
     height: 120%;
 }
 
+/*General Styling for any current (and future added) buttons*/
 .gameMenuButton{
     position: absolute;
     margin-left:1rem;

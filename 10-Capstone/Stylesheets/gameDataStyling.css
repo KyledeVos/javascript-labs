@@ -1,6 +1,4 @@
-/*on page load div explaining how to use ship position controls*/
-
-
+/*on page load image explaining how to use ship position controls*/
 #playerControlsImage{
   position: absolute;
   z-index: 5;
@@ -11,8 +9,7 @@
   display: block;
 }
 
-
-/*Div displaying game has begun - runs for 2.5 seconds*/
+/*Div displaying a new game has begun after pressing start button - runs for 2.5 seconds*/
 #startGameTemporaryDiv {
   position: absolute;
   z-index: 6;
@@ -46,6 +43,7 @@
   display:none;
 }
 
+/*Reset Button shown on Game Over Div*/
 #gameOverResetButton{
   position: absolute;
   z-index:6;
