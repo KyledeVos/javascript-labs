@@ -4,6 +4,7 @@
   width: 98%;
   height: 27rem;
   margin: auto;
+  margin-top: 1.2rem;
   border: none;
 }
 
@@ -59,6 +60,15 @@
   margin-left: 3px;
   width: 175px;
   height: 25px;
+}
+
+#testShip{
+  z-index:1;
+  margin-top: 3px;
+  margin-left: 3px;
+  width: 175px;
+  height: 25px;
+  background-color:  rgba(237, 87, 6, 0.7);
 }
 
 #playerBattleship {
@@ -130,7 +140,7 @@
   position: absolute;
   margin-top: 3rem;
   margin-left: 2rem;
-  border: 0.4rem outset rgb(71, 70, 70);
+  border: 0.2rem outset rgb(71, 70, 70);
   border-radius: 20%;
   height: 2.5rem;
   width: 5rem;
@@ -140,7 +150,7 @@
   font-size: 1rem;
   text-align: center;
   padding: auto;
-  cursor: grab;
+  cursor: pointer;
   box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8);
 }
 

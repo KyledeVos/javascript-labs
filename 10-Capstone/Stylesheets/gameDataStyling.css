@@ -1,18 +1,70 @@
-/*Div displaying game has begun - runs for 2.5 seconds*/
-#startGameTemporaryDiv{
+/*on page load div explaining how to use ship position controls*/
+
+
+#playerControlsImage{
   position: absolute;
   z-index: 5;
+  object-fit:fill;
+  width: 370px;
+  height: 23.2rem;
+  opacity: 0.9;
+  display: block;
+}
+
+
+/*Div displaying game has begun - runs for 2.5 seconds*/
+#startGameTemporaryDiv {
+  position: absolute;
+  z-index: 6;
   width: 100%;
-  height:120%;
-  padding-top: 11rem;
-  background-color: rgba(0,0,0,0.9);
-  color:white;
-  text-align:center;
+  height: 120%;
+  padding-top: 8rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  text-align: center;
   font-size: 5rem;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-weight: 800;
   display: none;
   -webkit-text-stroke: 3px black;
+}
+
+/*Div displayed when game is over*/
+#gameOverDiv {
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height: 120%;
+  padding-top: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  font-size: 5rem;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: 800;
+  -webkit-text-stroke: 2px black;
+  display:none;
+}
+
+#gameOverResetButton{
+  position: absolute;
+  z-index:6;
+  float: left;
+  margin-left:35rem;
+  margin-top: 30rem;
+  font-size: 2rem;
+  border: 0.2rem outset rgb(71, 70, 70);
+  border-radius: 15%;
+  height: 3rem;
+  width: 8rem;
+  background-color: rgb(30, 30, 31);
+  color: white;
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: -1px 1px 5px 3px rgba(237, 218, 6, 0.8);
+  display:none;
 }
 
 /*Bottom Section Displaying Number of Blocks per Ship type*/
@@ -26,45 +78,45 @@
   color: white;
 }
 
-.shipExplaination{
+.shipExplaination {
   position: inherit;
-  float:left;
+  float: left;
   border: 0.2rem ridge white;
+  outline: 0.2rem solid black;
   border-radius: 20%;
   width: 20%;
   margin-top: 0.1rem;
-  margin-left:3rem;
-  padding-top:0.2rem;
+  margin-left: 3rem;
+  padding-top: 0.2rem;
   text-align: center;
   color: white;
-  font-weight: 600;
+  font-weight: 700;
+  -webkit-text-stroke: 0.1px black;
 }
 
-#CarrierNumberOfBlocks{
+#CarrierNumberOfBlocks {
   width: 175px;
   height: 25px;
-  margin-left: 8rem;
+  margin-left: 10rem;
 }
 
-#BattleshipNumberOfBlocks{
+#BattleshipNumberOfBlocks {
   width: 135px;
   height: 25px;
 }
 
-#CruiserNumberOfBlocks{
+#CruiserNumberOfBlocks {
   width: 100px;
   height: 25px;
 }
 
-#SubmarineNumberOfBlocks{
+#SubmarineNumberOfBlocks {
   width: 100px;
   height: 25px;
   border-radius: 40%;
 }
 
-#DestoyerNumberOfBlocks{
+#DestoyerNumberOfBlocks {
   width: 85px;
   height: 25px;
 }
-
-

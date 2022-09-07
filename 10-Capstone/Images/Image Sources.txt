@@ -1,11 +1,7 @@
-1) Ocean Background
-	Author: Ant Rozetsky
-	Available From: https://unsplash.com/photos/q-DJ9XhKkhA
-
-2) ocean_background_2
+1) ocean_background_2
 	Author: Conor Sexton
 	Available From: https://unsplash.com/photos/hRemch0ZDwI
 
-3) ShipWheel_RotationButtonBackground
-	Author: RockMotorArt
-	Available From: https://pixabay.com/vectors/steering-wheel-sea-ship-boat-4010079/
+2) playerShipLayoutControls
+	Author: Kyle de Vos
+	Created using Screenshots and PowerPoint

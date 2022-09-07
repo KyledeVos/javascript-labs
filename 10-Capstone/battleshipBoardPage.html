@@ -31,11 +31,18 @@
   </head>
 
   <body onload="initializeGame()">
+    <!--Available From: https://unsplash.com/photos/hRemch0ZDwI-->
     <img src="./Images/ocean_background_2.jpg" />
-    <div id="startGameTemporaryDiv">SELECT A BLOCK ON ENEMY GRID</div>
-
-    <div id="battleShipTitleArea">BATTLESHIP</div>
-
+    <!--Divs for popup Game Start and Game Over Boxes-->
+    <div id="startGameTemporaryDiv">GAME START <br>SELECT A BLOCK ON ENEMY GRID</div>
+    <div id="gameOverDiv">GAME OVER - YOU WIN!</div>
+    <button id="gameOverResetButton">RESET</button>
+    <!--Menu Buttons-->
+    <div id="battleShipTitleArea">
+      <button id="resetButton" class="gameMenuButton">RESET</button>
+      <div id="battleshipTitle">BATTLESHIP</div>
+    </div>
+    <!--Game Area-->
     <main id="playerGamePlayArea">
       <div id="playerBoardArea" class="playerShipBoardArea">
         &nbsp;
@@ -161,7 +168,7 @@
        <!--Div Containing Player Position Ship Buttons BEFORE game starts-->
         <div id="playerButtonsAndDisplayDiv">
           <div id="playerTitle">PLAYER</div>
-          <button id="startGameButton">START</button>
+          <button id="startGameButton" class="gameMenuButton">START</button>
           <div id="playerShipMovementOuterButton"></div>
           <button id="rotatebutton">R</button>
           <button id="moveShipUpButton" class="movementButton"></button>
@@ -190,6 +197,8 @@
       <div id="enemyBoardArea" class="enemyShipBoardArea">
         &nbsp;
         <div class="enemyGrid" id="enemyGrid">
+          <!--Player Ship SetUp Controls Image - removed after game start-->
+         <img id="playerControlsImage" src="./Images/playerShipLayoutControls.jpg">
           <div class="enemyGridElement" id="e00"></div>
           <div class="enemyGridElement" id="e01"></div>
           <div class="enemyGridElement" id="e02"></div>

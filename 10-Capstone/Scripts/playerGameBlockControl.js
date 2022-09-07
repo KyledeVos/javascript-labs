@@ -1192,24 +1192,33 @@ function setEnemyShipPositions(){
 }
 
 /*###############################################################################
-GAMEPLAY
+GAMEPLAY AND MENU BUTTONS
 #################################################################################
 */
 
 //_______________________________________________________________________________________
-// Event Listeners for Start Game Button
+// Event Listeners for Game Buttons
 //_______________________________________________________________________________________
 
-//Event listener when start button is hovered over
 let startGameButton = document.getElementById("startGameButton");
-startGameButton.addEventListener("mouseover",()=>{
-  startGameButton.setAttribute("style"," box-shadow: -1px 1px 5px 2px rgba(255, 255, 255, 0.8)")
-})
+let resetButton = document.getElementById("resetButton");
+let gameplayButton = document.getElementById("gameplayButton");
+let boardSetupButton = document.getElementById("boardSetup");
+let gameoverResetButton = document.getElementById("gameOverResetButton");
+
+//Event listener when button is hovered over
+document.querySelectorAll(".gameMenuButton").forEach((element)=>{
+  element.addEventListener("mouseover",()=>{
+    element.setAttribute("style"," box-shadow: -1px 1px 5px 2px rgba(255, 255, 255, 0.8)")
+  });
+});
 
 //Event listener when mouse leaves start button
-startGameButton.addEventListener("mouseout",()=>{
-  startGameButton.setAttribute("style","box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8)")
-})
+document.querySelectorAll(".gameMenuButton").forEach((element)=>{
+  element.addEventListener("mouseout",()=>{
+    element.setAttribute("style","box-shadow: -1px 1px 5px 5px rgba(5, 4, 4, 0.8)")
+  });
+});
 
 //Event Listener if player presses startGameButton
 //confirm enemy ships have been placed
@@ -1230,12 +1239,14 @@ startGameButton.addEventListener("mousedown",()=>{
       element.style.cursor="crosshair";
     });
     
+    //turn off display showing explaination of player ship setup controls
+    document.getElementById("playerControlsImage").style.display="none";
+
     //turn on display of enemy ship data
     document.getElementById("enemyShipData").style.display="block";
 
     //set boarder around player area to normal color
     document.getElementById("playerBoardArea").style.border="0.3rem ridge rgb(144, 141, 139)";
-
     
     //hide div containing rotate button, move buttons, startGameButton and currentSelectedShip
     document.getElementById("playerButtonsAndDisplayDiv").style.display = "none";
@@ -1251,15 +1262,37 @@ startGameButton.addEventListener("mousedown",()=>{
     //allow player to select and fire on enemy grid blocks
     startGame = true;
 
-    //show div containing player in-gameInfo
-    // FILL ME IN!!!!!!!!!
-    //######################################################
-    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
   }else{
     alert("Enemy Ships are being placed");
   }
 });
+
+//_______________________________________________________________________________________
+// RESET Button
+//_______________________________________________________________________________________
+
+//on page reset button will refresh page
+resetButton.addEventListener("mousedown", ()=>{
+  location.reload();
+})
+
+//gameover div reset button will refresh page
+gameoverResetButton.addEventListener("mousedown", ()=>{
+  location.reload();
+  
+})
+
+//Function to show enemy ships (or parts of) not found
+//once game is over - called if enemy player wins
+function displayRemainingEnemyShips(){
+  for(let i=0;i<10;i++){
+    for(let j=0;j<10;j++){
+      if(enemyGridArray[i][j].firedOn==false && enemyGridArray[i][j].containsShip!="none"){
+        enemyGridArray[i][j].id.style.backgroundColor="green";
+      }
+    }
+  }
+}
 
 
 //_______________________________________________________________________________________
@@ -1368,6 +1401,9 @@ function addDamageToEnemyShipAndCheckForPlayerWin(element){
         enemy.enemyCruiserHitCount==3 &&
         enemy.enemySubmarineHitCount==3 &&
         enemy.enemyDestroyerHitCount==2){
+        //show display div for player win  
+        document.getElementById("gameOverDiv").style.display="block";
+        document.getElementById("gameOverResetButton").style.display="block";
         console.log("PLAYER HAS WON");
         gameOver=true;
         //disable weapon style for player
@@ -1952,7 +1988,7 @@ function verticalFire(direction, currentSelectedPlayerGridBlock){
 //HELPER FUNCTION
 //change background color of block on player grid 
 //add found ship to foundShipsArray(if not already in array)
-function showVisualEffectOfFireAndAddShipDamage(currentSelectedPlayerGridBlock){
+function showVisualEffectOfFireAndAddShipDamage(currentSelectedPlayerGridBlock, ){
   //show fired block on player HTML Grid and update playershipsFound Array
   if(currentSelectedPlayerGridBlock.playerBlockElement.containsShip=="none"){
     //no ship found, set block background to green
@@ -2012,15 +2048,29 @@ function addDamageToPlayerShipAndCheckForEnemyWin(element){
        player.playerCruiserHitCount==3 &&
        player.playerSubmarineHitCount==3 &&
        player.playerDestroyerHitCount==2){
+        //show display div for enemy win  
+       document.getElementById("gameOverDiv").textContent="GAME OVER - ENEMY WIN!";
+       document.getElementById("gameOverDiv").style.display="block";
+       document.getElementById("gameOverResetButton").style.display="block";
        console.log("ENEMY HAS WON");
+       displayRemainingEnemyShips();
        gameOver=true;
+       
 
       
     }
   }
-
-  
 }
+
+/*###############################################################################
+PAGE MENU BUTTONS
+#################################################################################
+*/
+
+//--------------------------------------------------------
+//RESET Button
+//-------------------------------------------------------
+
 
 
 /*###############################################################################
@@ -2093,6 +2143,7 @@ function showEnemyShips(){
     }
   }
 }
+
 
 //--------------------------------------------------------
 //Helper Functions
